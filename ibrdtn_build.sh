@@ -4,6 +4,9 @@
 VERSION=0.12.0
 MODULES="ibrcommon ibrdtn ibrdtnd ibrdtn-tools"
 
+# build ibrcommon with openssl support
+CONFOPTS="--with-openssl "
+
 # download, extract and compile all archives
 for MOD in ${MODULES}; do
 
