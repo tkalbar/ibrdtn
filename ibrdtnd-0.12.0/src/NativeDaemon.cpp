@@ -1518,6 +1518,8 @@ namespace dtn
 				break;
 			}
 
+			IBRCOMMON_LOGGER_TAG(NativeDaemon::TAG, info) << "Init all routing extensions" << IBRCOMMON_LOGGER_ENDL;
+
 			// initialize all routing extensions
 			router.extensionsUp();
 		}
