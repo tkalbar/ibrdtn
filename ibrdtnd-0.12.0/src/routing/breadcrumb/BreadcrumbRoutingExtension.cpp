@@ -212,6 +212,8 @@ namespace dtn
 			// set of known neighbors
 			std::set<dtn::core::Node> neighbors;
 
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "before while(true) " << IBRCOMMON_LOGGER_ENDL;
+
 			while (true)
 			{
 				try {
