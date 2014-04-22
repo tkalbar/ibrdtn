@@ -101,12 +101,16 @@ namespace dtn
 
 		void BreadcrumbRoutingExtension::componentUp() throw ()
 		{
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "componentUp() start" << IBRCOMMON_LOGGER_ENDL;
+
 			dtn::core::EventDispatcher<dtn::routing::NodeHandshakeEvent>::add(this);
 
 			// reset the task queue
 			_taskqueue.reset();
 
 			// routine checked for throw() on 15.02.2013
+
+
 			try {
 				// run the thread
 				start();
