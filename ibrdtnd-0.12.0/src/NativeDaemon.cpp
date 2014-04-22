@@ -1468,6 +1468,16 @@ namespace dtn
 				break;
 			}
 
+			case dtn::daemon::Configuration::BREADCRUMB_ROUTING:
+			{
+				IBRCOMMON_LOGGER_TAG(NativeDaemon::TAG, info) << "Using breadcrumb routing extensions" << IBRCOMMON_LOGGER_ENDL;
+				router.add( new dtn::routing::BreadcrumbRoutingExtension() );
+
+				// add neighbor routing (direct-delivery) extension
+				router.add( new dtn::routing::NeighborRoutingExtension() );
+				break;
+			}
+
 			case dtn::daemon::Configuration::PROPHET_ROUTING:
 			{
 				dtn::daemon::Configuration::Network::ProphetConfig prophet_config = conf.getNetwork().getProphetConfig();
