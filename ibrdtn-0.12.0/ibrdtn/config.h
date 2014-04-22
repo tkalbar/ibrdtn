@@ -39,13 +39,13 @@
 #define HAVE_NETINET_IN_H 1
 
 /* "openssl library is available" */
-#define HAVE_OPENSSL 1
+/* #undef HAVE_OPENSSL */
 
 /* Define to 1 if you have the `sqrt' function. */
 #define HAVE_SQRT 1
 
 /* Define to 1 if stdbool.h conforms to C99. */
-/* #undef HAVE_STDBOOL_H */
+#define HAVE_STDBOOL_H 1
 
 /* Define to 1 if you have the <stddef.h> header file. */
 #define HAVE_STDDEF_H 1
@@ -75,7 +75,7 @@
 #define HAVE_UNISTD_H 1
 
 /* "zlib library is available" */
-#define HAVE_ZLIB 1
+/* #undef HAVE_ZLIB */
 
 /* Define to 1 if the system has the type `_Bool'. */
 /* #undef HAVE__BOOL */
@@ -121,10 +121,10 @@
 /* #undef WINVER */
 
 /* "bundle security support enabled" */
-#define WITH_BUNDLE_SECURITY 1
+/* #undef WITH_BUNDLE_SECURITY */
 
 /* "bundle compression support enabled" */
-#define WITH_COMPRESSION 1
+/* #undef WITH_COMPRESSION */
 
 /* Define for Solaris 2.5.1 so the uint32_t typedef from <sys/synch.h>,
    <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the
