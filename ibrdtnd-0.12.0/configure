@@ -18664,7 +18664,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile src/core/Makefile src/net/Makefile src/storage/Makefile src/routing/Makefile src/routing/epidemic/Makefile src/routing/flooding/Makefile src/routing/prophet/Makefile src/security/Makefile src/api/Makefile etc/Makefile doc/Makefile man/Makefile scripts/Makefile munin/Makefile tests/Makefile tests/unittests/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile src/core/Makefile src/net/Makefile src/storage/Makefile src/routing/Makefile src/routing/epidemic/Makefile src/routing/flooding/Makefile src/routing/prophet/Makefile src/routing/breadcrumb/Makefile src/security/Makefile src/api/Makefile etc/Makefile doc/Makefile man/Makefile scripts/Makefile munin/Makefile tests/Makefile tests/unittests/Makefile"
 
 
 cat >confcache <<\_ACEOF

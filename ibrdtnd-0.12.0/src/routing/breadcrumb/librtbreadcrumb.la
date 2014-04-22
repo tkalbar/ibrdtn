@@ -14,10 +14,10 @@ library_names=''
 old_library='librtbreadcrumb.a'
 
 # Linker flags that can not go in dependency_libs.
-inherited_linker_flags=''
+inherited_linker_flags=' '
 
 # Libraries that this one depends upon.
-dependency_libs=' -L/usr/local/lib /usr/local/lib/libibrdtn.la /usr/local/lib/libibrcommon.la -lpthread -lnl -lrt'
+dependency_libs=' -L/usr/local/lib /usr/local/lib/libibrdtn.la /usr/local/lib/libibrcommon.la -lpthread -lssl -lcrypto -lz -lm'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

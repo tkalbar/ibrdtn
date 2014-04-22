@@ -51,6 +51,7 @@
 #include "routing/epidemic/EpidemicRoutingExtension.h"
 #include "routing/prophet/ProphetRoutingExtension.h"
 #include "routing/flooding/FloodRoutingExtension.h"
+#include "routing/breadcrumb/BreadcrumbRoutingExtension.h"
 
 #include "core/GlobalEvent.h"
 #include "net/BundleReceivedEvent.h"
