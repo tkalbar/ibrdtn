@@ -51,6 +51,7 @@
 #include "routing/epidemic/EpidemicRoutingExtension.h"
 #include "routing/prophet/ProphetRoutingExtension.h"
 #include "routing/flooding/FloodRoutingExtension.h"
+#include "routing/breadcrumb/BreadcrumbRoutingExtension.h"
 
 #include "core/GlobalEvent.h"
 #include "net/BundleReceivedEvent.h"
@@ -1468,6 +1469,16 @@ namespace dtn
 				break;
 			}
 
+			case dtn::daemon::Configuration::BREADCRUMB_ROUTING:
+			{
+				IBRCOMMON_LOGGER_TAG(NativeDaemon::TAG, info) << "Using breadcrumb routing extensions" << IBRCOMMON_LOGGER_ENDL;
+				router.add( new dtn::routing::BreadcrumbRoutingExtension() );
+
+				// add neighbor routing (direct-delivery) extension
+				router.add( new dtn::routing::NeighborRoutingExtension() );
+				break;
+			}
+
 			case dtn::daemon::Configuration::PROPHET_ROUTING:
 			{
 				dtn::daemon::Configuration::Network::ProphetConfig prophet_config = conf.getNetwork().getProphetConfig();
@@ -1506,6 +1517,8 @@ namespace dtn
 				router.add( new dtn::routing::NeighborRoutingExtension() );
 				break;
 			}
+
+			IBRCOMMON_LOGGER_TAG(NativeDaemon::TAG, info) << "Init all routing extensions" << IBRCOMMON_LOGGER_ENDL;
 
 			// initialize all routing extensions
 			router.extensionsUp();

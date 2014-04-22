@@ -101,12 +101,16 @@ namespace dtn
 
 		void BreadcrumbRoutingExtension::componentUp() throw ()
 		{
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "componentUp() start (3)" << IBRCOMMON_LOGGER_ENDL;
+
 			dtn::core::EventDispatcher<dtn::routing::NodeHandshakeEvent>::add(this);
 
 			// reset the task queue
 			_taskqueue.reset();
 
 			// routine checked for throw() on 15.02.2013
+
+
 			try {
 				// run the thread
 				start();
@@ -211,6 +215,8 @@ namespace dtn
 
 			// set of known neighbors
 			std::set<dtn::core::Node> neighbors;
+
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "before while(true) " << IBRCOMMON_LOGGER_ENDL;
 
 			while (true)
 			{
