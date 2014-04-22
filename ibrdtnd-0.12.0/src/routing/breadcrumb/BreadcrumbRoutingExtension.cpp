@@ -101,7 +101,7 @@ namespace dtn
 
 		void BreadcrumbRoutingExtension::componentUp() throw ()
 		{
-			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "componentUp() start (2)" << IBRCOMMON_LOGGER_ENDL;
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "componentUp() start (3)" << IBRCOMMON_LOGGER_ENDL;
 
 			dtn::core::EventDispatcher<dtn::routing::NodeHandshakeEvent>::add(this);
 
