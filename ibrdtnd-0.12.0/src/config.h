@@ -8,17 +8,17 @@
 #define BUILD_NUMBER "6ba8f6b"
 
 /* Define to 1 if you have the <arpa/inet.h> header file. */
-#define HAVE_ARPA_INET_H 1
+/* #undef HAVE_ARPA_INET_H */
 
 /* "daemon library has daemon_reset_sigs() and daemon_unblock_sigs()
    functions" */
-#define HAVE_DAEMON_RESET_SIGS 1
+/* #undef HAVE_DAEMON_RESET_SIGS */
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
 
 /* Define to 1 if you have the <fcntl.h> header file. */
-#define HAVE_FCNTL_H 1
+/* #undef HAVE_FCNTL_H */
 
 /* Define to 1 if you have the `gethostname' function. */
 #define HAVE_GETHOSTNAME 1
@@ -27,28 +27,28 @@
 #define HAVE_INTTYPES_H 1
 
 /* "curl library is available" */
-#define HAVE_LIBCURL 1
+/* #undef HAVE_LIBCURL */
 
 /* "daemon library is available" */
-#define HAVE_LIBDAEMON 1
+/* #undef HAVE_LIBDAEMON */
 
 /* Define to 1 if you have the `m' library (-lm). */
 #define HAVE_LIBM 1
 
 /* Define to 1 if you have the `rt' library (-lrt). */
-#define HAVE_LIBRT 1
+/* #undef HAVE_LIBRT */
 
 /* Define to 1 if you have the <limits.h> header file. */
-#define HAVE_LIMITS_H 1
+/* #undef HAVE_LIMITS_H */
 
 /* "enable lowpan support" */
-#define HAVE_LOWPAN_SUPPORT 1
+/* #undef HAVE_LOWPAN_SUPPORT */
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
 /* Define to 1 if you have the <netinet/in.h> header file. */
-#define HAVE_NETINET_IN_H 1
+/* #undef HAVE_NETINET_IN_H */
 
 /* Define to 1 if you have the <pwd.h> header file. */
 #define HAVE_PWD_H 1
@@ -60,10 +60,10 @@
 #define HAVE_SOCKET 1
 
 /* "sqlite library is available" */
-#define HAVE_SQLITE 1
+/* #undef HAVE_SQLITE */
 
 /* Define to 1 if stdbool.h conforms to C99. */
-/* #undef HAVE_STDBOOL_H */
+#define HAVE_STDBOOL_H 1
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
@@ -81,10 +81,10 @@
 #define HAVE_SYSLOG_H 1
 
 /* Define to 1 if you have the <sys/inotify.h> header file. */
-#define HAVE_SYS_INOTIFY_H 1
+/* #undef HAVE_SYS_INOTIFY_H */
 
 /* Define to 1 if you have the <sys/socket.h> header file. */
-#define HAVE_SYS_SOCKET_H 1
+/* #undef HAVE_SYS_SOCKET_H */
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
@@ -142,19 +142,19 @@
 /* #undef WINVER */
 
 /* "bundle security support enabled" */
-#define WITH_BUNDLE_SECURITY 1
+/* #undef WITH_BUNDLE_SECURITY */
 
 /* "bundle compression support enabled" */
-#define WITH_COMPRESSION 1
+/* #undef WITH_COMPRESSION */
 
 /* "dht nameservice support enabled" */
-#define WITH_DHT_NAMESERVICE 1
+/* #undef WITH_DHT_NAMESERVICE */
 
 /* "tls support enabled" */
-#define WITH_TLS 1
+/* #undef WITH_TLS */
 
 /* "wifi-p2p support enabled" */
-#define WITH_WIFIP2P 1
+/* #undef WITH_WIFIP2P */
 
 /* Minimum platform is Windows 7 */
 /* #undef _WIN32_WINNT */
