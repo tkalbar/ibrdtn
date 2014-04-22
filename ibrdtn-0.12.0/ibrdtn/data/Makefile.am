@@ -17,6 +17,7 @@ h_sources = \
 	EID.h \
 	Exceptions.h \
 	ExtensionBlock.h \
+	GeoPoint.h \
 	MetaBundle.h \
 	PayloadBlock.h \
 	PrimaryBlock.h \
@@ -50,6 +51,7 @@ cc_sources = \
 	DTNTime.cpp \
 	EID.cpp \
 	ExtensionBlock.cpp \
+	GeoPoint.cpp \
 	MetaBundle.cpp \
 	PayloadBlock.cpp \
 	PrimaryBlock.cpp \
