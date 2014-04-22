@@ -1,154 +1,112 @@
 BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
+ /usr/include/stdc-predef.h /usr/include/i386-linux-gnu/bits/predefs.h \
  ../../../src/routing/breadcrumb/BreadcrumbRoutingExtension.h \
- ../../../src/core/Node.h /opt/local/include/gcc49/c++/string \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/c++config.h \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/os_defines.h \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/cpu_defines.h \
- /opt/local/include/gcc49/c++/bits/stringfwd.h \
- /opt/local/include/gcc49/c++/bits/memoryfwd.h \
- /opt/local/include/gcc49/c++/bits/char_traits.h \
- /opt/local/include/gcc49/c++/bits/stl_algobase.h \
- /opt/local/include/gcc49/c++/bits/functexcept.h \
- /opt/local/include/gcc49/c++/bits/exception_defines.h \
- /opt/local/include/gcc49/c++/bits/cpp_type_traits.h \
- /opt/local/include/gcc49/c++/ext/type_traits.h \
- /opt/local/include/gcc49/c++/ext/numeric_traits.h \
- /opt/local/include/gcc49/c++/bits/stl_pair.h \
- /opt/local/include/gcc49/c++/bits/move.h \
- /opt/local/include/gcc49/c++/bits/concept_check.h \
- /opt/local/include/gcc49/c++/bits/stl_iterator_base_types.h \
- /opt/local/include/gcc49/c++/bits/stl_iterator_base_funcs.h \
- /opt/local/include/gcc49/c++/debug/debug.h \
- /opt/local/include/gcc49/c++/bits/stl_iterator.h \
- /opt/local/include/gcc49/c++/bits/ptr_traits.h \
- /opt/local/include/gcc49/c++/bits/predefined_ops.h \
- /opt/local/include/gcc49/c++/bits/postypes.h \
- /opt/local/include/gcc49/c++/cwchar /usr/include/wchar.h \
- /usr/include/_types.h /usr/include/sys/_types.h /usr/include/sys/cdefs.h \
- /usr/include/sys/_symbol_aliasing.h \
- /usr/include/sys/_posix_availability.h /usr/include/machine/_types.h \
- /usr/include/i386/_types.h /usr/include/Availability.h \
- /usr/include/AvailabilityInternal.h /usr/include/sys/_types/_null.h \
- /usr/include/sys/_types/_size_t.h /usr/include/sys/_types/_mbstate_t.h \
- /usr/include/sys/_types/_ct_rune_t.h /usr/include/sys/_types/_rune_t.h \
- /usr/include/sys/_types/_wchar_t.h \
- /opt/local/lib/gcc49/gcc/x86_64-apple-darwin13/4.9.0/include/stdarg.h \
- /usr/include/stdio.h /usr/include/sys/_types/_va_list.h \
- /usr/include/sys/_types/_off_t.h /usr/include/sys/_types/_ssize_t.h \
- /usr/include/time.h /usr/include/_structs.h /usr/include/sys/_structs.h \
- /usr/include/sys/_types/_timespec.h /usr/include/sys/_types/_clock_t.h \
- /usr/include/sys/_types/_time_t.h /usr/include/_wctype.h \
- /usr/include/sys/_types/_wint_t.h /usr/include/_types/_wctype_t.h \
- /usr/include/ctype.h /usr/include/runetype.h \
- /opt/local/include/gcc49/c++/bits/allocator.h \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/c++allocator.h \
- /opt/local/include/gcc49/c++/ext/new_allocator.h \
- /opt/local/include/gcc49/c++/new /opt/local/include/gcc49/c++/exception \
- /opt/local/include/gcc49/c++/bits/atomic_lockfree_defines.h \
- /opt/local/include/gcc49/c++/bits/localefwd.h \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/c++locale.h \
- /opt/local/include/gcc49/c++/clocale /usr/include/locale.h \
- /usr/include/_locale.h /opt/local/include/gcc49/c++/iosfwd \
- /opt/local/include/gcc49/c++/cctype \
- /opt/local/include/gcc49/c++/bits/ostream_insert.h \
- /opt/local/include/gcc49/c++/bits/cxxabi_forced.h \
- /opt/local/include/gcc49/c++/bits/stl_function.h \
- /opt/local/include/gcc49/c++/backward/binders.h \
- /opt/local/include/gcc49/c++/bits/range_access.h \
- /opt/local/include/gcc49/c++/bits/basic_string.h \
- /opt/local/include/gcc49/c++/ext/atomicity.h \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/gthr.h \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/gthr-default.h \
- /usr/include/pthread.h /usr/include/pthread_impl.h /usr/include/sched.h \
- /usr/include/sys/_types/_pthread_attr_t.h \
- /usr/include/sys/_types/_pthread_cond_t.h \
- /usr/include/sys/_types/_pthread_condattr_t.h \
- /usr/include/sys/_types/_pthread_key_t.h \
- /usr/include/sys/_types/_pthread_mutex_t.h \
- /usr/include/sys/_types/_pthread_mutexattr_t.h \
- /usr/include/sys/_types/_pthread_once_t.h \
- /usr/include/sys/_types/_pthread_rwlock_t.h \
- /usr/include/sys/_types/_pthread_rwlockattr_t.h \
- /usr/include/sys/_types/_pthread_t.h \
- /usr/include/sys/_types/_mach_port_t.h \
- /usr/include/sys/_types/_sigset_t.h \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/atomic_word.h \
- /opt/local/include/gcc49/c++/bits/basic_string.tcc \
+ ../../../src/core/Node.h /usr/include/c++/4.8/string \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/c++config.h \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/os_defines.h \
+ /usr/include/features.h /usr/include/i386-linux-gnu/sys/cdefs.h \
+ /usr/include/i386-linux-gnu/bits/wordsize.h \
+ /usr/include/i386-linux-gnu/gnu/stubs.h \
+ /usr/include/i386-linux-gnu/gnu/stubs-32.h \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/cpu_defines.h \
+ /usr/include/c++/4.8/bits/stringfwd.h \
+ /usr/include/c++/4.8/bits/memoryfwd.h \
+ /usr/include/c++/4.8/bits/char_traits.h \
+ /usr/include/c++/4.8/bits/stl_algobase.h \
+ /usr/include/c++/4.8/bits/functexcept.h \
+ /usr/include/c++/4.8/bits/exception_defines.h \
+ /usr/include/c++/4.8/bits/cpp_type_traits.h \
+ /usr/include/c++/4.8/ext/type_traits.h \
+ /usr/include/c++/4.8/ext/numeric_traits.h \
+ /usr/include/c++/4.8/bits/stl_pair.h /usr/include/c++/4.8/bits/move.h \
+ /usr/include/c++/4.8/bits/concept_check.h \
+ /usr/include/c++/4.8/bits/stl_iterator_base_types.h \
+ /usr/include/c++/4.8/bits/stl_iterator_base_funcs.h \
+ /usr/include/c++/4.8/debug/debug.h \
+ /usr/include/c++/4.8/bits/stl_iterator.h \
+ /usr/include/c++/4.8/bits/postypes.h /usr/include/c++/4.8/cwchar \
+ /usr/include/wchar.h /usr/include/stdio.h \
+ /usr/lib/gcc/i686-linux-gnu/4.8/include/stdarg.h \
+ /usr/include/i386-linux-gnu/bits/wchar.h \
+ /usr/lib/gcc/i686-linux-gnu/4.8/include/stddef.h /usr/include/xlocale.h \
+ /usr/include/i386-linux-gnu/bits/wchar2.h \
+ /usr/include/c++/4.8/bits/allocator.h \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/c++allocator.h \
+ /usr/include/c++/4.8/ext/new_allocator.h /usr/include/c++/4.8/new \
+ /usr/include/c++/4.8/exception \
+ /usr/include/c++/4.8/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/4.8/bits/localefwd.h \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/c++locale.h \
+ /usr/include/c++/4.8/clocale /usr/include/locale.h \
+ /usr/include/i386-linux-gnu/bits/locale.h /usr/include/c++/4.8/iosfwd \
+ /usr/include/c++/4.8/cctype /usr/include/ctype.h \
+ /usr/include/i386-linux-gnu/bits/types.h \
+ /usr/include/i386-linux-gnu/bits/typesizes.h /usr/include/endian.h \
+ /usr/include/i386-linux-gnu/bits/endian.h \
+ /usr/include/i386-linux-gnu/bits/byteswap.h \
+ /usr/include/i386-linux-gnu/bits/byteswap-16.h \
+ /usr/include/c++/4.8/bits/ostream_insert.h \
+ /usr/include/c++/4.8/bits/cxxabi_forced.h \
+ /usr/include/c++/4.8/bits/stl_function.h \
+ /usr/include/c++/4.8/backward/binders.h \
+ /usr/include/c++/4.8/bits/range_access.h \
+ /usr/include/c++/4.8/bits/basic_string.h \
+ /usr/include/c++/4.8/ext/atomicity.h \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/gthr.h \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/gthr-default.h \
+ /usr/include/pthread.h /usr/include/sched.h /usr/include/time.h \
+ /usr/include/i386-linux-gnu/bits/sched.h \
+ /usr/include/i386-linux-gnu/bits/time.h \
+ /usr/include/i386-linux-gnu/bits/timex.h \
+ /usr/include/i386-linux-gnu/bits/pthreadtypes.h \
+ /usr/include/i386-linux-gnu/bits/setjmp.h \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/atomic_word.h \
+ /usr/include/c++/4.8/bits/basic_string.tcc \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/EID.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/Exceptions.h \
- /opt/local/include/gcc49/c++/stdexcept \
+ /usr/include/c++/4.8/stdexcept \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/Number.h \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/SDNV.h \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/Exceptions.h \
  /usr/local/include/ibrdtn-0.12/ibrdtn/utils/Random.h \
- /opt/local/include/gcc49/c++/sstream \
- /opt/local/include/gcc49/c++/istream /opt/local/include/gcc49/c++/ios \
- /opt/local/include/gcc49/c++/bits/ios_base.h \
- /opt/local/include/gcc49/c++/bits/locale_classes.h \
- /opt/local/include/gcc49/c++/bits/locale_classes.tcc \
- /opt/local/include/gcc49/c++/streambuf \
- /opt/local/include/gcc49/c++/bits/streambuf.tcc \
- /opt/local/include/gcc49/c++/bits/basic_ios.h \
- /opt/local/include/gcc49/c++/bits/locale_facets.h \
- /opt/local/include/gcc49/c++/cwctype /usr/include/wctype.h \
- /usr/include/_types/_wctrans_t.h \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/ctype_base.h \
- /opt/local/include/gcc49/c++/bits/streambuf_iterator.h \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/ctype_inline.h \
- /opt/local/include/gcc49/c++/bits/locale_facets.tcc \
- /opt/local/include/gcc49/c++/bits/basic_ios.tcc \
- /opt/local/include/gcc49/c++/ostream \
- /opt/local/include/gcc49/c++/bits/ostream.tcc \
- /opt/local/include/gcc49/c++/bits/istream.tcc \
- /opt/local/include/gcc49/c++/bits/sstream.tcc /usr/include/sys/types.h \
- /usr/include/sys/appleapiopts.h /usr/include/machine/types.h \
- /usr/include/i386/types.h /usr/include/sys/_types/_int8_t.h \
- /usr/include/sys/_types/_int16_t.h /usr/include/sys/_types/_int32_t.h \
- /usr/include/sys/_types/_int64_t.h /usr/include/sys/_types/_intptr_t.h \
- /usr/include/sys/_types/_uintptr_t.h \
- /usr/include/sys/_types/___offsetof.h /usr/include/machine/endian.h \
- /usr/include/i386/endian.h /usr/include/sys/_endian.h \
- /usr/include/libkern/_OSByteOrder.h \
- /usr/include/libkern/i386/_OSByteOrder.h \
- /usr/include/sys/_types/_dev_t.h /usr/include/sys/_types/_blkcnt_t.h \
- /usr/include/sys/_types/_blksize_t.h /usr/include/sys/_types/_gid_t.h \
- /usr/include/sys/_types/_in_addr_t.h \
- /usr/include/sys/_types/_in_port_t.h /usr/include/sys/_types/_ino_t.h \
- /usr/include/sys/_types/_ino64_t.h /usr/include/sys/_types/_key_t.h \
- /usr/include/sys/_types/_mode_t.h /usr/include/sys/_types/_nlink_t.h \
- /usr/include/sys/_types/_id_t.h /usr/include/sys/_types/_pid_t.h \
- /usr/include/sys/_types/_uid_t.h /usr/include/sys/_types/_useconds_t.h \
- /usr/include/sys/_types/_suseconds_t.h \
- /usr/include/sys/_types/_rsize_t.h /usr/include/sys/_types/_errno_t.h \
- /usr/include/sys/_types/_fd_def.h /usr/include/sys/_types/_fd_setsize.h \
- /usr/include/sys/_types/_fd_set.h /usr/include/sys/_types/_fd_clr.h \
- /usr/include/sys/_types/_fd_zero.h /usr/include/sys/_types/_fd_isset.h \
- /usr/include/sys/_types/_fd_copy.h /usr/include/sys/_types/_fsblkcnt_t.h \
- /usr/include/sys/_types/_fsfilcnt_t.h \
- /opt/local/include/gcc49/c++/iostream \
- /opt/local/lib/gcc49/gcc/x86_64-apple-darwin13/4.9.0/include/stdint.h \
- /opt/local/lib/gcc49/gcc/x86_64-apple-darwin13/4.9.0/include-fixed/stdint.h \
- /usr/include/_types/_uint8_t.h /usr/include/_types/_uint16_t.h \
- /usr/include/_types/_uint32_t.h /usr/include/_types/_uint64_t.h \
- /usr/include/_types/_intmax_t.h /usr/include/_types/_uintmax_t.h \
- /opt/local/include/gcc49/c++/limits /opt/local/include/gcc49/c++/cstdlib \
- /usr/include/stdlib.h /usr/include/sys/wait.h /usr/include/sys/signal.h \
- /usr/include/machine/signal.h /usr/include/i386/signal.h \
- /usr/include/machine/_mcontext.h /usr/include/i386/_mcontext.h \
- /usr/include/mach/i386/_structs.h /usr/include/sys/_types/_sigaltstack.h \
- /usr/include/sys/_types/_ucontext.h /usr/include/sys/resource.h \
- /usr/include/sys/_types/_timeval.h /usr/include/alloca.h \
- /opt/local/include/gcc49/c++/map \
- /opt/local/include/gcc49/c++/bits/stl_tree.h \
- /opt/local/include/gcc49/c++/ext/alloc_traits.h \
- /opt/local/include/gcc49/c++/bits/stl_map.h \
- /opt/local/include/gcc49/c++/bits/stl_multimap.h \
- /opt/local/include/gcc49/c++/set \
- /opt/local/include/gcc49/c++/bits/stl_set.h \
- /opt/local/include/gcc49/c++/bits/stl_multiset.h \
- /opt/local/include/gcc49/c++/list \
- /opt/local/include/gcc49/c++/bits/stl_list.h \
- /opt/local/include/gcc49/c++/bits/list.tcc \
+ /usr/include/c++/4.8/sstream /usr/include/c++/4.8/istream \
+ /usr/include/c++/4.8/ios /usr/include/c++/4.8/bits/ios_base.h \
+ /usr/include/c++/4.8/bits/locale_classes.h \
+ /usr/include/c++/4.8/bits/locale_classes.tcc \
+ /usr/include/c++/4.8/streambuf /usr/include/c++/4.8/bits/streambuf.tcc \
+ /usr/include/c++/4.8/bits/basic_ios.h \
+ /usr/include/c++/4.8/bits/locale_facets.h /usr/include/c++/4.8/cwctype \
+ /usr/include/wctype.h \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/ctype_base.h \
+ /usr/include/c++/4.8/bits/streambuf_iterator.h \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/ctype_inline.h \
+ /usr/include/c++/4.8/bits/locale_facets.tcc \
+ /usr/include/c++/4.8/bits/basic_ios.tcc /usr/include/c++/4.8/ostream \
+ /usr/include/c++/4.8/bits/ostream.tcc \
+ /usr/include/c++/4.8/bits/istream.tcc \
+ /usr/include/c++/4.8/bits/sstream.tcc \
+ /usr/include/i386-linux-gnu/sys/types.h \
+ /usr/include/i386-linux-gnu/sys/select.h \
+ /usr/include/i386-linux-gnu/bits/select.h \
+ /usr/include/i386-linux-gnu/bits/sigset.h \
+ /usr/include/i386-linux-gnu/bits/select2.h \
+ /usr/include/i386-linux-gnu/sys/sysmacros.h \
+ /usr/include/c++/4.8/iostream /usr/include/libio.h \
+ /usr/include/_G_config.h /usr/include/i386-linux-gnu/bits/stdio_lim.h \
+ /usr/include/i386-linux-gnu/bits/sys_errlist.h \
+ /usr/include/i386-linux-gnu/bits/stdio.h \
+ /usr/include/i386-linux-gnu/bits/stdio2.h \
+ /usr/lib/gcc/i686-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+ /usr/include/c++/4.8/limits /usr/include/c++/4.8/cstdlib \
+ /usr/include/stdlib.h /usr/include/i386-linux-gnu/bits/waitflags.h \
+ /usr/include/i386-linux-gnu/bits/waitstatus.h /usr/include/alloca.h \
+ /usr/include/i386-linux-gnu/bits/stdlib-float.h \
+ /usr/include/i386-linux-gnu/bits/stdlib.h /usr/include/c++/4.8/map \
+ /usr/include/c++/4.8/bits/stl_tree.h /usr/include/c++/4.8/bits/stl_map.h \
+ /usr/include/c++/4.8/bits/stl_multimap.h /usr/include/c++/4.8/set \
+ /usr/include/c++/4.8/bits/stl_set.h \
+ /usr/include/c++/4.8/bits/stl_multiset.h /usr/include/c++/4.8/list \
+ /usr/include/c++/4.8/bits/stl_list.h /usr/include/c++/4.8/bits/list.tcc \
  ../../../src/core/AbstractWorker.h \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/Bundle.h \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/Block.h \
@@ -157,50 +115,56 @@ BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/PrimaryBlock.h \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/BundleID.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/data/BloomFilter.h \
- /opt/local/include/gcc49/c++/cstddef \
- /opt/local/lib/gcc49/gcc/x86_64-apple-darwin13/4.9.0/include/stddef.h \
- /opt/local/include/gcc49/c++/algorithm \
- /opt/local/include/gcc49/c++/utility \
- /opt/local/include/gcc49/c++/bits/stl_relops.h \
- /opt/local/include/gcc49/c++/bits/stl_algo.h \
- /opt/local/include/gcc49/c++/bits/algorithmfwd.h \
- /opt/local/include/gcc49/c++/bits/stl_heap.h \
- /opt/local/include/gcc49/c++/bits/stl_tempbuf.h \
- /opt/local/include/gcc49/c++/bits/stl_construct.h \
- /opt/local/include/gcc49/c++/cmath \
- /opt/local/lib/gcc49/gcc/x86_64-apple-darwin13/4.9.0/include-fixed/math.h \
- /opt/local/include/gcc49/c++/vector \
- /opt/local/include/gcc49/c++/bits/stl_uninitialized.h \
- /opt/local/include/gcc49/c++/bits/stl_vector.h \
- /opt/local/include/gcc49/c++/bits/stl_bvector.h \
- /opt/local/include/gcc49/c++/bits/vector.tcc \
+ /usr/include/c++/4.8/cstddef /usr/include/c++/4.8/algorithm \
+ /usr/include/c++/4.8/utility /usr/include/c++/4.8/bits/stl_relops.h \
+ /usr/include/c++/4.8/bits/stl_algo.h \
+ /usr/include/c++/4.8/bits/algorithmfwd.h \
+ /usr/include/c++/4.8/bits/stl_heap.h \
+ /usr/include/c++/4.8/bits/stl_tempbuf.h \
+ /usr/include/c++/4.8/bits/stl_construct.h \
+ /usr/include/c++/4.8/ext/alloc_traits.h /usr/include/c++/4.8/cmath \
+ /usr/include/math.h /usr/include/i386-linux-gnu/bits/huge_val.h \
+ /usr/include/i386-linux-gnu/bits/huge_valf.h \
+ /usr/include/i386-linux-gnu/bits/huge_vall.h \
+ /usr/include/i386-linux-gnu/bits/inf.h \
+ /usr/include/i386-linux-gnu/bits/nan.h \
+ /usr/include/i386-linux-gnu/bits/mathdef.h \
+ /usr/include/i386-linux-gnu/bits/mathcalls.h \
+ /usr/include/i386-linux-gnu/bits/mathinline.h \
+ /usr/include/c++/4.8/vector \
+ /usr/include/c++/4.8/bits/stl_uninitialized.h \
+ /usr/include/c++/4.8/bits/stl_vector.h \
+ /usr/include/c++/4.8/bits/stl_bvector.h \
+ /usr/include/c++/4.8/bits/vector.tcc \
  /usr/local/include/ibrcommon-0.12/ibrcommon/thread/Mutex.h \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/BundleFragment.h \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/PayloadBlock.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/data/BLOB.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/thread/MutexLock.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/data/File.h \
- /usr/include/dirent.h /usr/include/sys/dirent.h /usr/include/sys/stat.h \
- /usr/include/sys/_types/_s_ifmt.h /usr/include/sys/_types/_filesec_t.h \
+ /usr/include/dirent.h /usr/include/i386-linux-gnu/bits/dirent.h \
+ /usr/include/i386-linux-gnu/bits/posix1_lim.h \
+ /usr/include/i386-linux-gnu/bits/local_lim.h /usr/include/linux/limits.h \
+ /usr/include/i386-linux-gnu/sys/stat.h \
+ /usr/include/i386-linux-gnu/bits/stat.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/thread/Semaphore.h \
- /usr/include/semaphore.h /usr/include/sys/fcntl.h \
- /usr/include/sys/_types/_o_sync.h /usr/include/sys/_types/_o_dsync.h \
- /usr/include/sys/_types/_seek_set.h /usr/include/sys/semaphore.h \
+ /usr/include/semaphore.h /usr/include/i386-linux-gnu/bits/semaphore.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/refcnt_ptr.h \
- /opt/local/include/gcc49/c++/fstream \
- /opt/local/include/gcc49/c++/bits/codecvt.h \
- /opt/local/include/gcc49/c++/cstdio \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/basic_file.h \
- /opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/c++io.h \
- /opt/local/include/gcc49/c++/bits/fstream.tcc \
+ /usr/include/c++/4.8/fstream /usr/include/c++/4.8/bits/codecvt.h \
+ /usr/include/c++/4.8/cstdio \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/basic_file.h \
+ /usr/include/i386-linux-gnu/c++/4.8/bits/c++io.h \
+ /usr/include/c++/4.8/bits/fstream.tcc \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/ExtensionBlock.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/Iterator.h \
- /opt/local/include/gcc49/c++/iterator \
- /opt/local/include/gcc49/c++/bits/stream_iterator.h \
- /opt/local/include/gcc49/c++/typeinfo ../../../src/core/EventReceiver.h \
+ /usr/include/c++/4.8/iterator \
+ /usr/include/c++/4.8/bits/stream_iterator.h \
+ /usr/include/c++/4.8/typeinfo ../../../src/core/EventReceiver.h \
  ../../../src/core/Event.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/thread/Conditional.h \
- /usr/include/errno.h /usr/include/sys/errno.h \
+ /usr/include/errno.h /usr/include/i386-linux-gnu/bits/errno.h \
+ /usr/include/linux/errno.h /usr/include/i386-linux-gnu/asm/errno.h \
+ /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/thread/Thread.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/thread/ThreadsafeState.h \
  ../../../src/net/ConvergenceLayer.h ../../../src/net/BundleTransfer.h \
@@ -208,10 +172,10 @@ BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/MetaBundle.h \
  /usr/local/include/ibrdtn-0.12/ibrdtn/data/DTNTime.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/thread/Queue.h \
- /opt/local/include/gcc49/c++/queue /opt/local/include/gcc49/c++/deque \
- /opt/local/include/gcc49/c++/bits/stl_deque.h \
- /opt/local/include/gcc49/c++/bits/deque.tcc \
- /opt/local/include/gcc49/c++/bits/stl_queue.h \
+ /usr/include/c++/4.8/queue /usr/include/c++/4.8/deque \
+ /usr/include/c++/4.8/bits/stl_deque.h \
+ /usr/include/c++/4.8/bits/deque.tcc \
+ /usr/include/c++/4.8/bits/stl_queue.h \
  ../../../src/routing/RoutingExtension.h \
  ../../../src/routing/NeighborDatabase.h \
  ../../../src/routing/NeighborDataset.h \
@@ -226,9 +190,17 @@ BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
  ../../../src/Component.h ../../../src/net/P2PDialupExtension.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/net/vinterface.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/net/vaddress.h \
- /usr/include/sys/socket.h /usr/include/machine/_param.h \
- /usr/include/i386/_param.h /usr/include/sys/_types/_sa_family_t.h \
- /usr/include/sys/_types/_socklen_t.h /usr/include/sys/_types/_iovec_t.h \
+ /usr/include/i386-linux-gnu/sys/socket.h \
+ /usr/include/i386-linux-gnu/sys/uio.h \
+ /usr/include/i386-linux-gnu/bits/uio.h \
+ /usr/include/i386-linux-gnu/bits/socket.h \
+ /usr/include/i386-linux-gnu/bits/socket_type.h \
+ /usr/include/i386-linux-gnu/bits/sockaddr.h \
+ /usr/include/i386-linux-gnu/asm/socket.h \
+ /usr/include/asm-generic/socket.h \
+ /usr/include/i386-linux-gnu/asm/sockios.h \
+ /usr/include/asm-generic/sockios.h \
+ /usr/include/i386-linux-gnu/bits/socket2.h \
  ../../../src/net/BundleReceiver.h ../../../src/Configuration.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/data/ConfigFile.h \
  ../../../src/core/Node.h ../../../src/routing/StaticRoutingExtension.h \
@@ -253,211 +225,170 @@ BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
  ../../../src/core/EventDispatcher.h ../../../src/core/EventSwitch.h \
  ../../../src/core/BundleEvent.h \
  /usr/local/include/ibrcommon-0.12/ibrcommon/Logger.h \
- /usr/include/sys/time.h /usr/include/sys/_select.h \
- /opt/local/include/gcc49/c++/functional \
- /opt/local/include/gcc49/c++/iomanip /opt/local/include/gcc49/c++/memory \
- /opt/local/include/gcc49/c++/bits/stl_raw_storage_iter.h \
- /opt/local/include/gcc49/c++/backward/auto_ptr.h
+ /usr/include/i386-linux-gnu/sys/time.h /usr/include/c++/4.8/functional \
+ /usr/include/c++/4.8/iomanip /usr/include/c++/4.8/memory \
+ /usr/include/c++/4.8/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/4.8/backward/auto_ptr.h
+
+/usr/include/stdc-predef.h:
+
+/usr/include/i386-linux-gnu/bits/predefs.h:
 
 ../../../src/routing/breadcrumb/BreadcrumbRoutingExtension.h:
 
 ../../../src/core/Node.h:
 
-/opt/local/include/gcc49/c++/string:
+/usr/include/c++/4.8/string:
 
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/c++config.h:
+/usr/include/i386-linux-gnu/c++/4.8/bits/c++config.h:
 
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/os_defines.h:
+/usr/include/i386-linux-gnu/c++/4.8/bits/os_defines.h:
 
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/cpu_defines.h:
+/usr/include/features.h:
 
-/opt/local/include/gcc49/c++/bits/stringfwd.h:
+/usr/include/i386-linux-gnu/sys/cdefs.h:
 
-/opt/local/include/gcc49/c++/bits/memoryfwd.h:
+/usr/include/i386-linux-gnu/bits/wordsize.h:
 
-/opt/local/include/gcc49/c++/bits/char_traits.h:
+/usr/include/i386-linux-gnu/gnu/stubs.h:
 
-/opt/local/include/gcc49/c++/bits/stl_algobase.h:
+/usr/include/i386-linux-gnu/gnu/stubs-32.h:
 
-/opt/local/include/gcc49/c++/bits/functexcept.h:
+/usr/include/i386-linux-gnu/c++/4.8/bits/cpu_defines.h:
 
-/opt/local/include/gcc49/c++/bits/exception_defines.h:
+/usr/include/c++/4.8/bits/stringfwd.h:
 
-/opt/local/include/gcc49/c++/bits/cpp_type_traits.h:
+/usr/include/c++/4.8/bits/memoryfwd.h:
 
-/opt/local/include/gcc49/c++/ext/type_traits.h:
+/usr/include/c++/4.8/bits/char_traits.h:
 
-/opt/local/include/gcc49/c++/ext/numeric_traits.h:
+/usr/include/c++/4.8/bits/stl_algobase.h:
 
-/opt/local/include/gcc49/c++/bits/stl_pair.h:
+/usr/include/c++/4.8/bits/functexcept.h:
 
-/opt/local/include/gcc49/c++/bits/move.h:
+/usr/include/c++/4.8/bits/exception_defines.h:
 
-/opt/local/include/gcc49/c++/bits/concept_check.h:
+/usr/include/c++/4.8/bits/cpp_type_traits.h:
 
-/opt/local/include/gcc49/c++/bits/stl_iterator_base_types.h:
+/usr/include/c++/4.8/ext/type_traits.h:
 
-/opt/local/include/gcc49/c++/bits/stl_iterator_base_funcs.h:
+/usr/include/c++/4.8/ext/numeric_traits.h:
 
-/opt/local/include/gcc49/c++/debug/debug.h:
+/usr/include/c++/4.8/bits/stl_pair.h:
 
-/opt/local/include/gcc49/c++/bits/stl_iterator.h:
+/usr/include/c++/4.8/bits/move.h:
 
-/opt/local/include/gcc49/c++/bits/ptr_traits.h:
+/usr/include/c++/4.8/bits/concept_check.h:
 
-/opt/local/include/gcc49/c++/bits/predefined_ops.h:
+/usr/include/c++/4.8/bits/stl_iterator_base_types.h:
 
-/opt/local/include/gcc49/c++/bits/postypes.h:
+/usr/include/c++/4.8/bits/stl_iterator_base_funcs.h:
 
-/opt/local/include/gcc49/c++/cwchar:
+/usr/include/c++/4.8/debug/debug.h:
+
+/usr/include/c++/4.8/bits/stl_iterator.h:
+
+/usr/include/c++/4.8/bits/postypes.h:
+
+/usr/include/c++/4.8/cwchar:
 
 /usr/include/wchar.h:
 
-/usr/include/_types.h:
-
-/usr/include/sys/_types.h:
-
-/usr/include/sys/cdefs.h:
-
-/usr/include/sys/_symbol_aliasing.h:
-
-/usr/include/sys/_posix_availability.h:
-
-/usr/include/machine/_types.h:
-
-/usr/include/i386/_types.h:
-
-/usr/include/Availability.h:
-
-/usr/include/AvailabilityInternal.h:
-
-/usr/include/sys/_types/_null.h:
-
-/usr/include/sys/_types/_size_t.h:
-
-/usr/include/sys/_types/_mbstate_t.h:
-
-/usr/include/sys/_types/_ct_rune_t.h:
-
-/usr/include/sys/_types/_rune_t.h:
-
-/usr/include/sys/_types/_wchar_t.h:
-
-/opt/local/lib/gcc49/gcc/x86_64-apple-darwin13/4.9.0/include/stdarg.h:
-
 /usr/include/stdio.h:
 
-/usr/include/sys/_types/_va_list.h:
+/usr/lib/gcc/i686-linux-gnu/4.8/include/stdarg.h:
 
-/usr/include/sys/_types/_off_t.h:
+/usr/include/i386-linux-gnu/bits/wchar.h:
 
-/usr/include/sys/_types/_ssize_t.h:
+/usr/lib/gcc/i686-linux-gnu/4.8/include/stddef.h:
 
-/usr/include/time.h:
+/usr/include/xlocale.h:
 
-/usr/include/_structs.h:
+/usr/include/i386-linux-gnu/bits/wchar2.h:
 
-/usr/include/sys/_structs.h:
+/usr/include/c++/4.8/bits/allocator.h:
 
-/usr/include/sys/_types/_timespec.h:
+/usr/include/i386-linux-gnu/c++/4.8/bits/c++allocator.h:
 
-/usr/include/sys/_types/_clock_t.h:
+/usr/include/c++/4.8/ext/new_allocator.h:
 
-/usr/include/sys/_types/_time_t.h:
+/usr/include/c++/4.8/new:
 
-/usr/include/_wctype.h:
+/usr/include/c++/4.8/exception:
 
-/usr/include/sys/_types/_wint_t.h:
+/usr/include/c++/4.8/bits/atomic_lockfree_defines.h:
 
-/usr/include/_types/_wctype_t.h:
+/usr/include/c++/4.8/bits/localefwd.h:
 
-/usr/include/ctype.h:
+/usr/include/i386-linux-gnu/c++/4.8/bits/c++locale.h:
 
-/usr/include/runetype.h:
-
-/opt/local/include/gcc49/c++/bits/allocator.h:
-
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/c++allocator.h:
-
-/opt/local/include/gcc49/c++/ext/new_allocator.h:
-
-/opt/local/include/gcc49/c++/new:
-
-/opt/local/include/gcc49/c++/exception:
-
-/opt/local/include/gcc49/c++/bits/atomic_lockfree_defines.h:
-
-/opt/local/include/gcc49/c++/bits/localefwd.h:
-
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/c++locale.h:
-
-/opt/local/include/gcc49/c++/clocale:
+/usr/include/c++/4.8/clocale:
 
 /usr/include/locale.h:
 
-/usr/include/_locale.h:
+/usr/include/i386-linux-gnu/bits/locale.h:
 
-/opt/local/include/gcc49/c++/iosfwd:
+/usr/include/c++/4.8/iosfwd:
 
-/opt/local/include/gcc49/c++/cctype:
+/usr/include/c++/4.8/cctype:
 
-/opt/local/include/gcc49/c++/bits/ostream_insert.h:
+/usr/include/ctype.h:
 
-/opt/local/include/gcc49/c++/bits/cxxabi_forced.h:
+/usr/include/i386-linux-gnu/bits/types.h:
 
-/opt/local/include/gcc49/c++/bits/stl_function.h:
+/usr/include/i386-linux-gnu/bits/typesizes.h:
 
-/opt/local/include/gcc49/c++/backward/binders.h:
+/usr/include/endian.h:
 
-/opt/local/include/gcc49/c++/bits/range_access.h:
+/usr/include/i386-linux-gnu/bits/endian.h:
 
-/opt/local/include/gcc49/c++/bits/basic_string.h:
+/usr/include/i386-linux-gnu/bits/byteswap.h:
 
-/opt/local/include/gcc49/c++/ext/atomicity.h:
+/usr/include/i386-linux-gnu/bits/byteswap-16.h:
 
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/gthr.h:
+/usr/include/c++/4.8/bits/ostream_insert.h:
 
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/gthr-default.h:
+/usr/include/c++/4.8/bits/cxxabi_forced.h:
+
+/usr/include/c++/4.8/bits/stl_function.h:
+
+/usr/include/c++/4.8/backward/binders.h:
+
+/usr/include/c++/4.8/bits/range_access.h:
+
+/usr/include/c++/4.8/bits/basic_string.h:
+
+/usr/include/c++/4.8/ext/atomicity.h:
+
+/usr/include/i386-linux-gnu/c++/4.8/bits/gthr.h:
+
+/usr/include/i386-linux-gnu/c++/4.8/bits/gthr-default.h:
 
 /usr/include/pthread.h:
 
-/usr/include/pthread_impl.h:
-
 /usr/include/sched.h:
 
-/usr/include/sys/_types/_pthread_attr_t.h:
+/usr/include/time.h:
 
-/usr/include/sys/_types/_pthread_cond_t.h:
+/usr/include/i386-linux-gnu/bits/sched.h:
 
-/usr/include/sys/_types/_pthread_condattr_t.h:
+/usr/include/i386-linux-gnu/bits/time.h:
 
-/usr/include/sys/_types/_pthread_key_t.h:
+/usr/include/i386-linux-gnu/bits/timex.h:
 
-/usr/include/sys/_types/_pthread_mutex_t.h:
+/usr/include/i386-linux-gnu/bits/pthreadtypes.h:
 
-/usr/include/sys/_types/_pthread_mutexattr_t.h:
+/usr/include/i386-linux-gnu/bits/setjmp.h:
 
-/usr/include/sys/_types/_pthread_once_t.h:
+/usr/include/i386-linux-gnu/c++/4.8/bits/atomic_word.h:
 
-/usr/include/sys/_types/_pthread_rwlock_t.h:
-
-/usr/include/sys/_types/_pthread_rwlockattr_t.h:
-
-/usr/include/sys/_types/_pthread_t.h:
-
-/usr/include/sys/_types/_mach_port_t.h:
-
-/usr/include/sys/_types/_sigset_t.h:
-
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/atomic_word.h:
-
-/opt/local/include/gcc49/c++/bits/basic_string.tcc:
+/usr/include/c++/4.8/bits/basic_string.tcc:
 
 /usr/local/include/ibrdtn-0.12/ibrdtn/data/EID.h:
 
 /usr/local/include/ibrcommon-0.12/ibrcommon/Exceptions.h:
 
-/opt/local/include/gcc49/c++/stdexcept:
+/usr/include/c++/4.8/stdexcept:
 
 /usr/local/include/ibrdtn-0.12/ibrdtn/data/Number.h:
 
@@ -467,205 +398,113 @@ BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
 
 /usr/local/include/ibrdtn-0.12/ibrdtn/utils/Random.h:
 
-/opt/local/include/gcc49/c++/sstream:
+/usr/include/c++/4.8/sstream:
 
-/opt/local/include/gcc49/c++/istream:
+/usr/include/c++/4.8/istream:
 
-/opt/local/include/gcc49/c++/ios:
+/usr/include/c++/4.8/ios:
 
-/opt/local/include/gcc49/c++/bits/ios_base.h:
+/usr/include/c++/4.8/bits/ios_base.h:
 
-/opt/local/include/gcc49/c++/bits/locale_classes.h:
+/usr/include/c++/4.8/bits/locale_classes.h:
 
-/opt/local/include/gcc49/c++/bits/locale_classes.tcc:
+/usr/include/c++/4.8/bits/locale_classes.tcc:
 
-/opt/local/include/gcc49/c++/streambuf:
+/usr/include/c++/4.8/streambuf:
 
-/opt/local/include/gcc49/c++/bits/streambuf.tcc:
+/usr/include/c++/4.8/bits/streambuf.tcc:
 
-/opt/local/include/gcc49/c++/bits/basic_ios.h:
+/usr/include/c++/4.8/bits/basic_ios.h:
 
-/opt/local/include/gcc49/c++/bits/locale_facets.h:
+/usr/include/c++/4.8/bits/locale_facets.h:
 
-/opt/local/include/gcc49/c++/cwctype:
+/usr/include/c++/4.8/cwctype:
 
 /usr/include/wctype.h:
 
-/usr/include/_types/_wctrans_t.h:
+/usr/include/i386-linux-gnu/c++/4.8/bits/ctype_base.h:
 
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/ctype_base.h:
+/usr/include/c++/4.8/bits/streambuf_iterator.h:
 
-/opt/local/include/gcc49/c++/bits/streambuf_iterator.h:
+/usr/include/i386-linux-gnu/c++/4.8/bits/ctype_inline.h:
 
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/ctype_inline.h:
+/usr/include/c++/4.8/bits/locale_facets.tcc:
 
-/opt/local/include/gcc49/c++/bits/locale_facets.tcc:
+/usr/include/c++/4.8/bits/basic_ios.tcc:
 
-/opt/local/include/gcc49/c++/bits/basic_ios.tcc:
+/usr/include/c++/4.8/ostream:
 
-/opt/local/include/gcc49/c++/ostream:
+/usr/include/c++/4.8/bits/ostream.tcc:
 
-/opt/local/include/gcc49/c++/bits/ostream.tcc:
+/usr/include/c++/4.8/bits/istream.tcc:
 
-/opt/local/include/gcc49/c++/bits/istream.tcc:
+/usr/include/c++/4.8/bits/sstream.tcc:
 
-/opt/local/include/gcc49/c++/bits/sstream.tcc:
+/usr/include/i386-linux-gnu/sys/types.h:
 
-/usr/include/sys/types.h:
+/usr/include/i386-linux-gnu/sys/select.h:
 
-/usr/include/sys/appleapiopts.h:
+/usr/include/i386-linux-gnu/bits/select.h:
 
-/usr/include/machine/types.h:
+/usr/include/i386-linux-gnu/bits/sigset.h:
 
-/usr/include/i386/types.h:
+/usr/include/i386-linux-gnu/bits/select2.h:
 
-/usr/include/sys/_types/_int8_t.h:
+/usr/include/i386-linux-gnu/sys/sysmacros.h:
 
-/usr/include/sys/_types/_int16_t.h:
+/usr/include/c++/4.8/iostream:
 
-/usr/include/sys/_types/_int32_t.h:
+/usr/include/libio.h:
 
-/usr/include/sys/_types/_int64_t.h:
+/usr/include/_G_config.h:
 
-/usr/include/sys/_types/_intptr_t.h:
+/usr/include/i386-linux-gnu/bits/stdio_lim.h:
 
-/usr/include/sys/_types/_uintptr_t.h:
+/usr/include/i386-linux-gnu/bits/sys_errlist.h:
 
-/usr/include/sys/_types/___offsetof.h:
+/usr/include/i386-linux-gnu/bits/stdio.h:
 
-/usr/include/machine/endian.h:
+/usr/include/i386-linux-gnu/bits/stdio2.h:
 
-/usr/include/i386/endian.h:
+/usr/lib/gcc/i686-linux-gnu/4.8/include/stdint.h:
 
-/usr/include/sys/_endian.h:
+/usr/include/stdint.h:
 
-/usr/include/libkern/_OSByteOrder.h:
+/usr/include/c++/4.8/limits:
 
-/usr/include/libkern/i386/_OSByteOrder.h:
-
-/usr/include/sys/_types/_dev_t.h:
-
-/usr/include/sys/_types/_blkcnt_t.h:
-
-/usr/include/sys/_types/_blksize_t.h:
-
-/usr/include/sys/_types/_gid_t.h:
-
-/usr/include/sys/_types/_in_addr_t.h:
-
-/usr/include/sys/_types/_in_port_t.h:
-
-/usr/include/sys/_types/_ino_t.h:
-
-/usr/include/sys/_types/_ino64_t.h:
-
-/usr/include/sys/_types/_key_t.h:
-
-/usr/include/sys/_types/_mode_t.h:
-
-/usr/include/sys/_types/_nlink_t.h:
-
-/usr/include/sys/_types/_id_t.h:
-
-/usr/include/sys/_types/_pid_t.h:
-
-/usr/include/sys/_types/_uid_t.h:
-
-/usr/include/sys/_types/_useconds_t.h:
-
-/usr/include/sys/_types/_suseconds_t.h:
-
-/usr/include/sys/_types/_rsize_t.h:
-
-/usr/include/sys/_types/_errno_t.h:
-
-/usr/include/sys/_types/_fd_def.h:
-
-/usr/include/sys/_types/_fd_setsize.h:
-
-/usr/include/sys/_types/_fd_set.h:
-
-/usr/include/sys/_types/_fd_clr.h:
-
-/usr/include/sys/_types/_fd_zero.h:
-
-/usr/include/sys/_types/_fd_isset.h:
-
-/usr/include/sys/_types/_fd_copy.h:
-
-/usr/include/sys/_types/_fsblkcnt_t.h:
-
-/usr/include/sys/_types/_fsfilcnt_t.h:
-
-/opt/local/include/gcc49/c++/iostream:
-
-/opt/local/lib/gcc49/gcc/x86_64-apple-darwin13/4.9.0/include/stdint.h:
-
-/opt/local/lib/gcc49/gcc/x86_64-apple-darwin13/4.9.0/include-fixed/stdint.h:
-
-/usr/include/_types/_uint8_t.h:
-
-/usr/include/_types/_uint16_t.h:
-
-/usr/include/_types/_uint32_t.h:
-
-/usr/include/_types/_uint64_t.h:
-
-/usr/include/_types/_intmax_t.h:
-
-/usr/include/_types/_uintmax_t.h:
-
-/opt/local/include/gcc49/c++/limits:
-
-/opt/local/include/gcc49/c++/cstdlib:
+/usr/include/c++/4.8/cstdlib:
 
 /usr/include/stdlib.h:
 
-/usr/include/sys/wait.h:
+/usr/include/i386-linux-gnu/bits/waitflags.h:
 
-/usr/include/sys/signal.h:
-
-/usr/include/machine/signal.h:
-
-/usr/include/i386/signal.h:
-
-/usr/include/machine/_mcontext.h:
-
-/usr/include/i386/_mcontext.h:
-
-/usr/include/mach/i386/_structs.h:
-
-/usr/include/sys/_types/_sigaltstack.h:
-
-/usr/include/sys/_types/_ucontext.h:
-
-/usr/include/sys/resource.h:
-
-/usr/include/sys/_types/_timeval.h:
+/usr/include/i386-linux-gnu/bits/waitstatus.h:
 
 /usr/include/alloca.h:
 
-/opt/local/include/gcc49/c++/map:
+/usr/include/i386-linux-gnu/bits/stdlib-float.h:
 
-/opt/local/include/gcc49/c++/bits/stl_tree.h:
+/usr/include/i386-linux-gnu/bits/stdlib.h:
 
-/opt/local/include/gcc49/c++/ext/alloc_traits.h:
+/usr/include/c++/4.8/map:
 
-/opt/local/include/gcc49/c++/bits/stl_map.h:
+/usr/include/c++/4.8/bits/stl_tree.h:
 
-/opt/local/include/gcc49/c++/bits/stl_multimap.h:
+/usr/include/c++/4.8/bits/stl_map.h:
 
-/opt/local/include/gcc49/c++/set:
+/usr/include/c++/4.8/bits/stl_multimap.h:
 
-/opt/local/include/gcc49/c++/bits/stl_set.h:
+/usr/include/c++/4.8/set:
 
-/opt/local/include/gcc49/c++/bits/stl_multiset.h:
+/usr/include/c++/4.8/bits/stl_set.h:
 
-/opt/local/include/gcc49/c++/list:
+/usr/include/c++/4.8/bits/stl_multiset.h:
 
-/opt/local/include/gcc49/c++/bits/stl_list.h:
+/usr/include/c++/4.8/list:
 
-/opt/local/include/gcc49/c++/bits/list.tcc:
+/usr/include/c++/4.8/bits/stl_list.h:
+
+/usr/include/c++/4.8/bits/list.tcc:
 
 ../../../src/core/AbstractWorker.h:
 
@@ -683,39 +522,55 @@ BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
 
 /usr/local/include/ibrcommon-0.12/ibrcommon/data/BloomFilter.h:
 
-/opt/local/include/gcc49/c++/cstddef:
+/usr/include/c++/4.8/cstddef:
 
-/opt/local/lib/gcc49/gcc/x86_64-apple-darwin13/4.9.0/include/stddef.h:
+/usr/include/c++/4.8/algorithm:
 
-/opt/local/include/gcc49/c++/algorithm:
+/usr/include/c++/4.8/utility:
 
-/opt/local/include/gcc49/c++/utility:
+/usr/include/c++/4.8/bits/stl_relops.h:
 
-/opt/local/include/gcc49/c++/bits/stl_relops.h:
+/usr/include/c++/4.8/bits/stl_algo.h:
 
-/opt/local/include/gcc49/c++/bits/stl_algo.h:
+/usr/include/c++/4.8/bits/algorithmfwd.h:
 
-/opt/local/include/gcc49/c++/bits/algorithmfwd.h:
+/usr/include/c++/4.8/bits/stl_heap.h:
 
-/opt/local/include/gcc49/c++/bits/stl_heap.h:
+/usr/include/c++/4.8/bits/stl_tempbuf.h:
 
-/opt/local/include/gcc49/c++/bits/stl_tempbuf.h:
+/usr/include/c++/4.8/bits/stl_construct.h:
 
-/opt/local/include/gcc49/c++/bits/stl_construct.h:
+/usr/include/c++/4.8/ext/alloc_traits.h:
 
-/opt/local/include/gcc49/c++/cmath:
+/usr/include/c++/4.8/cmath:
 
-/opt/local/lib/gcc49/gcc/x86_64-apple-darwin13/4.9.0/include-fixed/math.h:
+/usr/include/math.h:
 
-/opt/local/include/gcc49/c++/vector:
+/usr/include/i386-linux-gnu/bits/huge_val.h:
 
-/opt/local/include/gcc49/c++/bits/stl_uninitialized.h:
+/usr/include/i386-linux-gnu/bits/huge_valf.h:
 
-/opt/local/include/gcc49/c++/bits/stl_vector.h:
+/usr/include/i386-linux-gnu/bits/huge_vall.h:
 
-/opt/local/include/gcc49/c++/bits/stl_bvector.h:
+/usr/include/i386-linux-gnu/bits/inf.h:
 
-/opt/local/include/gcc49/c++/bits/vector.tcc:
+/usr/include/i386-linux-gnu/bits/nan.h:
+
+/usr/include/i386-linux-gnu/bits/mathdef.h:
+
+/usr/include/i386-linux-gnu/bits/mathcalls.h:
+
+/usr/include/i386-linux-gnu/bits/mathinline.h:
+
+/usr/include/c++/4.8/vector:
+
+/usr/include/c++/4.8/bits/stl_uninitialized.h:
+
+/usr/include/c++/4.8/bits/stl_vector.h:
+
+/usr/include/c++/4.8/bits/stl_bvector.h:
+
+/usr/include/c++/4.8/bits/vector.tcc:
 
 /usr/local/include/ibrcommon-0.12/ibrcommon/thread/Mutex.h:
 
@@ -731,51 +586,47 @@ BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
 
 /usr/include/dirent.h:
 
-/usr/include/sys/dirent.h:
+/usr/include/i386-linux-gnu/bits/dirent.h:
 
-/usr/include/sys/stat.h:
+/usr/include/i386-linux-gnu/bits/posix1_lim.h:
 
-/usr/include/sys/_types/_s_ifmt.h:
+/usr/include/i386-linux-gnu/bits/local_lim.h:
 
-/usr/include/sys/_types/_filesec_t.h:
+/usr/include/linux/limits.h:
+
+/usr/include/i386-linux-gnu/sys/stat.h:
+
+/usr/include/i386-linux-gnu/bits/stat.h:
 
 /usr/local/include/ibrcommon-0.12/ibrcommon/thread/Semaphore.h:
 
 /usr/include/semaphore.h:
 
-/usr/include/sys/fcntl.h:
-
-/usr/include/sys/_types/_o_sync.h:
-
-/usr/include/sys/_types/_o_dsync.h:
-
-/usr/include/sys/_types/_seek_set.h:
-
-/usr/include/sys/semaphore.h:
+/usr/include/i386-linux-gnu/bits/semaphore.h:
 
 /usr/local/include/ibrcommon-0.12/ibrcommon/refcnt_ptr.h:
 
-/opt/local/include/gcc49/c++/fstream:
+/usr/include/c++/4.8/fstream:
 
-/opt/local/include/gcc49/c++/bits/codecvt.h:
+/usr/include/c++/4.8/bits/codecvt.h:
 
-/opt/local/include/gcc49/c++/cstdio:
+/usr/include/c++/4.8/cstdio:
 
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/basic_file.h:
+/usr/include/i386-linux-gnu/c++/4.8/bits/basic_file.h:
 
-/opt/local/include/gcc49/c++/x86_64-apple-darwin13/bits/c++io.h:
+/usr/include/i386-linux-gnu/c++/4.8/bits/c++io.h:
 
-/opt/local/include/gcc49/c++/bits/fstream.tcc:
+/usr/include/c++/4.8/bits/fstream.tcc:
 
 /usr/local/include/ibrdtn-0.12/ibrdtn/data/ExtensionBlock.h:
 
 /usr/local/include/ibrcommon-0.12/ibrcommon/Iterator.h:
 
-/opt/local/include/gcc49/c++/iterator:
+/usr/include/c++/4.8/iterator:
 
-/opt/local/include/gcc49/c++/bits/stream_iterator.h:
+/usr/include/c++/4.8/bits/stream_iterator.h:
 
-/opt/local/include/gcc49/c++/typeinfo:
+/usr/include/c++/4.8/typeinfo:
 
 ../../../src/core/EventReceiver.h:
 
@@ -785,7 +636,15 @@ BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
 
 /usr/include/errno.h:
 
-/usr/include/sys/errno.h:
+/usr/include/i386-linux-gnu/bits/errno.h:
+
+/usr/include/linux/errno.h:
+
+/usr/include/i386-linux-gnu/asm/errno.h:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/asm-generic/errno-base.h:
 
 /usr/local/include/ibrcommon-0.12/ibrcommon/thread/Thread.h:
 
@@ -803,15 +662,15 @@ BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
 
 /usr/local/include/ibrcommon-0.12/ibrcommon/thread/Queue.h:
 
-/opt/local/include/gcc49/c++/queue:
+/usr/include/c++/4.8/queue:
 
-/opt/local/include/gcc49/c++/deque:
+/usr/include/c++/4.8/deque:
 
-/opt/local/include/gcc49/c++/bits/stl_deque.h:
+/usr/include/c++/4.8/bits/stl_deque.h:
 
-/opt/local/include/gcc49/c++/bits/deque.tcc:
+/usr/include/c++/4.8/bits/deque.tcc:
 
-/opt/local/include/gcc49/c++/bits/stl_queue.h:
+/usr/include/c++/4.8/bits/stl_queue.h:
 
 ../../../src/routing/RoutingExtension.h:
 
@@ -847,17 +706,27 @@ BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
 
 /usr/local/include/ibrcommon-0.12/ibrcommon/net/vaddress.h:
 
-/usr/include/sys/socket.h:
+/usr/include/i386-linux-gnu/sys/socket.h:
 
-/usr/include/machine/_param.h:
+/usr/include/i386-linux-gnu/sys/uio.h:
 
-/usr/include/i386/_param.h:
+/usr/include/i386-linux-gnu/bits/uio.h:
 
-/usr/include/sys/_types/_sa_family_t.h:
+/usr/include/i386-linux-gnu/bits/socket.h:
 
-/usr/include/sys/_types/_socklen_t.h:
+/usr/include/i386-linux-gnu/bits/socket_type.h:
 
-/usr/include/sys/_types/_iovec_t.h:
+/usr/include/i386-linux-gnu/bits/sockaddr.h:
+
+/usr/include/i386-linux-gnu/asm/socket.h:
+
+/usr/include/asm-generic/socket.h:
+
+/usr/include/i386-linux-gnu/asm/sockios.h:
+
+/usr/include/asm-generic/sockios.h:
+
+/usr/include/i386-linux-gnu/bits/socket2.h:
 
 ../../../src/net/BundleReceiver.h:
 
@@ -923,16 +792,14 @@ BreadcrumbRoutingExtension.lo: BreadcrumbRoutingExtension.cpp \
 
 /usr/local/include/ibrcommon-0.12/ibrcommon/Logger.h:
 
-/usr/include/sys/time.h:
+/usr/include/i386-linux-gnu/sys/time.h:
 
-/usr/include/sys/_select.h:
+/usr/include/c++/4.8/functional:
 
-/opt/local/include/gcc49/c++/functional:
+/usr/include/c++/4.8/iomanip:
 
-/opt/local/include/gcc49/c++/iomanip:
+/usr/include/c++/4.8/memory:
 
-/opt/local/include/gcc49/c++/memory:
+/usr/include/c++/4.8/bits/stl_raw_storage_iter.h:
 
-/opt/local/include/gcc49/c++/bits/stl_raw_storage_iter.h:
-
-/opt/local/include/gcc49/c++/backward/auto_ptr.h:
+/usr/include/c++/4.8/backward/auto_ptr.h:
