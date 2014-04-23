@@ -1,10 +1,10 @@
 /*
- * TrackingBlock.h
+ * GeoRoutingBlock.h
  *
  */
 
-#ifndef TRACKINGBLOCK_H_
-#define TRACKINGBLOCK_H_
+#ifndef GEOROUTINGBLOCK_H_
+#define GEOROUTINGBLOCK_H_
 
 #include <ibrdtn/data/Block.h>
 #include <ibrdtn/data/Number.h>
@@ -16,13 +16,13 @@ namespace dtn
 {
 	namespace data
 	{
-		class TrackingBlock : public dtn::data::Block
+		class GeoRoutingBlock : public dtn::data::Block
 		{
 		public:
 			class Factory : public dtn::data::ExtensionBlock::Factory
 			{
 			public:
-				Factory() : dtn::data::ExtensionBlock::Factory(TrackingBlock::BLOCK_TYPE) {};
+				Factory() : dtn::data::ExtensionBlock::Factory(GeoRoutingBlock::BLOCK_TYPE) {};
 				virtual ~Factory() {};
 				virtual dtn::data::Block* create();
 			};
@@ -32,9 +32,7 @@ namespace dtn
 			// handling flags
 			enum FLAGS
 			{
-				TRACK_HOPS      = 1 << 1,
-				TRACK_GEO       = 1 << 2,
-				TRACK_TIMESTAMP = 1 << 3
+				ORDERED_LIST = 1
 			};
 			Bitset<FLAGS> procflags;
 
@@ -43,9 +41,9 @@ namespace dtn
 			// if finer info is available only take it this often
 			Number tracking_interval;
 
-			TrackingBlock();
-			TrackingBlock(int track_hops, int track_geo, int tr_intvl);
-			virtual ~TrackingBlock();
+			GeoRoutingBlock();
+			GeoRoutingBlock(int track_hops, int track_geo, int tr_intvl);
+			virtual ~GeoRoutingBlock();
 
 			bool getFlag(FLAGS f) const;
 			void setFlag(FLAGS f, bool value);
@@ -57,51 +55,51 @@ namespace dtn
 			virtual std::ostream &serialize_strict(std::ostream &stream, Length &length) const;
 			virtual Length getLength_strict() const;
 
-			class TrackingEntry
+			class GeoRoutingEntry
 			{
 			public:
-				/*
 				enum FLAGS
 				{
-					TIMESTAMP_PRESENT = 1,
-					EID_PRESENT = 2,
-					GEODATA_PRESENT = 4
+					EID_PRESENT = 1,
+					GEODATA_PRESENT = 2
 				};
 				Bitset<FLAGS> flags;
-				*/
 
-				enum ENTRYTYPE
-				{
-					GEODATA = 1,
-					HOPDATA = 2
-				};
-				Number entry_type;
+				GeoRoutingEntry();
+				GeoRoutingEntry(const dtn::data::EID &eid);
+				GeoRoutingEntry(float lat, float lon);
+				GeoRoutingEntry(const dtn::data::EID &eid, float lat, float lon);
+				~GeoRoutingEntry();
 
-				TrackingEntry();
-				TrackingEntry(const dtn::data::EID &eid);
-				TrackingEntry(float lat, float lon);
-				TrackingEntry(const dtn::data::EID &eid, float lat, float lon);
-				~TrackingEntry();
+				bool getFlag(FLAGS f) const;
+				void setFlag(FLAGS f, bool value);
 
-				dtn::data::EID endpoint;
-				dtn::data::Timestamp timestamp;
+				// the time the entry was recorded
+				dtn::data::DTNTime timestamp;
+
+				// the point the data must pass by
 				dtn::data::GeoPoint geopoint;
 
-				friend std::ostream& operator<<(std::ostream &stream, const TrackingEntry &entry);
-				friend std::istream& operator>>(std::istream &stream, TrackingEntry &entry);
+				// the eid of the node the bundle must pass through
+				dtn::data::EID eid;
+
+				// how near the target point it has to get
+				Number tolerance;
+
+				// whether or not this target point is required
+				bool required;
+
+				friend std::ostream& operator<<(std::ostream &stream, const GeoRoutingEntry &entry);
+				friend std::istream& operator>>(std::istream &stream, GeoRoutingEntry &entry);
 
 				Length getLength() const;
 			};
 
-			typedef std::list<TrackingEntry> tracking_list;
+			typedef std::list<GeoRoutingEntry> tracking_list;
 
 			const tracking_list& getTrack() const;
 
-			// append a HOPDATA TrackingEntry
 			void append(const dtn::data::EID &eid);
-
-			// append a GEODATA TrackingEntry
-			void append(float lat, float lon);
 
 		private:
 			tracking_list _entries;
@@ -110,7 +108,7 @@ namespace dtn
 		/**
 		 * This creates a static block factory
 		 */
-		static TrackingBlock::Factory __TrackingBlockFactory__;
+		static GeoRoutingBlock::Factory __GeoRoutingBlockFactory__;
 	} /* namespace data */
 } /* namespace dtn */
-#endif /* TRACKINGBLOCK_H_ */
+#endif /* GEOROUTINGBLOCK_H_ */

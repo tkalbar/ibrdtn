@@ -1,8 +1,6 @@
 /*
  * TrackingBlock.cpp
  *
- *  Created on: 15.01.2013
- *      Author: morgenro
  */
 
 #include "ibrdtn/data/TrackingBlock.h"
@@ -26,20 +24,49 @@ namespace dtn
 			set(REPLICATE_IN_EVERY_FRAGMENT, true);
 		}
 
+		TrackingBlock::TrackingBlock(int track_hops, int track_geo, int tr_intvl)
+		: dtn::data::Block(TrackingBlock::BLOCK_TYPE)
+		{
+		}
+
+
 		TrackingBlock::~TrackingBlock()
 		{
 		}
+
+		bool TrackingBlock::getFlag(TrackingBlock::FLAGS f) const
+		{
+			return procflags.getBit(f);
+		}
+
+		void TrackingBlock::setFlag(TrackingBlock::FLAGS f, bool value)
+		{
+			procflags.setBit(f, value);
+		}
+
 
 		Length TrackingBlock::getLength() const
 		{
 			Length ret = 0;
 
-			// number of elements
+			// the flags indicating what to track
+			ret += procflags.getLength();
+
+			// the geo tracking interval (must be present, but ignored if TRACK_GEO is not selected)
+			ret += tracking_interval.getLength();
+
+			// number of TrackingElement in list
 			dtn::data::Number count(_entries.size());
 			ret += count.getLength();
 
+			// NOTE!!!
+			// in order to compute this we need to update the tracking_list
+			// and then whatever we return has to remain accurate when someone serializes the block
+			// tricky tricky tricky
+
 			for (tracking_list::const_iterator iter = _entries.begin(); iter != _entries.end(); ++iter)
 			{
+				cout << "TrackingBlock::getLength() counting a TrackingEntry..." << endl;
 				const TrackingEntry &entry = (*iter);
 				ret += entry.getLength();
 			}
@@ -49,12 +76,20 @@ namespace dtn
 
 		std::ostream& TrackingBlock::serialize(std::ostream &stream, Length&) const
 		{
-			// number of elements
+			// the flags indicating what to track
+			stream << procflags;
+
+			// the geo tracking interval (must be present, but ignored if TRACK_GEO is not selected)
+			stream << tracking_interval;
+
+			// number of TrackingElement in list
 			dtn::data::Number count(_entries.size());
+			cout << "TrackingBlock::serialize()  counted entries: " << count.get() << endl;
 			stream << count;
 
 			for (tracking_list::const_iterator iter = _entries.begin(); iter != _entries.end(); ++iter)
 			{
+				cout << "TrackingBlock::getLength() serializing a TrackingEntry..." << endl;
 				const TrackingEntry &entry = (*iter);
 				stream << entry;
 			}
@@ -64,6 +99,12 @@ namespace dtn
 
 		std::istream& TrackingBlock::deserialize(std::istream &stream, const Length&)
 		{
+			// the flags indicating what to track
+			stream >> procflags;
+
+			// the geo tracking interval (must be present, but ignored if TRACK_GEO is not selected)
+			stream >> tracking_interval;
+
 			// number of elements
 			dtn::data::Number count;
 
@@ -94,15 +135,36 @@ namespace dtn
 			return _entries;
 		}
 
+		// append a HOPDATA tracking entry
 		void TrackingBlock::append(const dtn::data::EID &eid)
 		{
 			TrackingEntry entry(eid);
 
-			// include timestamp
-			entry.setFlag(TrackingEntry::TIMESTAMP_PRESENT, true);
+			if (getFlag(TrackingBlock::TRACK_TIMESTAMP)) {
+				// use the current time
+				dtn::data::DTNTime dtntime;
+				dtntime.set();
+				entry.timestamp = dtntime.getTimestamp();
+			} else {
+				entry.timestamp = 0;
+			}
 
-			// use default timestamp
-			//entry.timestamp.set();
+			_entries.push_back(entry);
+		}
+
+		// append a GEODATA tracking entry
+		void TrackingBlock::append(float lat, float lon)
+		{
+			TrackingEntry entry(lat,lon);
+
+			if (getFlag(TrackingBlock::TRACK_TIMESTAMP)) {
+				// use the current time
+				dtn::data::DTNTime dtntime;
+				dtntime.set();
+				entry.timestamp = dtntime.getTimestamp();
+			} else {
+				entry.timestamp = 0;
+			}
 
 			_entries.push_back(entry);
 		}
@@ -114,60 +176,75 @@ namespace dtn
 		TrackingBlock::TrackingEntry::TrackingEntry(const dtn::data::EID &eid)
 		 : endpoint(eid)
 		{
+			entry_type = TrackingEntry::HOPDATA;
+		}
+
+		TrackingBlock::TrackingEntry::TrackingEntry(float lat, float lon)
+		 : geopoint(lat,lon)
+		{
+			entry_type = TrackingEntry::GEODATA;
 		}
 
 		TrackingBlock::TrackingEntry::~TrackingEntry()
 		{
 		}
 
-		bool TrackingBlock::TrackingEntry::getFlag(TrackingBlock::TrackingEntry::Flags f) const
+		/*
+		bool TrackingBlock::TrackingEntry::getFlag(TrackingBlock::TrackingEntry::FLAGS f) const
 		{
 			return flags.getBit(f);
 		}
 
-		void TrackingBlock::TrackingEntry::setFlag(TrackingBlock::TrackingEntry::Flags f, bool value)
+		void TrackingBlock::TrackingEntry::setFlag(TrackingBlock::TrackingEntry::FLAGS f, bool value)
 		{
 			flags.setBit(f, value);
 		}
+		*/
 
 		Length TrackingBlock::TrackingEntry::getLength() const
 		{
-			Length ret = flags.getLength();
+			Length ret = entry_type.getLength() + timestamp.getLength();
 
-			if (getFlag(TrackingEntry::TIMESTAMP_PRESENT)) {
-				ret += timestamp.getLength();
+			if (entry_type == TrackingEntry::HOPDATA) {
+				ret += BundleString(endpoint.getString()).getLength();
+			} else if (entry_type == TrackingEntry::HOPDATA) {
+				ret += geopoint.getLength();
+			} else {
+				cout << "ERROR ERROR: illegal entry_type!!" << endl;
 			}
-
-			ret += BundleString(endpoint.getString()).getLength();
 
 			return ret;
 		}
 
 		std::ostream& operator<<(std::ostream &stream, const TrackingBlock::TrackingEntry &entry)
 		{
-			stream << entry.flags;
+			stream << entry.entry_type;
+			stream << entry.timestamp;
 
-			if (entry.getFlag(TrackingBlock::TrackingEntry::TIMESTAMP_PRESENT)) {
-				stream << entry.timestamp;
+			if (entry.entry_type == TrackingBlock::TrackingEntry::HOPDATA) {
+				dtn::data::BundleString endpoint(entry.endpoint.getString());
+				stream << endpoint;
+			} else if (entry.entry_type == TrackingBlock::TrackingEntry::GEODATA) {
+				stream << entry.geopoint;
 			}
 
-			dtn::data::BundleString endpoint(entry.endpoint.getString());
-			stream << endpoint;
 			return stream;
 		}
 
 		std::istream& operator>>(std::istream &stream, TrackingBlock::TrackingEntry &entry)
 		{
-			stream >> entry.flags;
+			stream >> entry.entry_type;
+			stream >> entry.timestamp;
 
-			if (entry.getFlag(TrackingBlock::TrackingEntry::TIMESTAMP_PRESENT)) {
-				stream >> entry.timestamp;
+			if (entry.entry_type == TrackingBlock::TrackingEntry::HOPDATA) {
+				dtn::data::BundleString endpoint;
+				stream >> endpoint;
+			} else if (entry.entry_type == TrackingBlock::TrackingEntry::GEODATA) {
+				stream >> entry.geopoint;
 			}
 
-			BundleString endpoint;
-			stream >> endpoint;
-			entry.endpoint = dtn::data::EID((std::string&)endpoint);
 			return stream;
 		}
+
 	} /* namespace data */
 } /* namespace dtn */

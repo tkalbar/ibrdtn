@@ -43,6 +43,7 @@ public:
 		set(DESTINATION_IS_SINGLETON, !group);
 
 		if (tracking) {
+			cout << "about to allocate TrackingBlock..." << endl;
 			push_back<dtn::data::TrackingBlock>();
 		}
 	}
@@ -172,10 +173,15 @@ class Tracer : public dtn::api::Client
 					const dtn::data::TrackingBlock &track_block = tb.getTrackingBlock();
 					const dtn::data::TrackingBlock::tracking_list &list = track_block.getTrack();
 
+					::printf("TRACKING BLOCK ENTRIES:\n");
 					for (dtn::data::TrackingBlock::tracking_list::const_iterator iter = list.begin(); iter != list.end(); ++iter)
 					{
 						const dtn::data::TrackingBlock::TrackingEntry &entry = (*iter);
-						::printf("       # %s\n", entry.endpoint.getString().c_str());
+						if (entry.entry_type == dtn::data::TrackingBlock::TrackingEntry::HOPDATA) {
+							::printf("       # %s\t%d\n", entry.endpoint.getString().c_str(),entry.timestamp.get());
+						} else if (entry.entry_type == dtn::data::TrackingBlock::TrackingEntry::GEODATA) {
+							::printf("       # (%f , %f)\t%d\n", entry.endpoint.getString().c_str(),entry.timestamp.get());
+						}
 					}
 
 				} catch (const dtn::data::Bundle::NoSuchBlockFoundException&) { };

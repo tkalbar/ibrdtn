@@ -218,8 +218,13 @@ DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DLLTOOL = false
 DSYMUTIL = dsymutil
+<<<<<<< HEAD
 DTNDHT_CFLAGS = 
 DTNDHT_LIBS = 
+=======
+DTNDHT_CFLAGS = -I/opt/local/include/dtndht-0.2 -I/opt/local/lib/dtndht-0.2/include 
+DTNDHT_LIBS = -L/opt/local/lib -ldtndht 
+>>>>>>> cc59f7b91a742dc22c19eeac02c254d98d0f9d0a
 DUMPBIN = 
 ECHO_C = \c
 ECHO_N = 
@@ -233,7 +238,11 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
+<<<<<<< HEAD
 LD = /opt/local/bin/ld
+=======
+LD = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld
+>>>>>>> cc59f7b91a742dc22c19eeac02c254d98d0f9d0a
 LDFLAGS = 
 LIBOBJS = 
 LIBS = -lm 
@@ -247,7 +256,11 @@ MANIFEST_TOOL = :
 MKDIR_P = ../../.././install-sh -c -d
 NL_CFLAGS = 
 NL_LIBS = 
+<<<<<<< HEAD
 NM = /opt/local/bin/nm
+=======
+NM = /usr/bin/nm
+>>>>>>> cc59f7b91a742dc22c19eeac02c254d98d0f9d0a
 NMEDIT = nmedit
 OBJDUMP = false
 OBJEXT = o
@@ -261,8 +274,13 @@ PACKAGE_TARNAME = ibrdtnd
 PACKAGE_URL = 
 PACKAGE_VERSION = 0.12.0
 PATH_SEPARATOR = :
+<<<<<<< HEAD
 PDFLATEX = pdflatex
 PKG_CONFIG = /usr/local/bin/pkg-config
+=======
+PDFLATEX = 
+PKG_CONFIG = /opt/local/bin/pkg-config
+>>>>>>> cc59f7b91a742dc22c19eeac02c254d98d0f9d0a
 PKG_CONFIG_LIBDIR = 
 PKG_CONFIG_PATH = 
 RANLIB = ranlib
@@ -277,10 +295,17 @@ VMIME_CFLAGS =
 VMIME_LIBS = 
 WIFIP2P_CFLAGS = 
 WIFIP2P_LIBS = 
+<<<<<<< HEAD
 abs_builddir = /Users/Aurelius/Desktop/Research/ibrdtn/ibrdtnd-0.12.0/src/routing/breadcrumb
 abs_srcdir = /Users/Aurelius/Desktop/Research/ibrdtn/ibrdtnd-0.12.0/src/routing/breadcrumb
 abs_top_builddir = /Users/Aurelius/Desktop/Research/ibrdtn/ibrdtnd-0.12.0
 abs_top_srcdir = /Users/Aurelius/Desktop/Research/ibrdtn/ibrdtnd-0.12.0
+=======
+abs_builddir = /Users/christinejulien/hackathon/ibrdtn/ibrdtnrepo/ibrdtnd-0.12.0/src/routing/breadcrumb
+abs_srcdir = /Users/christinejulien/hackathon/ibrdtn/ibrdtnrepo/ibrdtnd-0.12.0/src/routing/breadcrumb
+abs_top_builddir = /Users/christinejulien/hackathon/ibrdtn/ibrdtnrepo/ibrdtnd-0.12.0
+abs_top_srcdir = /Users/christinejulien/hackathon/ibrdtn/ibrdtnrepo/ibrdtnd-0.12.0
+>>>>>>> cc59f7b91a742dc22c19eeac02c254d98d0f9d0a
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_CXX = g++
@@ -308,6 +333,7 @@ host_cpu = x86_64
 host_os = darwin13.1.0
 host_vendor = apple
 htmldir = ${docdir}
+<<<<<<< HEAD
 ibrcommon_CFLAGS = -I/usr/local/include/ibrcommon-0.12 
 ibrcommon_LIBS = -L/usr/local/lib -librcommon -lpthread -lssl -lcrypto -lz 
 ibrdtn_CFLAGS = -I/usr/local/include/ibrdtn-0.12 -I/usr/local/include/ibrcommon-0.12 
@@ -315,6 +341,15 @@ ibrdtn_LIBS = -L/usr/local/lib -librdtn -librcommon -lpthread -lssl -lcrypto -lz
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
 install_sh = ${SHELL} /Users/Aurelius/Desktop/Research/ibrdtn/ibrdtnd-0.12.0/install-sh
+=======
+ibrcommon_CFLAGS = -I/opt/local/include/ibrcommon-0.12 -I/opt/local/include 
+ibrcommon_LIBS = -L/opt/local/lib -librcommon -lpthread -lssl -lcrypto 
+ibrdtn_CFLAGS = -I/usr/local/include/ibrdtn-0.12 -I/opt/local/include/ibrcommon-0.12 -I/opt/local/include -I/opt/local/include/glib-2.0 -I/opt/local/lib/glib-2.0/include -I/opt/local/include 
+ibrdtn_LIBS = -L/usr/local/lib -L/opt/local/lib -librdtn -librcommon -lpthread -lssl -lcrypto -lglib-2.0 -lintl 
+includedir = ${prefix}/include
+infodir = ${datarootdir}/info
+install_sh = ${SHELL} /Users/christinejulien/hackathon/ibrdtn/ibrdtnrepo/ibrdtnd-0.12.0/install-sh
+>>>>>>> cc59f7b91a742dc22c19eeac02c254d98d0f9d0a
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
