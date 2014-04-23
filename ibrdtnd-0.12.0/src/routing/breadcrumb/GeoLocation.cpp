@@ -15,12 +15,15 @@ namespace dtn
 	{
 		const dtn::data::Number GeoLocation::identifier = NodeHandshakeItem::GEO_LOCATION;
 
-		GeoLocation::GeoLocation() : _latitude(0.0), _longitude(0.0) {}
+		GeoLocation::GeoLocation() : NeighborDataSetImpl(GeoLocation::identifier), _latitude(0.0), _longitude(0.0) {}
 
 		GeoLocation::GeoLocation(const GeoLocation &other)
-		 : ibrcommon::Mutex(), _latitude(other._latitude), _longitude(other._longitude) {}
+		 : NeighborDataSetImpl(GeoLocation::identifier), ibrcommon::Mutex(), _latitude(other._latitude), _longitude(other._longitude) {}
 
-		GeoLocation::GeoLocation(double latitude, double longitude) : _latitude(latitude), _longitude(longitude) {}
+		GeoLocation::GeoLocation(double latitude, double longitude)
+		 : NeighborDataSetImpl(GeoLocation::identifier), _latitude(latitude), _longitude(longitude) {}
+
+		GeoLocation::~GeoLocation() {}
 
 		/*void AcknowledgementSet::add(const dtn::data::MetaBundle &bundle) throw ()
 		{

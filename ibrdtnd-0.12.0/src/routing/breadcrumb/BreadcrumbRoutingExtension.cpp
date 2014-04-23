@@ -72,9 +72,12 @@ namespace dtn
 
 		void BreadcrumbRoutingExtension::responseHandshake(const dtn::data::EID& neighbor, const NodeHandshake& request, NodeHandshake& response)
 		{
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "response handshake" << IBRCOMMON_LOGGER_ENDL;
+
 			if (request.hasRequest(GeoLocation::identifier))
 			{
 				ibrcommon::MutexLock l(_location);
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "add item" << IBRCOMMON_LOGGER_ENDL;
 				response.addItem(new GeoLocation(_location));
 			}
 		}
@@ -83,6 +86,8 @@ namespace dtn
 		{
 			/* ignore neighbors, that have our EID */
 			//if (neighbor.sameHost(dtn::core::BundleCore::local)) return;
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "process handshake" << IBRCOMMON_LOGGER_ENDL;
+
 			try {
 				const GeoLocation& neighbor_location = response.get<GeoLocation>();
 
@@ -91,6 +96,16 @@ namespace dtn
 
 				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "location received from " << neighbor_node.getString() << IBRCOMMON_LOGGER_ENDL;
 
+				try {
+					NeighborDatabase &db = (**this).getNeighborDB();
+					NeighborDataset ds(new GeoLocation(neighbor_location));
+
+					ibrcommon::MutexLock l(db);
+					db.get(neighbor_node).putDataset(ds);
+				} catch (const NeighborNotAvailableException&) { };
+
+				/* update predictability for this neighbor */
+				//updateNeighbor(neighbor_node, neighbor_dp_map);
 
 			} catch (std::exception&) { }
 		}
@@ -322,6 +337,11 @@ namespace dtn
 									neighbors.clear();
 								}
 
+								// GeoLocation query
+								const GeoLocation &gl = entry.getDataset<GeoLocation>();
+
+								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "GeoLocation found: " << gl << IBRCOMMON_LOGGER_ENDL;
+
 								// get the bundle filter of the neighbor
 								const BundleFilter filter(entry, neighbors);
 
@@ -331,6 +351,9 @@ namespace dtn
 								// query some unknown bundle from the storage
 								list.clear();
 								(**this).getSeeker().get(filter, list);
+							} catch (const NeighborDatabase::DatasetNotAvailableException&) {
+								// if there is no GeoLocation for this peer do handshake with them
+								(**this).doHandshake(task.eid);
 							} catch (const dtn::storage::BundleSelectorException&) {
 								// query a new summary vector from this neighbor
 								(**this).doHandshake(task.eid);

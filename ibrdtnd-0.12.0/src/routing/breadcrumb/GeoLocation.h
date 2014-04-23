@@ -9,6 +9,7 @@
 #define GEOLOCATION_H_
 
 #include "routing/NodeHandshake.h"
+#include "routing/NeighborDataset.h"
 
 #include <ibrdtn/data/BundleList.h>
 #include <ibrcommon/thread/Mutex.h>
@@ -22,7 +23,7 @@ namespace dtn
 		/*!
 		 * \brief Set of Acknowledgements, that can be serialized in node handshakes.
 		 */
-		class GeoLocation : public NodeHandshakeItem, public ibrcommon::Mutex
+		class GeoLocation : public NeighborDataSetImpl, public NodeHandshakeItem, public ibrcommon::Mutex
 		{
 		public:
 			double _latitude;
@@ -31,6 +32,7 @@ namespace dtn
 			GeoLocation();
 			GeoLocation(const GeoLocation&);
 			GeoLocation(double, double);
+			virtual ~GeoLocation();
 
 			/**
 			 * Add a bundle to the set
