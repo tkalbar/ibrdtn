@@ -34,6 +34,16 @@ namespace dtn
 		{
 		}
 
+		bool GeoRoutingBlock::getFlag(GeoRoutingBlock::FLAGS f) const
+		{
+			return procflags.getBit(f);
+		}
+
+		void GeoRoutingBlock::setFlag(GeoRoutingBlock::FLAGS f, bool value)
+		{
+			procflags.setBit(f, value);
+		}
+
 		Length GeoRoutingBlock::getLength() const
 		{
 			Length ret = 0;
@@ -58,6 +68,9 @@ namespace dtn
 
 		std::ostream& GeoRoutingBlock::serialize(std::ostream &stream, Length&) const
 		{
+			// the flags which are currently unused
+			stream << procflags;
+
 			// number of elements
 			dtn::data::Number count(_entries.size());
 			stream << count;
@@ -73,6 +86,9 @@ namespace dtn
 
 		std::istream& GeoRoutingBlock::deserialize(std::istream &stream, const Length&)
 		{
+			// the flags which are currently unused
+			stream >> procflags;
+
 			// number of elements
 			dtn::data::Number count;
 
@@ -98,35 +114,44 @@ namespace dtn
 			return serialize(stream, length);
 		}
 
-		const GeoRoutingBlock::tracking_list& GeoRoutingBlock::getTrack() const
+		const GeoRoutingBlock::tracking_list& GeoRoutingBlock::getRoute() const
 		{
 			return _entries;
-		}
-
-		void GeoRoutingBlock::append(const dtn::data::EID &eid)
-		{
-			GeoRoutingEntry entry(eid);
-
-			// include timestamp
-			entry.setFlag(GeoRoutingEntry::EID_PRESENT, true);
-
-			// include geo data???
-			entry.setFlag(GeoRoutingEntry::GEODATA_PRESENT, true);
-			entry.geopoint.set(0xaa,0xaa);
-
-			// use default timestamp
-			//entry.timestamp.set();
-
-			_entries.push_back(entry);
 		}
 
 		GeoRoutingBlock::GeoRoutingEntry::GeoRoutingEntry()
 		{
 		}
 
-		GeoRoutingBlock::GeoRoutingEntry::GeoRoutingEntry(const dtn::data::EID &eid)
-		 : eid(eid)
+		void GeoRoutingBlock::append(const dtn::data::EID &eid)
 		{
+			GeoRoutingEntry entry;
+
+			entry.setFlag(GeoRoutingBlock::GeoRoutingEntry::EID_REQUIRED, true);
+			entry.eid = eid;
+			_entries.push_back(entry);
+		}
+
+		void GeoRoutingBlock::append(float lat, float lon, int margin)
+		{
+			GeoRoutingEntry entry;
+
+			entry.setFlag(GeoRoutingBlock::GeoRoutingEntry::GEO_REQUIRED, true);
+			entry.geopoint.set(lat,lon);
+			entry.margin = margin;
+			_entries.push_back(entry);
+		}
+
+		void GeoRoutingBlock::append(const dtn::data::EID &eid, float lat, float lon, int margin)
+		{
+			GeoRoutingEntry entry;
+
+			entry.setFlag(GeoRoutingBlock::GeoRoutingEntry::EID_REQUIRED, true);
+			entry.eid = eid;
+			entry.setFlag(GeoRoutingBlock::GeoRoutingEntry::GEO_REQUIRED, true);
+			entry.geopoint.set(lat,lon);
+			entry.margin = margin;
+			_entries.push_back(entry);
 		}
 
 		GeoRoutingBlock::GeoRoutingEntry::~GeoRoutingEntry()
@@ -146,55 +171,42 @@ namespace dtn
 		Length GeoRoutingBlock::GeoRoutingEntry::getLength() const
 		{
 			Length ret = flags.getLength();
-
-			ret += timestamp.getLength();
-
-			if (getFlag(GeoRoutingEntry::EID_PRESENT)) {
-				cout << "EID_PRESENT" << endl;
+			ret += margin.getLength();
+			if (getFlag(GeoRoutingEntry::EID_REQUIRED)) {
 				ret += BundleString(eid.getString()).getLength();
 			}
-			if (getFlag(GeoRoutingEntry::GEODATA_PRESENT)) {
-				cout << "GEODATA_PRESENT  length=" << geopoint.getLength() << endl;
+			if (getFlag(GeoRoutingEntry::GEO_REQUIRED)) {
 				ret += geopoint.getLength();
 			}
-
 			return ret;
 		}
 
 		std::ostream& operator<<(std::ostream &stream, const GeoRoutingBlock::GeoRoutingEntry &entry)
 		{
 			stream << entry.flags;
-
-			stream << entry.timestamp;
-			/*
-			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::TIMESTAMP_PRESENT)) {
-				stream << entry.timestamp;
+			stream << entry.margin;
+			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::EID_REQUIRED)) {
+				dtn::data::BundleString endpoint(entry.eid.getString());
+				stream << endpoint;
 			}
-			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::GEODATA_PRESENT)) {
+			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::GEO_REQUIRED)) {
 				stream << entry.geopoint;
 			}
-
-			dtn::data::BundleString endpoint(entry.endpoint.getString());
-			stream << endpoint;
-			*/
 			return stream;
 		}
 
 		std::istream& operator>>(std::istream &stream, GeoRoutingBlock::GeoRoutingEntry &entry)
 		{
 			stream >> entry.flags;
-			/*
-			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::TIMESTAMP_PRESENT)) {
-				stream >> entry.timestamp;
+			stream >> entry.margin;
+			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::EID_REQUIRED)) {
+				dtn::data::BundleString ee;
+				stream >> ee;
+				entry.eid = ee;
 			}
-			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::GEODATA_PRESENT)) {
+			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::GEO_REQUIRED)) {
 				stream >> entry.geopoint;
 			}
-
-			BundleString endpoint;
-			stream >> endpoint;
-			entry.endpoint = dtn::data::EID((std::string&)endpoint);
-			*/
 			return stream;
 		}
 	} /* namespace data */

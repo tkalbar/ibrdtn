@@ -237,8 +237,9 @@ namespace dtn
 			stream >> entry.timestamp;
 
 			if (entry.entry_type == TrackingBlock::TrackingEntry::HOPDATA) {
-				dtn::data::BundleString endpoint;
-				stream >> endpoint;
+				dtn::data::BundleString ee;
+				stream >> ee;
+				entry.endpoint = ee;
 			} else if (entry.entry_type == TrackingBlock::TrackingEntry::GEODATA) {
 				stream >> entry.geopoint;
 			}

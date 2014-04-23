@@ -32,14 +32,9 @@ namespace dtn
 			// handling flags
 			enum FLAGS
 			{
-				ORDERED_LIST = 1
+				UNUSED          = 1 << 1
 			};
 			Bitset<FLAGS> procflags;
-
-			// the minimum interval on which to track geo data (seconds).
-			// if coarser info is available, take what you can get
-			// if finer info is available only take it this often
-			Number tracking_interval;
 
 			GeoRoutingBlock();
 			GeoRoutingBlock(int track_hops, int track_geo, int tr_intvl);
@@ -60,8 +55,10 @@ namespace dtn
 			public:
 				enum FLAGS
 				{
-					EID_PRESENT = 1,
-					GEODATA_PRESENT = 2
+					REQUIRED        = 1 << 1,
+					ORDERED         = 1 << 2,
+					GEO_REQUIRED    = 1 << 3,
+					EID_REQUIRED    = 1 << 4
 				};
 				Bitset<FLAGS> flags;
 
@@ -74,20 +71,14 @@ namespace dtn
 				bool getFlag(FLAGS f) const;
 				void setFlag(FLAGS f, bool value);
 
-				// the time the entry was recorded
-				dtn::data::DTNTime timestamp;
-
-				// the point the data must pass by
+				// the geographic point the data must pass by
 				dtn::data::GeoPoint geopoint;
 
 				// the eid of the node the bundle must pass through
 				dtn::data::EID eid;
 
-				// how near the target point it has to get
-				Number tolerance;
-
-				// whether or not this target point is required
-				bool required;
+				// how near the target point the bundle has to get
+				Number margin;
 
 				friend std::ostream& operator<<(std::ostream &stream, const GeoRoutingEntry &entry);
 				friend std::istream& operator>>(std::istream &stream, GeoRoutingEntry &entry);
@@ -97,9 +88,11 @@ namespace dtn
 
 			typedef std::list<GeoRoutingEntry> tracking_list;
 
-			const tracking_list& getTrack() const;
+			const tracking_list& getRoute() const;
 
 			void append(const dtn::data::EID &eid);
+			void append(float lat, float lon, int margin);
+			void append(const dtn::data::EID &eid, float lat, float lon, int margin);
 
 		private:
 			tracking_list _entries;

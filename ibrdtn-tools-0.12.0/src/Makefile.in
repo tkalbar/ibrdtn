@@ -78,7 +78,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = dtnping$(EXEEXT) dtnrecv$(EXEEXT) dtnsend$(EXEEXT) \
+bin_PROGRAMS = dtnping$(EXEEXT) dtnrecv$(EXEEXT) dtnsend$(EXEEXT) dtngeosend$(EXEEXT) \
 	dtntracepath$(EXEEXT) dtntrigger$(EXEEXT) dtnconvert$(EXEEXT) \
 	dtnstream$(EXEEXT) $(am__EXEEXT_1)
 
@@ -152,6 +152,9 @@ dtnrecv_LDADD = $(LDADD)
 am_dtnsend_OBJECTS = dtnsend.$(OBJEXT)
 dtnsend_OBJECTS = $(am_dtnsend_OBJECTS)
 dtnsend_LDADD = $(LDADD)
+am_dtngeosend_OBJECTS = dtngeosend.$(OBJEXT)
+dtngeosend_OBJECTS = $(am_dtngeosend_OBJECTS)
+dtngeosend_LDADD = $(LDADD)
 am_dtnstream_OBJECTS = dtnstream.$(OBJEXT) BundleStream.$(OBJEXT) \
 	BundleStreamBuf.$(OBJEXT) StreamBundle.$(OBJEXT)
 dtnstream_OBJECTS = $(am_dtnstream_OBJECTS)
@@ -219,12 +222,12 @@ am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(dtnconvert_SOURCES) $(dtninbox_SOURCES) \
 	$(dtnoutbox_SOURCES) $(dtnping_SOURCES) $(dtnrecv_SOURCES) \
-	$(dtnsend_SOURCES) $(dtnstream_SOURCES) \
+	$(dtnsend_SOURCES) $(dtngeosend_SOURCES) $(dtnstream_SOURCES) \
 	$(dtntracepath_SOURCES) $(dtntrigger_SOURCES) \
 	$(dtntunnel_SOURCES)
 DIST_SOURCES = $(dtnconvert_SOURCES) $(am__dtninbox_SOURCES_DIST) \
 	$(am__dtnoutbox_SOURCES_DIST) $(dtnping_SOURCES) \
-	$(dtnrecv_SOURCES) $(dtnsend_SOURCES) $(dtnstream_SOURCES) \
+	$(dtnrecv_SOURCES) $(dtnsend_SOURCES) $(dtngeosend_SOURCES) $(dtnstream_SOURCES) \
 	$(dtntracepath_SOURCES) $(dtntrigger_SOURCES) \
 	$(dtntunnel_SOURCES)
 am__can_run_installinfo = \
@@ -407,6 +410,7 @@ AM_LDFLAGS = @ibrdtn_LIBS@ @DAEMON_LIBS@ @ARCHIVE_LIBS@ @tffs_LIBS@
 dtnping_SOURCES = dtnping.cpp
 dtnrecv_SOURCES = dtnrecv.cpp
 dtnsend_SOURCES = dtnsend.cpp
+dtngeosend_SOURCES = dtnsend.cpp
 dtntunnel_SOURCES = dtntunnel.cpp
 dtntracepath_SOURCES = dtntracepath.cpp
 dtntrigger_SOURCES = dtntrigger.cpp
@@ -593,6 +597,10 @@ dtnsend$(EXEEXT): $(dtnsend_OBJECTS) $(dtnsend_DEPENDENCIES) $(EXTRA_dtnsend_DEP
 	@rm -f dtnsend$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(dtnsend_OBJECTS) $(dtnsend_LDADD) $(LIBS)
 
+dtngeosend$(EXEEXT): $(dtngeosend_OBJECTS) $(dtngeosend_DEPENDENCIES) $(EXTRA_dtngeosend_DEPENDENCIES) 
+	@rm -f dtngeosend$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(dtngeosend_OBJECTS) $(dtngeosend_LDADD) $(LIBS)
+
 dtnstream$(EXEEXT): $(dtnstream_OBJECTS) $(dtnstream_DEPENDENCIES) $(EXTRA_dtnstream_DEPENDENCIES) 
 	@rm -f dtnstream$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(dtnstream_OBJECTS) $(dtnstream_LDADD) $(LIBS)
@@ -629,6 +637,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dtnping.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dtnrecv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dtnsend.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dtngeosend.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dtnstream.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dtntracepath.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dtntrigger.Po@am__quote@
