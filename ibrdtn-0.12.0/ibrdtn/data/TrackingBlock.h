@@ -50,6 +50,7 @@ namespace dtn
 			bool getFlag(FLAGS f) const;
 			void setFlag(FLAGS f, bool value);
 
+			void finalizeEntryList();
 			virtual Length getLength() const;
 			virtual std::ostream &serialize(std::ostream &stream, Length &length) const;
 			virtual std::istream &deserialize(std::istream &stream, const Length &length);
