@@ -35,6 +35,9 @@ namespace dtn
 
 			Number _latitude;
 			Number _longitude;
+
+			// we can't send floats as SDNV, so need to scale the gps coords up and encode as integers
+			float _scale_factor;
 		};
 	}
 }

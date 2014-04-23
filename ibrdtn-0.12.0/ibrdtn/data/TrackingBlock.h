@@ -11,6 +11,7 @@
 #include <ibrdtn/data/Block.h>
 #include <ibrdtn/data/Number.h>
 #include <ibrdtn/data/DTNTime.h>
+#include <ibrdtn/data/GeoPoint.h>
 #include <ibrdtn/data/ExtensionBlock.h>
 
 namespace dtn
@@ -59,6 +60,7 @@ namespace dtn
 				Bitset<Flags> flags;
 				dtn::data::EID endpoint;
 				dtn::data::DTNTime timestamp;
+				dtn::data::GeoPoint geopoint;
 
 				friend std::ostream& operator<<(std::ostream &stream, const TrackingEntry &entry);
 				friend std::istream& operator>>(std::istream &stream, TrackingEntry &entry);

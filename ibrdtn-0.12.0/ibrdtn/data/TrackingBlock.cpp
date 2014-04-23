@@ -101,6 +101,10 @@ namespace dtn
 			// include timestamp
 			entry.setFlag(TrackingEntry::TIMESTAMP_PRESENT, true);
 
+			// include geo data???
+			entry.setFlag(TrackingEntry::GEODATA_PRESENT, true);
+			entry.geopoint.set(0xaa,0xaa);
+
 			// use default timestamp
 			//entry.timestamp.set();
 
@@ -135,7 +139,12 @@ namespace dtn
 			Length ret = flags.getLength();
 
 			if (getFlag(TrackingEntry::TIMESTAMP_PRESENT)) {
+				cout << "TIMESTAMP_PRESENT" << endl;
 				ret += timestamp.getLength();
+			}
+			if (getFlag(TrackingEntry::GEODATA_PRESENT)) {
+				cout << "GEODATA_PRESENT  length=" << geopoint.getLength() << endl;
+				ret += geopoint.getLength();
 			}
 
 			ret += BundleString(endpoint.getString()).getLength();
@@ -150,6 +159,9 @@ namespace dtn
 			if (entry.getFlag(TrackingBlock::TrackingEntry::TIMESTAMP_PRESENT)) {
 				stream << entry.timestamp;
 			}
+			if (entry.getFlag(TrackingBlock::TrackingEntry::GEODATA_PRESENT)) {
+				stream << entry.geopoint;
+			}
 
 			dtn::data::BundleString endpoint(entry.endpoint.getString());
 			stream << endpoint;
@@ -162,6 +174,9 @@ namespace dtn
 
 			if (entry.getFlag(TrackingBlock::TrackingEntry::TIMESTAMP_PRESENT)) {
 				stream >> entry.timestamp;
+			}
+			if (entry.getFlag(TrackingBlock::TrackingEntry::GEODATA_PRESENT)) {
+				stream >> entry.geopoint;
 			}
 
 			BundleString endpoint;
