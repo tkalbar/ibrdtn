@@ -26,7 +26,7 @@ import java.nio.ByteBuffer;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-class SDNVOutputStream extends OutputStream {
+public class SDNVOutputStream extends OutputStream {
 
 	private Queue<SDNV> _queue = new LinkedBlockingQueue<SDNV>();
 	private ByteBuffer _currentSDNV = ByteBuffer.allocate(SDNV.MAX_SDNV_BYTES);
