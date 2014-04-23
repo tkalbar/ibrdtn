@@ -103,7 +103,7 @@ am__libdata_la_SOURCES_DIST = Serializer.h AgeBlock.h \
 	ScopeControlHopLimitBlock.h Block.h Bundle.h BundleID.h \
 	BundleList.h BundleSet.h BundleMerger.h BundleString.h \
 	CustodySignalBlock.h Dictionary.h DTNTime.h EID.h Exceptions.h \
-	ExtensionBlock.h GeoPoint.h MetaBundle.h PayloadBlock.h PrimaryBlock.h \
+	ExtensionBlock.h GeoPoint.h GeoRoutingBlock.h MetaBundle.h PayloadBlock.h PrimaryBlock.h \
 	SDNV.h StatusReportBlock.h BundleFragment.h StreamBlock.h \
 	BundleBuilder.h AdministrativeBlock.h TrackingBlock.h \
 	SchedulingBlock.h Number.h MemoryBundleSet.h BundleSetImpl.h \
@@ -111,7 +111,7 @@ am__libdata_la_SOURCES_DIST = Serializer.h AgeBlock.h \
 	Serializer.cpp AgeBlock.cpp ScopeControlHopLimitBlock.cpp \
 	Block.cpp Bundle.cpp BundleID.cpp BundleList.cpp BundleSet.cpp \
 	BundleMerger.cpp BundleString.cpp CustodySignalBlock.cpp \
-	Dictionary.cpp DTNTime.cpp EID.cpp ExtensionBlock.cpp GeoPoint.cpp \
+	Dictionary.cpp DTNTime.cpp EID.cpp ExtensionBlock.cpp GeoPoint.cpp GeoRoutingBlock.cpp \
 	MetaBundle.cpp PayloadBlock.cpp PrimaryBlock.cpp SDNV.cpp \
 	StatusReportBlock.cpp BundleFragment.cpp StreamBlock.cpp \
 	BundleBuilder.cpp AdministrativeBlock.cpp TrackingBlock.cpp \
@@ -124,7 +124,7 @@ am__objects_4 = Serializer.lo AgeBlock.lo ScopeControlHopLimitBlock.lo \
 	Block.lo Bundle.lo BundleID.lo BundleList.lo BundleSet.lo \
 	BundleMerger.lo BundleString.lo CustodySignalBlock.lo \
 	Dictionary.lo DTNTime.lo EID.lo ExtensionBlock.lo \
-	GeoPoint.lo MetaBundle.lo PayloadBlock.lo PrimaryBlock.lo SDNV.lo \
+	GeoPoint.lo GeoRoutingBlock.lo MetaBundle.lo PayloadBlock.lo PrimaryBlock.lo SDNV.lo \
 	StatusReportBlock.lo BundleFragment.lo StreamBlock.lo \
 	BundleBuilder.lo AdministrativeBlock.lo TrackingBlock.lo \
 	SchedulingBlock.lo MemoryBundleSet.lo BundleSetImpl.lo \
@@ -201,7 +201,7 @@ am__library_include_HEADERS_DIST = Serializer.h AgeBlock.h \
 	ScopeControlHopLimitBlock.h Block.h Bundle.h BundleID.h \
 	BundleList.h BundleSet.h BundleMerger.h BundleString.h \
 	CustodySignalBlock.h Dictionary.h DTNTime.h EID.h Exceptions.h \
-	ExtensionBlock.h GeoPoint.h MetaBundle.h PayloadBlock.h PrimaryBlock.h \
+	ExtensionBlock.h GeoPoint.h GeoRoutingBlock.h MetaBundle.h PayloadBlock.h PrimaryBlock.h \
 	SDNV.h StatusReportBlock.h BundleFragment.h StreamBlock.h \
 	BundleBuilder.h AdministrativeBlock.h TrackingBlock.h \
 	SchedulingBlock.h Number.h MemoryBundleSet.h BundleSetImpl.h \
@@ -401,7 +401,7 @@ h_sources = Serializer.h AgeBlock.h ScopeControlHopLimitBlock.h \
 	Block.h Bundle.h BundleID.h BundleList.h BundleSet.h \
 	BundleMerger.h BundleString.h CustodySignalBlock.h \
 	Dictionary.h DTNTime.h EID.h Exceptions.h ExtensionBlock.h \
-	GeoPoint.h MetaBundle.h PayloadBlock.h PrimaryBlock.h SDNV.h \
+	GeoPoint.h GeoRoutingBlock.h MetaBundle.h PayloadBlock.h PrimaryBlock.h SDNV.h \
 	StatusReportBlock.h BundleFragment.h StreamBlock.h \
 	BundleBuilder.h AdministrativeBlock.h TrackingBlock.h \
 	SchedulingBlock.h Number.h MemoryBundleSet.h BundleSetImpl.h \
@@ -410,7 +410,7 @@ cc_sources = Serializer.cpp AgeBlock.cpp ScopeControlHopLimitBlock.cpp \
 	Block.cpp Bundle.cpp BundleID.cpp BundleList.cpp BundleSet.cpp \
 	BundleMerger.cpp BundleString.cpp CustodySignalBlock.cpp \
 	Dictionary.cpp DTNTime.cpp EID.cpp ExtensionBlock.cpp \
-	GeoPoint.cpp MetaBundle.cpp PayloadBlock.cpp PrimaryBlock.cpp SDNV.cpp \
+	GeoPoint.cpp GeoRoutingBlock.cpp MetaBundle.cpp PayloadBlock.cpp PrimaryBlock.cpp SDNV.cpp \
 	StatusReportBlock.cpp BundleFragment.cpp StreamBlock.cpp \
 	BundleBuilder.cpp AdministrativeBlock.cpp TrackingBlock.cpp \
 	SchedulingBlock.cpp MemoryBundleSet.cpp BundleSetImpl.cpp \
@@ -500,6 +500,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Endianess.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ExtensionBlock.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GeoPoint.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GeoRoutingBlock.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MemoryBundleSet.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MetaBundle.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PayloadBlock.Plo@am__quote@

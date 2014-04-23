@@ -1,40 +1,40 @@
 /*
- * TrackingBlock.cpp
+ * GeoRoutingBlock.cpp
  *
  */
 
-#include "ibrdtn/data/TrackingBlock.h"
+#include "ibrdtn/data/GeoRoutingBlock.h"
 #include "ibrdtn/data/BundleString.h"
 
 namespace dtn
 {
 	namespace data
 	{
-		const dtn::data::block_t TrackingBlock::BLOCK_TYPE = 193;
+		const dtn::data::block_t GeoRoutingBlock::BLOCK_TYPE = 194;
 
-		dtn::data::Block* TrackingBlock::Factory::create()
+		dtn::data::Block* GeoRoutingBlock::Factory::create()
 		{
-			return new TrackingBlock();
+			return new GeoRoutingBlock();
 		}
 
-		TrackingBlock::TrackingBlock()
-		 : dtn::data::Block(TrackingBlock::BLOCK_TYPE)
+		GeoRoutingBlock::GeoRoutingBlock()
+		 : dtn::data::Block(GeoRoutingBlock::BLOCK_TYPE)
 		{
 			// set the replicate in every fragment bit
 			set(REPLICATE_IN_EVERY_FRAGMENT, true);
 		}
 
-		TrackingBlock::TrackingBlock(int track_hops, int track_geo, int tr_intvl)
-		: dtn::data::Block(TrackingBlock::BLOCK_TYPE)
+		GeoRoutingBlock::GeoRoutingBlock(int track_hops, int track_geo, int tr_intvl)
+		: dtn::data::Block(GeoRoutingBlock::BLOCK_TYPE)
 		{
 		}
 
 
-		TrackingBlock::~TrackingBlock()
+		GeoRoutingBlock::~GeoRoutingBlock()
 		{
 		}
 
-		Length TrackingBlock::getLength() const
+		Length GeoRoutingBlock::getLength() const
 		{
 			Length ret = 0;
 
@@ -49,14 +49,14 @@ namespace dtn
 
 			for (tracking_list::const_iterator iter = _entries.begin(); iter != _entries.end(); ++iter)
 			{
-				const TrackingEntry &entry = (*iter);
+				const GeoRoutingEntry &entry = (*iter);
 				ret += entry.getLength();
 			}
 
 			return ret;
 		}
 
-		std::ostream& TrackingBlock::serialize(std::ostream &stream, Length&) const
+		std::ostream& GeoRoutingBlock::serialize(std::ostream &stream, Length&) const
 		{
 			// number of elements
 			dtn::data::Number count(_entries.size());
@@ -64,14 +64,14 @@ namespace dtn
 
 			for (tracking_list::const_iterator iter = _entries.begin(); iter != _entries.end(); ++iter)
 			{
-				const TrackingEntry &entry = (*iter);
+				const GeoRoutingEntry &entry = (*iter);
 				stream << entry;
 			}
 
 			return stream;
 		}
 
-		std::istream& TrackingBlock::deserialize(std::istream &stream, const Length&)
+		std::istream& GeoRoutingBlock::deserialize(std::istream &stream, const Length&)
 		{
 			// number of elements
 			dtn::data::Number count;
@@ -80,7 +80,7 @@ namespace dtn
 
 			for (Number i = 0; i < count; ++i)
 			{
-				TrackingEntry entry;
+				GeoRoutingEntry entry;
 				stream >> entry;
 				_entries.push_back(entry);
 			}
@@ -88,30 +88,30 @@ namespace dtn
 			return stream;
 		}
 
-		Length TrackingBlock::getLength_strict() const
+		Length GeoRoutingBlock::getLength_strict() const
 		{
 			return getLength();
 		}
 
-		std::ostream& TrackingBlock::serialize_strict(std::ostream &stream, Length &length) const
+		std::ostream& GeoRoutingBlock::serialize_strict(std::ostream &stream, Length &length) const
 		{
 			return serialize(stream, length);
 		}
 
-		const TrackingBlock::tracking_list& TrackingBlock::getTrack() const
+		const GeoRoutingBlock::tracking_list& GeoRoutingBlock::getTrack() const
 		{
 			return _entries;
 		}
 
-		void TrackingBlock::append(const dtn::data::EID &eid)
+		void GeoRoutingBlock::append(const dtn::data::EID &eid)
 		{
-			TrackingEntry entry(eid);
+			GeoRoutingEntry entry(eid);
 
 			// include timestamp
-			entry.setFlag(TrackingEntry::TIMESTAMP_PRESENT, true);
+			entry.setFlag(GeoRoutingEntry::TIMESTAMP_PRESENT, true);
 
 			// include geo data???
-			entry.setFlag(TrackingEntry::GEODATA_PRESENT, true);
+			entry.setFlag(GeoRoutingEntry::GEODATA_PRESENT, true);
 			entry.geopoint.set(0xaa,0xaa);
 
 			// use default timestamp
@@ -120,38 +120,38 @@ namespace dtn
 			_entries.push_back(entry);
 		}
 
-		TrackingBlock::TrackingEntry::TrackingEntry()
+		GeoRoutingBlock::GeoRoutingEntry::GeoRoutingEntry()
 		{
 		}
 
-		TrackingBlock::TrackingEntry::TrackingEntry(const dtn::data::EID &eid)
+		GeoRoutingBlock::GeoRoutingEntry::GeoRoutingEntry(const dtn::data::EID &eid)
 		 : endpoint(eid)
 		{
 		}
 
-		TrackingBlock::TrackingEntry::~TrackingEntry()
+		GeoRoutingBlock::GeoRoutingEntry::~GeoRoutingEntry()
 		{
 		}
 
-		bool TrackingBlock::TrackingEntry::getFlag(TrackingBlock::TrackingEntry::FLAGS f) const
+		bool GeoRoutingBlock::GeoRoutingEntry::getFlag(GeoRoutingBlock::GeoRoutingEntry::FLAGS f) const
 		{
 			return flags.getBit(f);
 		}
 
-		void TrackingBlock::TrackingEntry::setFlag(TrackingBlock::TrackingEntry::FLAGS f, bool value)
+		void GeoRoutingBlock::GeoRoutingEntry::setFlag(GeoRoutingBlock::GeoRoutingEntry::FLAGS f, bool value)
 		{
 			flags.setBit(f, value);
 		}
 
-		Length TrackingBlock::TrackingEntry::getLength() const
+		Length GeoRoutingBlock::GeoRoutingEntry::getLength() const
 		{
 			Length ret = flags.getLength();
 
-			if (getFlag(TrackingEntry::TIMESTAMP_PRESENT)) {
+			if (getFlag(GeoRoutingEntry::TIMESTAMP_PRESENT)) {
 				cout << "TIMESTAMP_PRESENT" << endl;
 				ret += timestamp.getLength();
 			}
-			if (getFlag(TrackingEntry::GEODATA_PRESENT)) {
+			if (getFlag(GeoRoutingEntry::GEODATA_PRESENT)) {
 				cout << "GEODATA_PRESENT  length=" << geopoint.getLength() << endl;
 				ret += geopoint.getLength();
 			}
@@ -161,14 +161,14 @@ namespace dtn
 			return ret;
 		}
 
-		std::ostream& operator<<(std::ostream &stream, const TrackingBlock::TrackingEntry &entry)
+		std::ostream& operator<<(std::ostream &stream, const GeoRoutingBlock::GeoRoutingEntry &entry)
 		{
 			stream << entry.flags;
 
-			if (entry.getFlag(TrackingBlock::TrackingEntry::TIMESTAMP_PRESENT)) {
+			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::TIMESTAMP_PRESENT)) {
 				stream << entry.timestamp;
 			}
-			if (entry.getFlag(TrackingBlock::TrackingEntry::GEODATA_PRESENT)) {
+			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::GEODATA_PRESENT)) {
 				stream << entry.geopoint;
 			}
 
@@ -177,14 +177,14 @@ namespace dtn
 			return stream;
 		}
 
-		std::istream& operator>>(std::istream &stream, TrackingBlock::TrackingEntry &entry)
+		std::istream& operator>>(std::istream &stream, GeoRoutingBlock::GeoRoutingEntry &entry)
 		{
 			stream >> entry.flags;
 
-			if (entry.getFlag(TrackingBlock::TrackingEntry::TIMESTAMP_PRESENT)) {
+			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::TIMESTAMP_PRESENT)) {
 				stream >> entry.timestamp;
 			}
-			if (entry.getFlag(TrackingBlock::TrackingEntry::GEODATA_PRESENT)) {
+			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::GEODATA_PRESENT)) {
 				stream >> entry.geopoint;
 			}
 

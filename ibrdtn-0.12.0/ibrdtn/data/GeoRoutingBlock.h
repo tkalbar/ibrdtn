@@ -1,10 +1,10 @@
 /*
- * TrackingBlock.h
+ * GeoRoutingBlock.h
  *
  */
 
-#ifndef TRACKINGBLOCK_H_
-#define TRACKINGBLOCK_H_
+#ifndef GEOROUTINGBLOCK_H_
+#define GEOROUTINGBLOCK_H_
 
 #include <ibrdtn/data/Block.h>
 #include <ibrdtn/data/Number.h>
@@ -16,13 +16,13 @@ namespace dtn
 {
 	namespace data
 	{
-		class TrackingBlock : public dtn::data::Block
+		class GeoRoutingBlock : public dtn::data::Block
 		{
 		public:
 			class Factory : public dtn::data::ExtensionBlock::Factory
 			{
 			public:
-				Factory() : dtn::data::ExtensionBlock::Factory(TrackingBlock::BLOCK_TYPE) {};
+				Factory() : dtn::data::ExtensionBlock::Factory(GeoRoutingBlock::BLOCK_TYPE) {};
 				virtual ~Factory() {};
 				virtual dtn::data::Block* create();
 			};
@@ -42,9 +42,9 @@ namespace dtn
 			// if finer info is available only take it this often
 			Number tracking_interval;
 
-			TrackingBlock();
-			TrackingBlock(int track_hops, int track_geo, int tr_intvl);
-			virtual ~TrackingBlock();
+			GeoRoutingBlock();
+			GeoRoutingBlock(int track_hops, int track_geo, int tr_intvl);
+			virtual ~GeoRoutingBlock();
 
 			bool getFlag(FLAGS f) const;
 			void setFlag(FLAGS f, bool value);
@@ -56,7 +56,7 @@ namespace dtn
 			virtual std::ostream &serialize_strict(std::ostream &stream, Length &length) const;
 			virtual Length getLength_strict() const;
 
-			class TrackingEntry
+			class GeoRoutingEntry
 			{
 			public:
 				enum FLAGS
@@ -66,9 +66,9 @@ namespace dtn
 				};
 				Bitset<FLAGS> flags;
 
-				TrackingEntry();
-				TrackingEntry(const dtn::data::EID &eid);
-				~TrackingEntry();
+				GeoRoutingEntry();
+				GeoRoutingEntry(const dtn::data::EID &eid);
+				~GeoRoutingEntry();
 
 				bool getFlag(FLAGS f) const;
 				void setFlag(FLAGS f, bool value);
@@ -77,13 +77,13 @@ namespace dtn
 				dtn::data::DTNTime timestamp;
 				dtn::data::GeoPoint geopoint;
 
-				friend std::ostream& operator<<(std::ostream &stream, const TrackingEntry &entry);
-				friend std::istream& operator>>(std::istream &stream, TrackingEntry &entry);
+				friend std::ostream& operator<<(std::ostream &stream, const GeoRoutingEntry &entry);
+				friend std::istream& operator>>(std::istream &stream, GeoRoutingEntry &entry);
 
 				Length getLength() const;
 			};
 
-			typedef std::list<TrackingEntry> tracking_list;
+			typedef std::list<GeoRoutingEntry> tracking_list;
 
 			const tracking_list& getTrack() const;
 
@@ -96,7 +96,7 @@ namespace dtn
 		/**
 		 * This creates a static block factory
 		 */
-		static TrackingBlock::Factory __TrackingBlockFactory__;
+		static GeoRoutingBlock::Factory __GeoRoutingBlockFactory__;
 	} /* namespace data */
 } /* namespace dtn */
-#endif /* TRACKINGBLOCK_H_ */
+#endif /* GEOROUTINGBLOCK_H_ */
