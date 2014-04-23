@@ -12,7 +12,7 @@
 
 /* "daemon library has daemon_reset_sigs() and daemon_unblock_sigs()
    functions" */
-#define HAVE_DAEMON_RESET_SIGS 1
+/* #undef HAVE_DAEMON_RESET_SIGS */
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
@@ -30,13 +30,13 @@
 /* #undef HAVE_LIBCURL */
 
 /* "daemon library is available" */
-#define HAVE_LIBDAEMON 1
+/* #undef HAVE_LIBDAEMON */
 
 /* Define to 1 if you have the `m' library (-lm). */
 #define HAVE_LIBM 1
 
 /* Define to 1 if you have the `rt' library (-lrt). */
-#define HAVE_LIBRT 1
+/* #undef HAVE_LIBRT */
 
 /* Define to 1 if you have the <limits.h> header file. */
 /* #undef HAVE_LIMITS_H */
@@ -81,7 +81,7 @@
 #define HAVE_SYSLOG_H 1
 
 /* Define to 1 if you have the <sys/inotify.h> header file. */
-#define HAVE_SYS_INOTIFY_H 1
+/* #undef HAVE_SYS_INOTIFY_H */
 
 /* Define to 1 if you have the <sys/socket.h> header file. */
 /* #undef HAVE_SYS_SOCKET_H */

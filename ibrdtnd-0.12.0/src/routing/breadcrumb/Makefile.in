@@ -98,8 +98,9 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 librtbreadcrumb_la_LIBADD =
 am__librtbreadcrumb_la_SOURCES_DIST =  BreadcrumbRoutingExtension.cpp \
-	BreadcrumbRoutingExtension.h
-am__objects_1 = BreadcrumbRoutingExtension.lo
+	BreadcrumbRoutingExtension.h GeoLocation.cpp \
+	GeoLocation.h
+am__objects_1 = BreadcrumbRoutingExtension.lo GeoLocation.lo
 @ANDROID_FALSE@am_librtbreadcrumb_la_OBJECTS = $(am__objects_1)
 librtbreadcrumb_la_OBJECTS = $(am_librtbreadcrumb_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -335,7 +336,9 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 routing_SOURCES = \
 	BreadcrumbRoutingExtension.cpp \
-	BreadcrumbRoutingExtension.h
+	BreadcrumbRoutingExtension.h \
+	GeoLocation.cpp \
+	GeoLocation.h
 
 AM_CPPFLAGS = -I$(top_srcdir)/src $(ibrdtn_CFLAGS)
 AM_LDFLAGS = $(ibrdtn_LIBS)
@@ -399,6 +402,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BreadcrumbRoutingExtension.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GeoLocation.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

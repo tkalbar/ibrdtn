@@ -2,7 +2,9 @@
 
 routing_SOURCES = \
 	BreadcrumbRoutingExtension.cpp \
-	breadcrumbRoutingExtension.h
+	BreadcrumbRoutingExtension.h \
+	GeoLocation.cpp \
+	GeoLocation.h
 
 AM_CPPFLAGS = -I$(top_srcdir)/src $(ibrdtn_CFLAGS)
 AM_LDFLAGS = $(ibrdtn_LIBS)

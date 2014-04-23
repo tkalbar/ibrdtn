@@ -35,46 +35,107 @@
 #include <stdlib.h>
 #include <typeinfo>
 
+#include <time.h>
+
 namespace dtn
 {
 	namespace routing
 	{
 		const std::string BreadcrumbRoutingExtension::TAG = "BreadcrumbRoutingExtension";
 
+		/*class Location
+		{
+			public:
+				double _latitude;
+				double _longitude;
+				Location() : _latitude(0.0), _longitude(0.0) {};
+				Location(double latitude, double longitude) : _latitude(latitude), _longitude(longitude) {};
+				~Location(){};
+		};
+
+		Location nodeLocation;*/
+
 		BreadcrumbRoutingExtension::BreadcrumbRoutingExtension()
 		{
 			// write something to the syslog
 			IBRCOMMON_LOGGER_TAG(BreadcrumbRoutingExtension::TAG, info) << "Initializing breadcrumb routing module" << IBRCOMMON_LOGGER_ENDL;
+			srand(time(NULL));
+			_location._latitude = rand() % 10;
+			_location._longitude = rand() % 10;
 		}
 
 		BreadcrumbRoutingExtension::~BreadcrumbRoutingExtension()
 		{
+			//delete &nodeLocation;
 			join();
+		}
+
+		void BreadcrumbRoutingExtension::responseHandshake(const dtn::data::EID& neighbor, const NodeHandshake& request, NodeHandshake& response)
+		{
+			if (request.hasRequest(GeoLocation::identifier))
+			{
+				ibrcommon::MutexLock l(_location);
+				response.addItem(new GeoLocation(_location));
+			}
+		}
+
+		void BreadcrumbRoutingExtension::processHandshake(const dtn::data::EID& neighbor, NodeHandshake& response)
+		{
+			/* ignore neighbors, that have our EID */
+			//if (neighbor.sameHost(dtn::core::BundleCore::local)) return;
+			try {
+				const GeoLocation& neighbor_location = response.get<GeoLocation>();
+
+				// strip possible application part off the neighbor EID
+				const dtn::data::EID neighbor_node = neighbor.getNode();
+
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "location received from " << neighbor_node.getString() << IBRCOMMON_LOGGER_ENDL;
+
+
+			} catch (std::exception&) { }
 		}
 
 		void BreadcrumbRoutingExtension::requestHandshake(const dtn::data::EID&, NodeHandshake &request) const
 		{
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "request handshake" << IBRCOMMON_LOGGER_ENDL;
+
+			request.addRequest(GeoLocation::identifier);
 			request.addRequest(BloomFilterSummaryVector::identifier);
 		}
 
 		void BreadcrumbRoutingExtension::eventDataChanged(const dtn::data::EID &peer) throw ()
 		{
 			// transfer the next bundle to this destination
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "event data changed" << IBRCOMMON_LOGGER_ENDL;
 			_taskqueue.push( new SearchNextBundleTask( peer ) );
 		}
 
 		void BreadcrumbRoutingExtension::eventBundleQueued(const dtn::data::EID &peer, const dtn::data::MetaBundle &meta) throw ()
 		{
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "event bundle queued" << IBRCOMMON_LOGGER_ENDL;
+
 			// new bundles trigger a recheck for all neighbors
 			const std::set<dtn::core::Node> nl = dtn::core::BundleCore::getInstance().getConnectionManager().getNeighbors();
 
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Looping through peers" << IBRCOMMON_LOGGER_ENDL;
+
 			for (std::set<dtn::core::Node>::const_iterator iter = nl.begin(); iter != nl.end(); ++iter)
 			{
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Current peer string: "+peer.getString() << IBRCOMMON_LOGGER_ENDL;
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Current peer host: "+peer.getHost() << IBRCOMMON_LOGGER_ENDL;
+
+
+
 				const dtn::core::Node &n = (*iter);
+
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Current n string: "+n.getEID().getString() << IBRCOMMON_LOGGER_ENDL;
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Current n host: "+n.getEID().getHost() << IBRCOMMON_LOGGER_ENDL;
+
 
 				if (n.getEID() != peer)
 				{
 					// trigger all routing modules to search for bundles to forward
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "trigger event data changed" << IBRCOMMON_LOGGER_ENDL;
 					eventDataChanged(n.getEID());
 				}
 			}
@@ -82,17 +143,22 @@ namespace dtn
 
 		void BreadcrumbRoutingExtension::raiseEvent(const dtn::core::Event *evt) throw ()
 		{
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "received event" << IBRCOMMON_LOGGER_ENDL;
 			try {
 				const NodeHandshakeEvent &handshake = dynamic_cast<const NodeHandshakeEvent&>(*evt);
+
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "received a node handshake event" << IBRCOMMON_LOGGER_ENDL;
 
 				if (handshake.state == NodeHandshakeEvent::HANDSHAKE_UPDATED)
 				{
 					// transfer the next bundle to this destination
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "handshake update" << IBRCOMMON_LOGGER_ENDL;
 					_taskqueue.push( new SearchNextBundleTask( handshake.peer ) );
 				}
 				else if (handshake.state == NodeHandshakeEvent::HANDSHAKE_COMPLETED)
 				{
 					// transfer the next bundle to this destination
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "handshake complete" << IBRCOMMON_LOGGER_ENDL;
 					_taskqueue.push( new SearchNextBundleTask( handshake.peer ) );
 				}
 				return;
@@ -101,7 +167,7 @@ namespace dtn
 
 		void BreadcrumbRoutingExtension::componentUp() throw ()
 		{
-			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "componentUp() start (3)" << IBRCOMMON_LOGGER_ENDL;
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "componentUp() start (4)" << IBRCOMMON_LOGGER_ENDL;
 
 			dtn::core::EventDispatcher<dtn::routing::NodeHandshakeEvent>::add(this);
 
@@ -202,6 +268,8 @@ namespace dtn
 						throw dtn::storage::BundleSelectorException();
 					}
 
+					// if entry's (i.e., the potential destination) location does not match,
+
 					return true;
 				};
 
@@ -224,7 +292,7 @@ namespace dtn
 					Task *t = _taskqueue.getnpop(true);
 					std::auto_ptr<Task> killer(t);
 
-					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 50) << "processing task " << t->toString() << IBRCOMMON_LOGGER_ENDL;
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "processing task " << t->toString() << IBRCOMMON_LOGGER_ENDL;
 
 					try {
 						/**
@@ -247,6 +315,7 @@ namespace dtn
 
 								if (dtn::daemon::Configuration::getInstance().getNetwork().doPreferDirect()) {
 									// get current neighbor list
+									IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "get neighbor list" << IBRCOMMON_LOGGER_ENDL;
 									neighbors = dtn::core::BundleCore::getInstance().getConnectionManager().getNeighbors();
 								} else {
 									// "prefer direct" option disabled - clear the list of neighbors
