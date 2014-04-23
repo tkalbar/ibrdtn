@@ -127,6 +127,22 @@ namespace dtn
 		TrackingBlock::TrackingEntry::TrackingEntry(const dtn::data::EID &eid)
 		 : endpoint(eid)
 		{
+			setFlag(TrackingEntry::EID_PRESENT, true);
+			setFlag(TrackingEntry::GEODATA_PRESENT, false);
+		}
+
+		TrackingBlock::TrackingEntry::TrackingEntry(float lat, float lon)
+		 : geopoint(lat,lon)
+		{
+			setFlag(TrackingEntry::EID_PRESENT, false);
+			setFlag(TrackingEntry::GEODATA_PRESENT, true);
+		}
+
+		TrackingBlock::TrackingEntry::TrackingEntry(const dtn::data::EID &eid, float lat, float lon)
+		 : endpoint(eid) , geopoint(lat,lon)
+		{
+			setFlag(TrackingEntry::EID_PRESENT, true);
+			setFlag(TrackingEntry::GEODATA_PRESENT, true);
 		}
 
 		TrackingBlock::TrackingEntry::~TrackingEntry()

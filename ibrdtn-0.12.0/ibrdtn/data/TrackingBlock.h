@@ -62,12 +62,15 @@ namespace dtn
 				enum FLAGS
 				{
 					TIMESTAMP_PRESENT = 1,
-					GEODATA_PRESENT = 2
+					EID_PRESENT = 2,
+					GEODATA_PRESENT = 4
 				};
 				Bitset<FLAGS> flags;
 
 				TrackingEntry();
 				TrackingEntry(const dtn::data::EID &eid);
+				TrackingEntry(float lat, float lon);
+				TrackingEntry(const dtn::data::EID &eid, float lat, float lon);
 				~TrackingEntry();
 
 				bool getFlag(FLAGS f) const;

@@ -32,8 +32,7 @@ namespace dtn
 			// handling flags
 			enum FLAGS
 			{
-				TRACK_HOPS = 1 << 0x01,
-				TRACK_GEO = 1 << 0x02
+				ORDERED_LIST = 1
 			};
 			Bitset<FLAGS> procflags;
 
@@ -61,21 +60,31 @@ namespace dtn
 			public:
 				enum FLAGS
 				{
-					TIMESTAMP_PRESENT = 1,
+					EID_PRESENT = 1,
 					GEODATA_PRESENT = 2
 				};
 				Bitset<FLAGS> flags;
 
 				GeoRoutingEntry();
 				GeoRoutingEntry(const dtn::data::EID &eid);
+				GeoRoutingEntry(float lat, float lon);
+				GeoRoutingEntry(const dtn::data::EID &eid, float lat, float lon);
 				~GeoRoutingEntry();
 
 				bool getFlag(FLAGS f) const;
 				void setFlag(FLAGS f, bool value);
 
-				dtn::data::EID endpoint;
-				dtn::data::DTNTime timestamp;
+				// the point the data must pass by
 				dtn::data::GeoPoint geopoint;
+
+				// the eid of the node the bundle must pass through
+				dtn::data::EID eid;
+
+				// how near the target point it has to get
+				Number tolerance;
+
+				// whether or not this target point is required
+				bool required;
 
 				friend std::ostream& operator<<(std::ostream &stream, const GeoRoutingEntry &entry);
 				friend std::istream& operator>>(std::istream &stream, GeoRoutingEntry &entry);
