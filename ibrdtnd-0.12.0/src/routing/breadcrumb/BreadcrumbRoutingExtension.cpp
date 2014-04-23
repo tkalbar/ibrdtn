@@ -61,7 +61,10 @@ namespace dtn
 			IBRCOMMON_LOGGER_TAG(BreadcrumbRoutingExtension::TAG, info) << "Initializing breadcrumb routing module" << IBRCOMMON_LOGGER_ENDL;
 			srand(time(NULL));
 			_location._latitude = rand() % 10;
+			IBRCOMMON_LOGGER_TAG(BreadcrumbRoutingExtension::TAG, info) << "Setting dummy latitude to: " << _location._latitude << IBRCOMMON_LOGGER_ENDL;
 			_location._longitude = rand() % 10;
+			IBRCOMMON_LOGGER_TAG(BreadcrumbRoutingExtension::TAG, info) << "Setting dummy longitude to: " << _location._longitude << IBRCOMMON_LOGGER_ENDL;
+
 		}
 
 		BreadcrumbRoutingExtension::~BreadcrumbRoutingExtension()
@@ -340,7 +343,8 @@ namespace dtn
 								// GeoLocation query
 								const GeoLocation &gl = entry.getDataset<GeoLocation>();
 
-								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "GeoLocation found: " << gl << IBRCOMMON_LOGGER_ENDL;
+								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "GeoLocation: " << gl
+										<< " found from peer: "<< task.eid.getString() << IBRCOMMON_LOGGER_ENDL;
 
 								// get the bundle filter of the neighbor
 								const BundleFilter filter(entry, neighbors);
@@ -353,6 +357,8 @@ namespace dtn
 								(**this).getSeeker().get(filter, list);
 							} catch (const NeighborDatabase::DatasetNotAvailableException&) {
 								// if there is no GeoLocation for this peer do handshake with them
+								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Not geolocation, doing handshake" << IBRCOMMON_LOGGER_ENDL;
+
 								(**this).doHandshake(task.eid);
 							} catch (const dtn::storage::BundleSelectorException&) {
 								// query a new summary vector from this neighbor
