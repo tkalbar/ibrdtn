@@ -74,11 +74,14 @@ namespace dtn
 			// number of elements
 			dtn::data::Number count(_entries.size());
 			stream << count;
+			cout << "serializing GeoRoutingBlock with number of entries: " << count.get() << endl;
 
+			int i=0;
 			for (tracking_list::const_iterator iter = _entries.begin(); iter != _entries.end(); ++iter)
 			{
 				const GeoRoutingEntry &entry = (*iter);
 				stream << entry;
+				cout << "serializing GeoRoutingEntry " << i++ << endl;
 			}
 
 			return stream;
@@ -91,14 +94,15 @@ namespace dtn
 
 			// number of elements
 			dtn::data::Number count;
-
 			stream >> count;
+			cout << "received GeoRoutingBlock with number of entries: " << count.get() << endl;
 
 			for (Number i = 0; i < count; ++i)
 			{
 				GeoRoutingEntry entry;
 				stream >> entry;
 				_entries.push_back(entry);
+				cout << "read GeoRoutingEntry " << i.get() << endl;
 			}
 
 			return stream;
