@@ -108,7 +108,7 @@ namespace dtn
 			GeoRoutingEntry entry(eid);
 
 			// include timestamp
-			entry.setFlag(GeoRoutingEntry::TIMESTAMP_PRESENT, true);
+			entry.setFlag(GeoRoutingEntry::EID_PRESENT, true);
 
 			// include geo data???
 			entry.setFlag(GeoRoutingEntry::GEODATA_PRESENT, true);
@@ -125,7 +125,7 @@ namespace dtn
 		}
 
 		GeoRoutingBlock::GeoRoutingEntry::GeoRoutingEntry(const dtn::data::EID &eid)
-		 : endpoint(eid)
+		 : eid(eid)
 		{
 		}
 
@@ -147,16 +147,16 @@ namespace dtn
 		{
 			Length ret = flags.getLength();
 
-			if (getFlag(GeoRoutingEntry::TIMESTAMP_PRESENT)) {
-				cout << "TIMESTAMP_PRESENT" << endl;
-				ret += timestamp.getLength();
+			ret += timestamp.getLength();
+
+			if (getFlag(GeoRoutingEntry::EID_PRESENT)) {
+				cout << "EID_PRESENT" << endl;
+				ret += BundleString(eid.getString()).getLength();
 			}
 			if (getFlag(GeoRoutingEntry::GEODATA_PRESENT)) {
 				cout << "GEODATA_PRESENT  length=" << geopoint.getLength() << endl;
 				ret += geopoint.getLength();
 			}
-
-			ret += BundleString(endpoint.getString()).getLength();
 
 			return ret;
 		}
@@ -165,6 +165,8 @@ namespace dtn
 		{
 			stream << entry.flags;
 
+			stream << entry.timestamp;
+			/*
 			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::TIMESTAMP_PRESENT)) {
 				stream << entry.timestamp;
 			}
@@ -174,13 +176,14 @@ namespace dtn
 
 			dtn::data::BundleString endpoint(entry.endpoint.getString());
 			stream << endpoint;
+			*/
 			return stream;
 		}
 
 		std::istream& operator>>(std::istream &stream, GeoRoutingBlock::GeoRoutingEntry &entry)
 		{
 			stream >> entry.flags;
-
+			/*
 			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::TIMESTAMP_PRESENT)) {
 				stream >> entry.timestamp;
 			}
@@ -191,6 +194,7 @@ namespace dtn
 			BundleString endpoint;
 			stream >> endpoint;
 			entry.endpoint = dtn::data::EID((std::string&)endpoint);
+			*/
 			return stream;
 		}
 	} /* namespace data */

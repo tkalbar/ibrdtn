@@ -74,6 +74,9 @@ namespace dtn
 				bool getFlag(FLAGS f) const;
 				void setFlag(FLAGS f, bool value);
 
+				// the time the entry was recorded
+				dtn::data::DTNTime timestamp;
+
 				// the point the data must pass by
 				dtn::data::GeoPoint geopoint;
 
