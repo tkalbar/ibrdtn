@@ -12,6 +12,7 @@
 
 #include "routing/RoutingExtension.h"
 #include "routing/NeighborDatabase.h"
+#include "routing/breadcrumb/GeoLocation.h"
 
 #include <ibrdtn/data/Block.h>
 #include <ibrdtn/data/SDNV.h>
@@ -33,6 +34,9 @@ namespace dtn
 			static const std::string TAG;
 
 		public:
+
+			GeoLocation _location;
+
 			BreadcrumbRoutingExtension();
 			virtual ~BreadcrumbRoutingExtension();
 
@@ -48,6 +52,12 @@ namespace dtn
 			 * @see BaseRouter::requestHandshake()
 			 */
 			virtual void requestHandshake(const dtn::data::EID&, NodeHandshake&) const;
+
+			virtual void responseHandshake(const dtn::data::EID&, const NodeHandshake&, NodeHandshake&);
+
+			virtual void processHandshake(const dtn::data::EID&, NodeHandshake&);
+
+
 
 		protected:
 			void run() throw ();
