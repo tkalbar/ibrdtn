@@ -32,8 +32,9 @@ namespace dtn
 			// handling flags
 			enum FLAGS
 			{
-				TRACK_HOPS = 1 << 0x01,
-				TRACK_GEO = 1 << 0x02
+				TRACK_HOPS      = 1 << 1,
+				TRACK_GEO       = 1 << 2,
+				TRACK_TIMESTAMP = 1 << 3
 			};
 			Bitset<FLAGS> procflags;
 
@@ -59,6 +60,7 @@ namespace dtn
 			class TrackingEntry
 			{
 			public:
+				/*
 				enum FLAGS
 				{
 					TIMESTAMP_PRESENT = 1,
@@ -66,6 +68,14 @@ namespace dtn
 					GEODATA_PRESENT = 4
 				};
 				Bitset<FLAGS> flags;
+				*/
+
+				enum ENTRYTYPE
+				{
+					GEODATA = 1,
+					HOPDATA = 2
+				};
+				Number entry_type;
 
 				TrackingEntry();
 				TrackingEntry(const dtn::data::EID &eid);
@@ -73,11 +83,8 @@ namespace dtn
 				TrackingEntry(const dtn::data::EID &eid, float lat, float lon);
 				~TrackingEntry();
 
-				bool getFlag(FLAGS f) const;
-				void setFlag(FLAGS f, bool value);
-
 				dtn::data::EID endpoint;
-				dtn::data::DTNTime timestamp;
+				dtn::data::Timestamp timestamp;
 				dtn::data::GeoPoint geopoint;
 
 				friend std::ostream& operator<<(std::ostream &stream, const TrackingEntry &entry);
@@ -90,7 +97,11 @@ namespace dtn
 
 			const tracking_list& getTrack() const;
 
+			// append a HOPDATA TrackingEntry
 			void append(const dtn::data::EID &eid);
+
+			// append a GEODATA TrackingEntry
+			void append(float lat, float lon);
 
 		private:
 			tracking_list _entries;
