@@ -82,9 +82,8 @@ namespace dtn
 			} catch (const dtn::data::Bundle::NoSuchBlockFoundException&) { };
 
 			try {
-				IBRCOMMON_LOGGER_TAG(MetaBundle::TAG, info) << "Adding nextgeohop to meta bundle" << IBRCOMMON_LOGGER_ENDL;
-
 				const dtn::data::GeoRoutingBlock &grblock = b.find<dtn::data::GeoRoutingBlock>();
+				IBRCOMMON_LOGGER_TAG(MetaBundle::TAG, info) << "Adding nextgeohop to meta bundle" << IBRCOMMON_LOGGER_ENDL;
 				hasgeoroute = true;
 				std::list<GeoRoutingBlock::GeoRoutingEntry> entriesList = grblock.getRoute();
 				nextgeohop = entriesList.back();
