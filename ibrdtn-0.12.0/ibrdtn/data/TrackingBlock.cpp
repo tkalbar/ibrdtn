@@ -44,6 +44,20 @@ namespace dtn
 			procflags.setBit(f, value);
 		}
 
+		/**
+		 * This function should update the entry list in preparation
+		 * for sending the bundle out
+		 *
+		 * things to do:
+		 * - figure out when the bundle was received (how long has this node held it)
+		 * - grab the file with the GPS logs for this node
+		 * - read through the GPS logs, picking out entries for the right interval, and add TrackingEntry for them
+		 */
+		void TrackingBlock::finalizeEntryList()
+		{
+
+		}
+
 
 		Length TrackingBlock::getLength() const
 		{
