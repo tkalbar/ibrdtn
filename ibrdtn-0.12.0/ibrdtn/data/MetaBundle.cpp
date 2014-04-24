@@ -27,11 +27,14 @@
 #include "ibrdtn/data/ScopeControlHopLimitBlock.h"
 #include "ibrdtn/data/SchedulingBlock.h"
 #include "ibrdtn/data/GeoRoutingBlock.h"
+#include <ibrcommon/Logger.h>
 
 namespace dtn
 {
 	namespace data
 	{
+		const std::string MetaBundle::TAG = "BreadcrumbRoutingExtension";
+
 		MetaBundle MetaBundle::create(const dtn::data::BundleID &id)
 		{
 			return MetaBundle(id);
@@ -80,6 +83,7 @@ namespace dtn
 
 			try {
 				const dtn::data::GeoRoutingBlock &grblock = b.find<dtn::data::GeoRoutingBlock>();
+				IBRCOMMON_LOGGER_TAG(MetaBundle::TAG, info) << "Adding nextgeohop to meta bundle" << IBRCOMMON_LOGGER_ENDL;
 				hasgeoroute = true;
 				std::list<GeoRoutingBlock::GeoRoutingEntry> entriesList = grblock.getRoute();
 				nextgeohop = entriesList.back();

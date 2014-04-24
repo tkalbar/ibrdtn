@@ -240,6 +240,8 @@ namespace dtn
 		 */
 		void BaseRouter::raiseEvent(const dtn::core::Event *evt) throw ()
 		{
+			//IBRCOMMON_LOGGER_DEBUG_TAG(BaseRouter::TAG, 1) << "Event at base router: " << evt->getName() << IBRCOMMON_LOGGER_ENDL;
+
 			try {
 				const dtn::net::TransferCompletedEvent &event = dynamic_cast<const dtn::net::TransferCompletedEvent&>(*evt);
 

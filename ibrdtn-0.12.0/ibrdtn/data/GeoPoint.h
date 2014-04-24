@@ -19,8 +19,8 @@ namespace dtn
 			GeoPoint(float lat, float lon = 0);
 			virtual ~GeoPoint();
 
-			float getLongitude();
-			float getLatitude();
+			float getLongitude() const;
+			float getLatitude() const;
 
 			/**
 			 * set the GeoPoint coords

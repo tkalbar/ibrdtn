@@ -35,6 +35,8 @@ namespace dtn
 	{
 		class MetaBundle : public dtn::data::BundleID
 		{
+			static const std::string TAG;
+
 		public:
 			MetaBundle();
 			virtual ~MetaBundle();

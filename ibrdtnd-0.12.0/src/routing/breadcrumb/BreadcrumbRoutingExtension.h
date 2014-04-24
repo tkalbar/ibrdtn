@@ -49,7 +49,7 @@ namespace dtn
 
 			virtual void eventBundleQueued(const dtn::data::EID &peer, const dtn::data::MetaBundle &meta) throw ();
 
-			void raiseEvent(const dtn::core::Event *evt) throw ();
+			virtual void raiseEvent(const dtn::core::Event *evt) throw ();
 			void componentUp() throw ();
 			void componentDown() throw ();
 
@@ -61,8 +61,6 @@ namespace dtn
 			virtual void responseHandshake(const dtn::data::EID&, const NodeHandshake&, NodeHandshake&);
 
 			virtual void processHandshake(const dtn::data::EID&, NodeHandshake&);
-
-
 
 		protected:
 			void run() throw ();
