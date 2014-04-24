@@ -53,14 +53,16 @@ namespace dtn
 		 * - grab the file with the GPS logs for this node
 		 * - read through the GPS logs, picking out entries for the right interval, and add TrackingEntry for them
 		 */
-		void TrackingBlock::finalizeEntryList() const
+		void TrackingBlock::updatedEntryList(tracking_list &l) const
 		{
-			// check if we even want to the gps coords
+			//tracking_list* l = new tracking_list();
+
+			// check if we even want to track the gps coords
 			if (procflags.getBit(TRACK_GEO) == 0) {
-				cout << "finalizeEntryList(): not tracking geo.  Returning!" << endl;
+				cout << "updatedEntryList(): not tracking geo.  Returning!" << endl;
 				return;
 			}
-			cout << "finalizeEntryList(): we ARE tracking geo.  Let's get it on! " << endl;
+			cout << "updatedEntryList(): we ARE tracking geo.  Let's get it on! " << endl;
 
 			Timestamp recTime;
 
@@ -68,16 +70,16 @@ namespace dtn
 			const int MAX_TOKENS_PER_LINE = 3;
 			const char* const DELIMITER = ":";
 
-			cout << "finalizeEntryList(): allocated some local vars... " << endl;
+			cout << "updatedEntryList(): allocated some local vars... " << endl;
 
 			// the last entry in the tracking entry list should have been
 			// created when the bundle was received here
 			if (_entries.empty()) {
-				cout << "finalizeEntryList(): _entries is empty.  Returning!" << endl;
+				cout << "updatedEntryList(): _entries is empty.  Returning!" << endl;
 				return;
 			}
 			TrackingEntry entry = _entries.back();
-			cout << "finalizeEntryList(): grabbed _entries.back()" << endl;
+			cout << "updatedEntryList(): grabbed _entries.back()" << endl;
 
 			if (entry.entry_type == TrackingEntry::HOPDATA) {
 				recTime = entry.timestamp;
@@ -93,7 +95,7 @@ namespace dtn
 			ifstream fin;
 			fin.open("/tmp/gpslog.log"); // open a file
 			if (!fin.good()) {
-				cout << "finalizeEntryList(): failed to open gpslog.  Returning!" << endl;
+				cout << "updatedEntryList(): failed to open gpslog.  Returning!" << endl;
 				return; // exit if file not found
 			}
 
@@ -125,9 +127,19 @@ namespace dtn
 
 				cout << "parsed location data: " << ts << " , " << lat << " , " << lon << endl;
 
-				//TODO: Can't call this because it's not const!!
-				// need to institute global finalize() methods for ext blocks.
+				// should re-organize class so that tracking_list is a class and
+				// append() is a method attached to it
 				//append(ts,lat,lon);
+				//cout << "TrackingBlock::append(int time, float lat, float lon)" << endl;
+
+				TrackingEntry entry(lat,lon);
+				if (getFlag(TrackingBlock::TRACK_TIMESTAMP)) {
+					entry.timestamp = ts;
+				} else {
+					entry.timestamp = 0;
+				}
+				l.push_back(entry);
+				cout << "l.size()=" << l.size() << endl;
 			}
 		}
 
@@ -136,8 +148,6 @@ namespace dtn
 		Length TrackingBlock::getLength() const
 		{
 			cout << "TrackingBlock::getLength()" << endl;
-
-			finalizeEntryList();
 
 			Length ret = 0;
 
@@ -158,10 +168,38 @@ namespace dtn
 
 			for (tracking_list::const_iterator iter = _entries.begin(); iter != _entries.end(); ++iter)
 			{
-				cout << "TrackingBlock::getLength() counting a TrackingEntry..." << endl;
+				//cout << "TrackingBlock::getLength() counting a TrackingEntry..." << endl;
 				const TrackingEntry &entry = (*iter);
 				ret += entry.getLength();
+				cout << "TrackingBlock::getLength():  ret=" << ret << endl;
 			}
+
+			// now count up the new entries that accumulate while the bundle
+			// was carried by this node.
+			// This is kind-of a screwy way to do it.  We have to compute the new
+			// entries once for getLength(), then again for serialize().
+			// Also it's a race condition, as the length may increase between those two calls.
+			// But because there is no finalize() for blocks and the functions are all const it's
+			// the best we can do.
+
+
+			cout << "TrackingBlock::getLength() about to call updatedEntryList()" << endl;
+			tracking_list new_entries;
+			updatedEntryList(new_entries);
+			if (!new_entries.empty()) {
+				cout << "TrackingBlock::getLength() about to iterate..." << endl;
+				for (tracking_list::const_iterator iter = new_entries.begin(); iter != new_entries.end(); ++iter)
+				{
+					//cout << "TrackingBlock::getLength() counting a TrackingEntry..." << endl;
+					const TrackingEntry &entry = (*iter);
+					ret += entry.getLength();
+					cout << "TrackingBlock::getLength():  ret=" << ret << endl;
+				}
+			} else {
+				cout << "TrackingBlock::getLength() new_entries is empty - returning" << endl;
+			}
+
+			cout << "TrackingBlock::getLength() returning " << ret << endl;
 
 			return ret;
 		}
@@ -186,6 +224,22 @@ namespace dtn
 				cout << "TrackingBlock::getLength() serializing a TrackingEntry..." << endl;
 				const TrackingEntry &entry = (*iter);
 				stream << entry;
+			}
+
+			// now serialize the new entries that accumulate while the bundle
+			// was carried by this node.
+
+			cout << "TrackingBlock::serialize() about to call updatedEntryList()" << endl;
+			tracking_list new_entries;
+			updatedEntryList(new_entries);
+			cout << "TrackingBlock::serialize() about to iterate over new_entries" << endl;
+			if (! new_entries.empty()) {
+				for (tracking_list::const_iterator iter = new_entries.begin(); iter != new_entries.end(); ++iter)
+				{
+					cout << "TrackingBlock::getLength() serializing a TrackingEntry..." << endl;
+					const TrackingEntry &entry = (*iter);
+					stream << entry;
+				}
 			}
 
 			return stream;
@@ -296,16 +350,17 @@ namespace dtn
 
 		Length TrackingBlock::TrackingEntry::getLength() const
 		{
-			cout << "TrackingBlock::TrackingEntry::getLength()" << endl;
+			//cout << "TrackingBlock::TrackingEntry::getLength()" << endl;
 
 			Length ret = entry_type.getLength() + timestamp.getLength();
 
-			if (entry_type == TrackingEntry::HOPDATA) {
+			int et = entry_type.get();
+			if (et == TrackingEntry::HOPDATA) {
 				ret += BundleString(endpoint.getString()).getLength();
-			} else if (entry_type == TrackingEntry::HOPDATA) {
+			} else if (et == TrackingEntry::GEODATA) {
 				ret += geopoint.getLength();
 			} else {
-				cout << "ERROR ERROR: illegal entry_type!!" << endl;
+				cout << "ERROR ERROR: illegal entry_type: " << et << endl;
 			}
 
 			return ret;

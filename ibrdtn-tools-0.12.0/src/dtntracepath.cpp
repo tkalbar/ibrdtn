@@ -47,8 +47,13 @@ public:
 			dtn::data::TrackingBlock &tb = push_back<dtn::data::TrackingBlock>();
 			cout << "about to set TRACK_GEO flag..." << endl;
 			tb.setFlag(dtn::data::TrackingBlock::TRACK_GEO, true);
+			tb.setFlag(dtn::data::TrackingBlock::TRACK_TIMESTAMP, true);
 			// put on an initial entry
 			dtn::data::EID eid("dtn://dtntracepath");
+			tb.append(eid);
+			tb.append(1398368720,99.9,88.8);
+			tb.append(1398368720,77.7,66.6);
+			tb.append(1398368720,55.5,44.4);
 			tb.append(eid);
 		}
 	}
