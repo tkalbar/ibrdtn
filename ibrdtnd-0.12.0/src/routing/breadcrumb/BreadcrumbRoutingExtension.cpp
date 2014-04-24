@@ -162,7 +162,7 @@ namespace dtn
 
 		void BreadcrumbRoutingExtension::raiseEvent(const dtn::core::Event *evt) throw ()
 		{
-			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Received Event: "+(*evt).getName() << IBRCOMMON_LOGGER_ENDL;
+			//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Received Event: "+(*evt).getName() << IBRCOMMON_LOGGER_ENDL;
 
 			try {
 				const dtn::core::TimeEvent &time = dynamic_cast<const dtn::core::TimeEvent&>(*evt);
@@ -172,6 +172,8 @@ namespace dtn
 
 				if ((_next_exchange_timestamp > 0) && (_next_exchange_timestamp < now))
 				{
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Push: NextExchangeTask()" << IBRCOMMON_LOGGER_ENDL;
+
 					_taskqueue.push( new NextExchangeTask() );
 
 					// define the next exchange timestamp
