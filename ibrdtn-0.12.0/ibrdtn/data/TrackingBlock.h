@@ -50,7 +50,6 @@ namespace dtn
 			bool getFlag(FLAGS f) const;
 			void setFlag(FLAGS f, bool value);
 
-			void finalizeEntryList() const;
 			virtual Length getLength() const;
 			virtual std::ostream &serialize(std::ostream &stream, Length &length) const;
 			virtual std::istream &deserialize(std::istream &stream, const Length &length);
@@ -73,8 +72,8 @@ namespace dtn
 
 				enum ENTRYTYPE
 				{
-					GEODATA = 1,
-					HOPDATA = 2
+					GEODATA = 0x2a,
+					HOPDATA = 0x2b
 				};
 				Number entry_type;
 
@@ -103,6 +102,10 @@ namespace dtn
 
 			// append a GEODATA TrackingEntry
 			void append(int time, float lat, float lon);
+
+			// returns a list of trackingEntry that have accumulated
+			// since the specified time, sampled at most at the specified interval
+			void updatedEntryList(tracking_list &l) const;
 
 		private:
 			tracking_list _entries;
