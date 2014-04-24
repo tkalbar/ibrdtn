@@ -41,13 +41,13 @@ namespace dtn
 			return _latitude.getLength() + _longitude.getLength();
 		}
 
-		float GeoPoint::getLongitude()
+		float GeoPoint::getLongitude() const
 		{
 			float lon = _longitude.get();
 			return lon/_scale_factor;
 		}
 
-		float GeoPoint::getLatitude()
+		float GeoPoint::getLatitude() const
 		{
 			float lat = _latitude.get();
 			return lat/_scale_factor;

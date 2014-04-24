@@ -15,13 +15,16 @@ namespace dtn
 	{
 		const dtn::data::Number GeoLocation::identifier = NodeHandshakeItem::GEO_LOCATION;
 
-		GeoLocation::GeoLocation() : NeighborDataSetImpl(GeoLocation::identifier), _latitude(0.0), _longitude(0.0) {}
+		GeoLocation::GeoLocation() : NeighborDataSetImpl(GeoLocation::identifier) {}
 
 		GeoLocation::GeoLocation(const GeoLocation &other)
-		 : NeighborDataSetImpl(GeoLocation::identifier), ibrcommon::Mutex(), _latitude(other._latitude), _longitude(other._longitude) {}
+		 : NeighborDataSetImpl(GeoLocation::identifier), ibrcommon::Mutex(), _geopoint(other._geopoint){}
 
-		GeoLocation::GeoLocation(double latitude, double longitude)
-		 : NeighborDataSetImpl(GeoLocation::identifier), _latitude(latitude), _longitude(longitude) {}
+		GeoLocation::GeoLocation(float latitude, float longitude)
+		 : NeighborDataSetImpl(GeoLocation::identifier)
+		{
+			_geopoint.set(latitude, longitude);
+		}
 
 		GeoLocation::~GeoLocation() {}
 
@@ -63,26 +66,26 @@ namespace dtn
 
 		std::ostream& GeoLocation::serialize(std::ostream& stream) const
 		{
-			stream << (*this)._latitude;
-			stream << (*this)._longitude;
+			stream << (*this)._geopoint;
 			return stream;
 		}
 
 		std::istream& GeoLocation::deserialize(std::istream& stream)
 		{
-			stream >> (*this)._latitude;
-			stream >> (*this)._longitude;
+			stream >> (*this)._geopoint;
 			return stream;
 		}
 
 		void GeoLocation::toString(std::ostream &stream) const
 		{
 			std::ostringstream latStrs;
-			latStrs << _latitude;
+			float tmp = _geopoint.getLatitude();
+			latStrs << tmp;
 			std::string latStr = latStrs.str();
 
 			std::ostringstream longStrs;
-			longStrs << _longitude;
+			tmp = _geopoint.getLongitude();
+			longStrs << tmp;
 			std::string longStr = longStrs.str();
 
 			stream << "("+latStr+","+longStr+")";

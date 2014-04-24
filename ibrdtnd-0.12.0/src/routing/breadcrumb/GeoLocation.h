@@ -12,6 +12,7 @@
 #include "routing/NeighborDataset.h"
 
 #include <ibrdtn/data/BundleList.h>
+#include <ibrdtn/data/GeoPoint.h>
 #include <ibrcommon/thread/Mutex.h>
 #include <iostream>
 #include <set>
@@ -26,12 +27,11 @@ namespace dtn
 		class GeoLocation : public NeighborDataSetImpl, public NodeHandshakeItem, public ibrcommon::Mutex
 		{
 		public:
-			float _latitude;
-			float _longitude;
+			dtn::data::GeoPoint _geopoint;
 
 			GeoLocation();
 			GeoLocation(const GeoLocation&);
-			GeoLocation(double, double);
+			GeoLocation(float,float);
 			virtual ~GeoLocation();
 
 			/**
