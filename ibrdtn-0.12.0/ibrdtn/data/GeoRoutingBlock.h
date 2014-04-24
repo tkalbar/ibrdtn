@@ -63,9 +63,9 @@ namespace dtn
 				Bitset<FLAGS> flags;
 
 				GeoRoutingEntry();
-				GeoRoutingEntry(const dtn::data::EID &eid);
-				GeoRoutingEntry(float lat, float lon);
-				GeoRoutingEntry(const dtn::data::EID &eid, float lat, float lon);
+				//GeoRoutingEntry(const dtn::data::EID &eid);
+				//GeoRoutingEntry(float lat, float lon);
+				//GeoRoutingEntry(const dtn::data::EID &eid, float lat, float lon);
 				~GeoRoutingEntry();
 
 				bool getFlag(FLAGS f) const;
@@ -77,13 +77,23 @@ namespace dtn
 				// the eid of the node the bundle must pass through
 				dtn::data::EID eid;
 
-				// how near the target point the bundle has to get
-				Number margin;
 
 				friend std::ostream& operator<<(std::ostream &stream, const GeoRoutingEntry &entry);
 				friend std::istream& operator>>(std::istream &stream, GeoRoutingEntry &entry);
 
 				Length getLength() const;
+
+			private:
+				// how near the target point the bundle has to get
+				// this is actually representing a float, but we scale it up by 1024*2014 and represent as an SDNV
+				Number margin;
+				float _scale_factor;
+
+			public:
+				float getMargin() { return margin.get(); }
+				void setMargin(float f) { margin = (int)(1024*1024*f); }
+
+
 			};
 
 			typedef std::list<GeoRoutingEntry> tracking_list;

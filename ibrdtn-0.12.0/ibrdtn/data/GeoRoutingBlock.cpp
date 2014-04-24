@@ -124,6 +124,7 @@ namespace dtn
 		}
 
 		GeoRoutingBlock::GeoRoutingEntry::GeoRoutingEntry()
+		: _scale_factor(1048576)
 		{
 		}
 
@@ -142,7 +143,7 @@ namespace dtn
 
 			entry.setFlag(GeoRoutingBlock::GeoRoutingEntry::GEO_REQUIRED, true);
 			entry.geopoint.set(lat,lon);
-			entry.margin = margin;
+			entry.setMargin(margin);
 			_entries.push_back(entry);
 		}
 
@@ -154,7 +155,7 @@ namespace dtn
 			entry.eid = eid;
 			entry.setFlag(GeoRoutingBlock::GeoRoutingEntry::GEO_REQUIRED, true);
 			entry.geopoint.set(lat,lon);
-			entry.margin = margin;
+			entry.setMargin(margin);
 			_entries.push_back(entry);
 		}
 
