@@ -26,8 +26,8 @@ namespace dtn
 		class GeoLocation : public NeighborDataSetImpl, public NodeHandshakeItem, public ibrcommon::Mutex
 		{
 		public:
-			double _latitude;
-			double _longitude;
+			float _latitude;
+			float _longitude;
 
 			GeoLocation();
 			GeoLocation(const GeoLocation&);

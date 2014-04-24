@@ -27,6 +27,7 @@
 #include "ibrdtn/data/Bundle.h"
 #include "ibrdtn/data/DTNTime.h"
 #include "ibrdtn/data/EID.h"
+#include "ibrdtn/data/GeoRoutingBlock.h"
 
 namespace dtn
 {
@@ -65,6 +66,9 @@ namespace dtn
 			Number expiretime;
 			Number hopcount;
 			Integer net_priority;
+
+			dtn::data::GeoRoutingBlock::GeoRoutingEntry nextgeohop;
+			bool hasgeoroute;
 
 			bool isFragment() const;
 			void setFragment(bool val);

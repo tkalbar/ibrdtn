@@ -18,6 +18,7 @@
 #include <ibrdtn/data/SDNV.h>
 #include <ibrdtn/data/BundleString.h>
 #include <ibrdtn/data/ExtensionBlock.h>
+#include <ibrdtn/data/GeoRoutingBlock.h>
 
 #include <ibrcommon/thread/Queue.h>
 #include <ibrcommon/thread/Thread.h>
@@ -36,6 +37,10 @@ namespace dtn
 		public:
 
 			GeoLocation _location;
+
+			ibrcommon::Mutex _next_exchange_mutex; ///< Mutex for the _next_exchange_timestamp.
+			dtn::data::Timestamp _next_exchange_timeout; ///< Interval in seconds how often Handshakes should be executed on longer connections.
+			dtn::data::Timestamp _next_exchange_timestamp; ///< Unix timestamp, when the next handshake is due.
 
 			BreadcrumbRoutingExtension();
 			virtual ~BreadcrumbRoutingExtension();
@@ -80,6 +85,15 @@ namespace dtn
 				virtual std::string toString();
 
 				const dtn::data::EID eid;
+			};
+
+			class NextExchangeTask : public Task
+			{
+			public:
+				NextExchangeTask();
+				virtual ~NextExchangeTask();
+
+				virtual std::string toString();
 			};
 
 			/**
