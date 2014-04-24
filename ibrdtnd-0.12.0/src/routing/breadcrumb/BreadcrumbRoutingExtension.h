@@ -53,8 +53,6 @@ namespace dtn
 			void componentUp() throw ();
 			void componentDown() throw ();
 
-			bool checkMargin(const dtn::routing::GeoLocation &, const dtn::data::GeoRoutingBlock::GeoRoutingEntry &) const;
-
 			/**
 			 * @see BaseRouter::requestHandshake()
 			 */
