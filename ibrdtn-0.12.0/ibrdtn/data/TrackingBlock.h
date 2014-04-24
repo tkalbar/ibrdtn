@@ -50,7 +50,7 @@ namespace dtn
 			bool getFlag(FLAGS f) const;
 			void setFlag(FLAGS f, bool value);
 
-			void finalizeEntryList();
+			void finalizeEntryList() const;
 			virtual Length getLength() const;
 			virtual std::ostream &serialize(std::ostream &stream, Length &length) const;
 			virtual std::istream &deserialize(std::istream &stream, const Length &length);
@@ -102,7 +102,7 @@ namespace dtn
 			void append(const dtn::data::EID &eid);
 
 			// append a GEODATA TrackingEntry
-			void append(float lat, float lon);
+			void append(int time, float lat, float lon);
 
 		private:
 			tracking_list _entries;

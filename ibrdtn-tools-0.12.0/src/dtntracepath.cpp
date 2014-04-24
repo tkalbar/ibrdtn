@@ -44,7 +44,12 @@ public:
 
 		if (tracking) {
 			cout << "about to allocate TrackingBlock..." << endl;
-			push_back<dtn::data::TrackingBlock>();
+			dtn::data::TrackingBlock &tb = push_back<dtn::data::TrackingBlock>();
+			cout << "about to set TRACK_GEO flag..." << endl;
+			tb.setFlag(dtn::data::TrackingBlock::TRACK_GEO, true);
+			// put on an initial entry
+			dtn::data::EID eid("dtn://dtntracepath");
+			tb.append(eid);
 		}
 	}
 
