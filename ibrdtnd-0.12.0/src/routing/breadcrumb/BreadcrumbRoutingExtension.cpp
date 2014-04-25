@@ -307,18 +307,6 @@ namespace dtn
 						return false;
 					}
 
-					// block is a GeoRoutingBlock
-					if (meta.hasgeoroute)
-					{
-						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "MetaBundle has georoute" << IBRCOMMON_LOGGER_ENDL;
-						// determine if location of peer is close enough to where bundle wants to go
-						if (checkMargin(_peerloc, meta.nextgeohop)) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-
 					// do not forward bundles addressed to this neighbor,
 					// because this is handled by neighbor routing extension
 					if (_entry.eid == meta.destination.getNode())
@@ -334,6 +322,18 @@ namespace dtn
 						// do not forward the bundle if the final destination is available
 						if (_neighbors.find(n) != _neighbors.end())
 						{
+							return false;
+						}
+					}
+
+					// block is a GeoRoutingBlock
+					if (meta.hasgeoroute)
+					{
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "MetaBundle has georoute" << IBRCOMMON_LOGGER_ENDL;
+						// determine if location of peer is close enough to where bundle wants to go
+						if (checkMargin(_peerloc, meta.nextgeohop)) {
+							return true;
+						} else {
 							return false;
 						}
 					}
