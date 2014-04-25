@@ -275,18 +275,6 @@ namespace dtn
 				virtual bool shouldAdd(const dtn::data::MetaBundle &meta) const throw (dtn::storage::BundleSelectorException)
 				{
 
-					// block is a GeoRoutingBlock
-					if (meta.hasgeoroute)
-					{
-						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "MetaBundle has georoute" << IBRCOMMON_LOGGER_ENDL;
-						// determine if location of peer is close enough to where bundle wants to go
-						if (checkMargin(_peerloc, meta.nextgeohop)) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-
 					// check Scope Control Block - do not forward bundles with hop limit == 0
 					if (meta.hopcount == 0)
 					{
@@ -305,6 +293,18 @@ namespace dtn
 					if ((meta.hopcount <= 1) && (meta.get(dtn::data::PrimaryBlock::DESTINATION_IS_SINGLETON)))
 					{
 						return false;
+					}
+
+					// block is a GeoRoutingBlock
+					if (meta.hasgeoroute)
+					{
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "MetaBundle has georoute" << IBRCOMMON_LOGGER_ENDL;
+						// determine if location of peer is close enough to where bundle wants to go
+						if (checkMargin(_peerloc, meta.nextgeohop)) {
+							return true;
+						} else {
+							return false;
+						}
 					}
 
 					// do not forward bundles addressed to this neighbor,
