@@ -167,7 +167,7 @@ namespace dtn
 			try {
 				const dtn::core::TimeEvent &time = dynamic_cast<const dtn::core::TimeEvent&>(*evt);
 
-				ibrcommon::MutexLock l(_next_exchange_mutex);
+				ibrcommon::MutexLock l_ex(_next_exchange_mutex);
 				const dtn::data::Timestamp now = dtn::utils::Clock::getMonotonicTimestamp();
 
 				if ((_next_exchange_timestamp > 0) && (_next_exchange_timestamp < now))
@@ -180,7 +180,7 @@ namespace dtn
 					_next_exchange_timestamp = now + _next_exchange_timeout;
 				}
 
-				ibrcommon::MutexLock l(_next_loc_update_mutex);
+				ibrcommon::MutexLock l_loc(_next_loc_update_mutex);
 				if ((_next_loc_update_timestamp > 0) && (_next_loc_update_timestamp < now))
 				{
 					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Push: UpdateMyLocationTask()" << IBRCOMMON_LOGGER_ENDL;
