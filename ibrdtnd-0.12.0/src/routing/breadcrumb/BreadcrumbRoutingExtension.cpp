@@ -486,12 +486,19 @@ namespace dtn
 					return;
 				}
 				ifs.get(cur);
+				//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Cur: " << cur << IBRCOMMON_LOGGER_ENDL;
 				ifs.seekg(-2,ios_base::cur);
 			}
 			int end = (int)ifs.tellg()+1;
 
 			while( cur!='\n' ) {
+				if ((int)ifs.tellg() <= 1) {
+					ifs.seekg(0,ios_base::beg);
+					break;
+				}
 				ifs.get(cur);
+				//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Pos: " << (int)ifs.tellg() << IBRCOMMON_LOGGER_ENDL;
+				//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Cur: " << cur << IBRCOMMON_LOGGER_ENDL;
 				ifs.seekg(-2,ios_base::cur);
 			}
 			int start = ifs.tellg();
@@ -500,6 +507,9 @@ namespace dtn
 
 			ifs.read(entry,end-start); // read last line from file
 			std::string s(entry);
+			delete [] entry;
+			ifs.close();
+
 			s = s.substr(0,s.size()-1); // strip off EOF char from string
 			size_t pos = 0;
 			std::string latitude;
@@ -521,7 +531,11 @@ namespace dtn
 			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updated latitude: "+latitude << IBRCOMMON_LOGGER_ENDL;
 			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updated longitude: "+longitude << IBRCOMMON_LOGGER_ENDL;
 
+			//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updated latitude(as float): " << ::atof(latitude.c_str()) << IBRCOMMON_LOGGER_ENDL;
+			//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updated longitude(as float): " << ::atof(longitude.c_str()) << IBRCOMMON_LOGGER_ENDL;
+
 			_location._geopoint.set(::atof(latitude.c_str()), ::atof(longitude.c_str()));
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updated location (as float): " << _location << IBRCOMMON_LOGGER_ENDL;
 
 		}
 
