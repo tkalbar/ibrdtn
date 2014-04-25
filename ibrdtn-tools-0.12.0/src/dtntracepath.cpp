@@ -190,7 +190,7 @@ class Tracer : public dtn::api::Client
 						if (entry.entry_type == dtn::data::TrackingBlock::TrackingEntry::HOPDATA) {
 							::printf("       # %s\t%d\n", entry.endpoint.getString().c_str(),entry.timestamp.get());
 						} else if (entry.entry_type == dtn::data::TrackingBlock::TrackingEntry::GEODATA) {
-							::printf("       # (%f , %f)\t%d\n", entry.endpoint.getString().c_str(),entry.timestamp.get());
+							::printf("       # (%f , %f)\t%d\n", entry.geopoint.getLatitude(), entry.geopoint.getLongitude(),entry.timestamp.get());
 						}
 					}
 

@@ -62,15 +62,13 @@ namespace dtn
 				cout << "updatedEntryList(): not tracking geo.  Returning!" << endl;
 				return;
 			}
-			cout << "updatedEntryList(): we ARE tracking geo.  Let's get it on! " << endl;
+			//cout << "updatedEntryList(): we ARE tracking geo.  Let's get it on! " << endl;
 
 			Timestamp recTime;
 
 			const int MAX_CHARS_PER_LINE = 2048;
 			const int MAX_TOKENS_PER_LINE = 3;
 			const char* const DELIMITER = ":";
-
-			cout << "updatedEntryList(): allocated some local vars... " << endl;
 
 			// the last entry in the tracking entry list should have been
 			// created when the bundle was received here
@@ -79,7 +77,6 @@ namespace dtn
 				return;
 			}
 			TrackingEntry entry = _entries.back();
-			cout << "updatedEntryList(): grabbed _entries.back()" << endl;
 
 			if (entry.entry_type == TrackingEntry::HOPDATA) {
 				recTime = entry.timestamp;
@@ -125,7 +122,7 @@ namespace dtn
 					lon = atof(lonString.c_str());
 				} else { return; }
 
-				cout << "parsed location data: " << ts << " , " << lat << " , " << lon << endl;
+				//cout << "parsed location data: " << ts << " , " << lat << " , " << lon << endl;
 
 				// should re-organize class so that tracking_list is a class and
 				// append() is a method attached to it
@@ -139,7 +136,7 @@ namespace dtn
 					entry.timestamp = 0;
 				}
 				l.push_back(entry);
-				cout << "l.size()=" << l.size() << endl;
+				//cout << "l.size()=" << l.size() << endl;
 			}
 		}
 
@@ -158,7 +155,7 @@ namespace dtn
 			ret += tracking_interval.getLength();
 
 			// we need to call this at the top because it affects the count
-			cout << "TrackingBlock::serialize() about to call updatedEntryList()" << endl;
+			//cout << "TrackingBlock::serialize() about to call updatedEntryList()" << endl;
 			tracking_list new_entries;
 			updatedEntryList(new_entries);
 
@@ -176,7 +173,7 @@ namespace dtn
 				//cout << "TrackingBlock::getLength() counting a TrackingEntry..." << endl;
 				const TrackingEntry &entry = (*iter);
 				ret += entry.getLength();
-				cout << "TrackingBlock::getLength():  ret=" << ret << endl;
+				//cout << "TrackingBlock::getLength():  ret=" << ret << endl;
 			}
 
 			// now count up the new entries that accumulate while the bundle
@@ -188,19 +185,15 @@ namespace dtn
 			// the best we can do.
 
 			if (!new_entries.empty()) {
-				cout << "TrackingBlock::getLength() about to iterate..." << endl;
 				for (tracking_list::const_iterator iter = new_entries.begin(); iter != new_entries.end(); ++iter)
 				{
 					//cout << "TrackingBlock::getLength() counting a TrackingEntry..." << endl;
 					const TrackingEntry &entry = (*iter);
 					ret += entry.getLength();
-					cout << "TrackingBlock::getLength():  ret=" << ret << endl;
+					//cout << "TrackingBlock::getLength():  ret=" << ret << endl;
 				}
-			} else {
-				cout << "TrackingBlock::getLength() new_entries is empty - returning" << endl;
 			}
-
-			cout << "TrackingBlock::getLength() returning " << ret << endl;
+			cout << "TrackingBlock::getLength():  returning ret=" << ret << endl;
 
 			return ret;
 		}
@@ -216,18 +209,17 @@ namespace dtn
 			stream << tracking_interval;
 
 			// we need to call this at the top because it affects the count
-			cout << "TrackingBlock::serialize() about to call updatedEntryList()" << endl;
 			tracking_list new_entries;
 			updatedEntryList(new_entries);
 
 			// number of TrackingElement in list
 			dtn::data::Number count(_entries.size() + new_entries.size());
-			cout << "TrackingBlock::serialize()  counted entries: " << count.get() << endl;
+			//cout << "TrackingBlock::serialize()  counted entries: " << count.get() << endl;
 			stream << count;
 
 			for (tracking_list::const_iterator iter = _entries.begin(); iter != _entries.end(); ++iter)
 			{
-				cout << "TrackingBlock::getLength() serializing a TrackingEntry..." << endl;
+				//cout << "TrackingBlock::getLength() serializing a TrackingEntry..." << endl;
 				const TrackingEntry &entry = (*iter);
 				stream << entry;
 			}
@@ -235,11 +227,10 @@ namespace dtn
 			// now serialize the new entries that accumulate while the bundle
 			// was carried by this node.
 
-			cout << "TrackingBlock::serialize() about to iterate over new_entries" << endl;
 			if (! new_entries.empty()) {
 				for (tracking_list::const_iterator iter = new_entries.begin(); iter != new_entries.end(); ++iter)
 				{
-					cout << "TrackingBlock::getLength() serializing a TrackingEntry..." << endl;
+					//cout << "TrackingBlock::getLength() serializing a TrackingEntry..." << endl;
 					const TrackingEntry &entry = (*iter);
 					stream << entry;
 				}
@@ -292,7 +283,7 @@ namespace dtn
 		// append a HOPDATA tracking entry
 		void TrackingBlock::append(const dtn::data::EID &eid)
 		{
-			cout << "TrackingBlock::append(const dtn::data::EID &eid)" << endl;
+			//cout << "TrackingBlock::append(const dtn::data::EID &eid)" << endl;
 
 			TrackingEntry entry(eid);
 
@@ -311,7 +302,7 @@ namespace dtn
 		// append a GEODATA tracking entry
 		void TrackingBlock::append(int time, float lat, float lon)
 		{
-			cout << "TrackingBlock::append(int time, float lat, float lon)" << endl;
+			//cout << "TrackingBlock::append(int time, float lat, float lon)" << endl;
 
 			TrackingEntry entry(lat,lon);
 
@@ -330,20 +321,20 @@ namespace dtn
 
 		TrackingBlock::TrackingEntry::TrackingEntry()
 		{
-			cout << "TrackingBlock::TrackingEntry::TrackingEntry()" << endl;
+			//cout << "TrackingBlock::TrackingEntry::TrackingEntry()" << endl;
 		}
 
 		TrackingBlock::TrackingEntry::TrackingEntry(const dtn::data::EID &eid)
 		 : endpoint(eid)
 		{
-			cout << "TrackingBlock::TrackingEntry::TrackingEntry(const dtn::data::EID &eid)" << endl;
+			//cout << "TrackingBlock::TrackingEntry::TrackingEntry(const dtn::data::EID &eid)" << endl;
 			entry_type = TrackingEntry::HOPDATA;
 		}
 
 		TrackingBlock::TrackingEntry::TrackingEntry(float lat, float lon)
 		 : geopoint(lat,lon)
 		{
-			cout << "TrackingBlock::TrackingEntry::TrackingEntry(float lat, float lon)" << endl;
+			//cout << "TrackingBlock::TrackingEntry::TrackingEntry(float lat, float lon)" << endl;
 			entry_type = TrackingEntry::GEODATA;
 		}
 
@@ -371,7 +362,7 @@ namespace dtn
 
 		std::ostream& operator<<(std::ostream &stream, const TrackingBlock::TrackingEntry &entry)
 		{
-			cout << "operator<<(std::ostream &stream, const TrackingBlock::TrackingEntry &entry)" << endl;
+			//cout << "operator<<(std::ostream &stream, const TrackingBlock::TrackingEntry &entry)" << endl;
 
 			stream << entry.entry_type;
 			stream << entry.timestamp;
@@ -388,21 +379,19 @@ namespace dtn
 
 		std::istream& operator>>(std::istream &stream, TrackingBlock::TrackingEntry &entry)
 		{
-			cout << "operator>>(std::istream &stream, TrackingBlock::TrackingEntry &entry)" << endl;
+			//cout << "TrackingEntry deserializer..." << endl;
 
 			stream >> entry.entry_type;
-			cout << "TrackingEntry: type=" << entry.entry_type.get() << endl;
 			stream >> entry.timestamp;
-			cout << "TrackingEntry: timestamp=" << entry.timestamp.get() << endl;
 
 			if (entry.entry_type == TrackingBlock::TrackingEntry::HOPDATA) {
 				dtn::data::BundleString ee;
 				stream >> ee;
 				entry.endpoint = ee;
-				cout << "TrackingEntry: endpoint=" << ee.c_str() << endl;
+				cout << "\t(HOPDATA , " << entry.timestamp.get() << " , " << ee.c_str() << ")" << endl;
 			} else if (entry.entry_type == TrackingBlock::TrackingEntry::GEODATA) {
 				stream >> entry.geopoint;
-				cout << "TrackingEntry: geopoint=" << entry.geopoint.toString() << endl;
+				cout << "\t(GEODATA , " << entry.timestamp.get() << " , " << entry.geopoint.toString() << ")" << endl;
 			}
 
 			return stream;
