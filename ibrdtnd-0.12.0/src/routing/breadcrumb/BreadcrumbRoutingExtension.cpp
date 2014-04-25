@@ -60,20 +60,20 @@ namespace dtn
 
 		Location nodeLocation;*/
 
-		BreadcrumbRoutingExtension::BreadcrumbRoutingExtension() : _next_exchange_timeout(60), _next_exchange_timestamp(0)
+		BreadcrumbRoutingExtension::BreadcrumbRoutingExtension() : _next_exchange_timeout(60), _next_exchange_timestamp(0), _next_loc_update_interval(15), _next_loc_update_timestamp(0)
 		{
 			// write something to the syslog
 			IBRCOMMON_LOGGER_TAG(BreadcrumbRoutingExtension::TAG, info) << "BreadcrumbRoutingExtension()" << IBRCOMMON_LOGGER_ENDL;
 
-			srand(time(NULL));
-			float latitude = (rand() % 1000000)/100000;
-			float longitude = (rand() % 1000000)/100000;
-			_location._geopoint.set(latitude, longitude);
-
+			//srand(time(NULL));
+			//float latitude = (rand() % 1000000)/100000;
+			//float longitude = (rand() % 1000000)/100000;
+			//_location._geopoint.set(latitude, longitude);
+			updateMyLocation();
 			IBRCOMMON_LOGGER_TAG(BreadcrumbRoutingExtension::TAG, info) << "Setting dummy location: " << _location << IBRCOMMON_LOGGER_ENDL;
 
 			_next_exchange_timestamp = dtn::utils::Clock::getMonotonicTimestamp() + _next_exchange_timeout;
-
+			_next_loc_update_timestamp = dtn::utils::Clock::getMonotonicTimestamp() + _next_loc_update_interval;
 		}
 
 		BreadcrumbRoutingExtension::~BreadcrumbRoutingExtension()
@@ -179,6 +179,18 @@ namespace dtn
 					// define the next exchange timestamp
 					_next_exchange_timestamp = now + _next_exchange_timeout;
 				}
+
+				ibrcommon::MutexLock l(_next_loc_update_mutex);
+				if ((_next_loc_update_timestamp > 0) && (_next_loc_update_timestamp < now))
+				{
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Push: UpdateMyLocationTask()" << IBRCOMMON_LOGGER_ENDL;
+
+					_taskqueue.push( new UpdateMyLocationTask() );
+
+					// define the next location update timestamp
+					_next_loc_update_timestamp = now + _next_loc_update_interval;
+				}
+
 				return;
 			} catch (const std::bad_cast&) { };
 
@@ -440,6 +452,11 @@ namespace dtn
 							}
 						} catch (const std::bad_cast&) { }
 
+						try {
+							dynamic_cast<UpdateMyLocationTask&>(*t);
+							updateMyLocation();
+						} catch (const std::bad_cast&) { }
+
 					} catch (const ibrcommon::Exception &ex) {
 						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 20) << "task failed: " << ex.what() << IBRCOMMON_LOGGER_ENDL;
 					}
@@ -450,6 +467,61 @@ namespace dtn
 
 				yield();
 			}
+		}
+
+		void BreadcrumbRoutingExtension::updateMyLocation() {
+			std::string filename = "/usr/local/etc/vmt_gps_coord.txt";
+			std::ifstream ifs("filename");
+			if (!ifs.is_open()) {
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Could not open vmt_gps_coord file" << IBRCOMMON_LOGGER_ENDL;
+				return;
+			}
+			ifs.seekg(-1,ios_base::end);
+			char cur = '\0';
+			while( cur==EOF || cur=='\0' || cur=='\n') {
+				if ((int)ifs.tellg() <= 1) {
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "File has no location entries" << IBRCOMMON_LOGGER_ENDL;
+					std::cout << "File has no location entries" << std::endl;
+					return;
+				}
+				ifs.get(cur);
+				ifs.seekg(-2,ios_base::cur);
+			}
+			int end = (int)ifs.tellg()+1;
+
+			while( cur!='\n' ) {
+				ifs.get(cur);
+				ifs.seekg(-2,ios_base::cur);
+			}
+			int start = ifs.tellg();
+			char *entry = new char[end-start];
+			ifs.seekg(1,ios_base::cur);
+
+			ifs.read(entry,end-start); // read last line from file
+			std::string s(entry);
+			s = s.substr(0,s.size()-1); // strip off EOF char from string
+			size_t pos = 0;
+			std::string latitude;
+			std::string longitude;
+			std::string delim = ";";
+
+			// prune timestamp
+			pos = s.find(delim);
+			s.erase(0,pos+delim.length());
+
+			// get latitude
+			pos = s.find(delim);
+			latitude = s.substr(0,pos);
+
+			// get longitude
+			s.erase(0,pos+delim.length());
+			longitude = s;
+
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updated latitude: "+latitude << IBRCOMMON_LOGGER_ENDL;
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updated longitude: "+longitude << IBRCOMMON_LOGGER_ENDL;
+
+			_location._geopoint.set(::atof(latitude.c_str()), ::atof(longitude.c_str()));
+
 		}
 
 		/****************************************/
@@ -477,6 +549,19 @@ namespace dtn
 		std::string BreadcrumbRoutingExtension::NextExchangeTask::toString()
 		{
 			return "NextExchangeTask";
+		}
+
+		BreadcrumbRoutingExtension::UpdateMyLocationTask::UpdateMyLocationTask()
+		{
+		}
+
+		BreadcrumbRoutingExtension::UpdateMyLocationTask::~UpdateMyLocationTask()
+		{
+		}
+
+		std::string BreadcrumbRoutingExtension::UpdateMyLocationTask::toString()
+		{
+			return "UpdateMyLocationTask";
 		}
 	}
 }

@@ -42,6 +42,10 @@ namespace dtn
 			dtn::data::Timestamp _next_exchange_timeout; ///< Interval in seconds how often Handshakes should be executed on longer connections.
 			dtn::data::Timestamp _next_exchange_timestamp; ///< Unix timestamp, when the next handshake is due.
 
+			ibrcommon::Mutex _next_loc_update_mutex;
+			dtn::data::Timestamp _next_loc_update_interval;
+			dtn::data::Timestamp _next_loc_update_timestamp;
+
 			BreadcrumbRoutingExtension();
 			virtual ~BreadcrumbRoutingExtension();
 
@@ -61,6 +65,8 @@ namespace dtn
 			virtual void responseHandshake(const dtn::data::EID&, const NodeHandshake&, NodeHandshake&);
 
 			virtual void processHandshake(const dtn::data::EID&, NodeHandshake&);
+
+			void updateMyLocation();
 
 		protected:
 			void run() throw ();
@@ -90,6 +96,15 @@ namespace dtn
 			public:
 				NextExchangeTask();
 				virtual ~NextExchangeTask();
+
+				virtual std::string toString();
+			};
+
+			class UpdateMyLocationTask : public Task
+			{
+			public:
+				UpdateMyLocationTask();
+				virtual ~UpdateMyLocationTask();
 
 				virtual std::string toString();
 			};
