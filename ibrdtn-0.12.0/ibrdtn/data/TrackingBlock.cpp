@@ -5,6 +5,7 @@
 
 #include "ibrdtn/data/TrackingBlock.h"
 #include "ibrdtn/data/BundleString.h"
+#include "ibrdtn/utils/Clock.h"
 
 namespace dtn
 {
@@ -55,7 +56,8 @@ namespace dtn
 		 */
 		void TrackingBlock::updatedEntryList(tracking_list &l) const
 		{
-			//tracking_list* l = new tracking_list();
+			cout << "TrackingBlock::updatedEntryList()" << endl;
+			cout << "\ttracking_interval = " << tracking_interval.get() << endl;
 
 			// check if we even want to track the gps coords
 			if (procflags.getBit(TRACK_GEO) == 0) {
@@ -64,7 +66,10 @@ namespace dtn
 			}
 			//cout << "updatedEntryList(): we ARE tracking geo.  Let's get it on! " << endl;
 
-			Timestamp recTime;
+			// the time this bundle was received measured locally)
+			// we will pull this out of the TrackingEntry that was put on the list when it was received
+			// there should be a better way to do this, but the rx time doesn't seem to be recorded anywhere else
+			Timestamp rxTime;
 
 			const int MAX_CHARS_PER_LINE = 2048;
 			const int MAX_TOKENS_PER_LINE = 3;
@@ -79,13 +84,11 @@ namespace dtn
 			TrackingEntry entry = _entries.back();
 
 			if (entry.entry_type == TrackingEntry::HOPDATA) {
-				recTime = entry.timestamp;
+				rxTime = entry.timestamp;
 			} else {
 				// otherwise give up
 				return;
 			}
-
-			// worry about time conversion later
 
 			// read the gps log file
 			// create a file-reading object
@@ -96,7 +99,19 @@ namespace dtn
 				return; // exit if file not found
 			}
 
+			// it will be useful to know the current time
+			dtn::data::DTNTime dtntime;
+			dtntime.set();
+			Timestamp cur_time = dtntime.getTimestamp();
+
 			// read each line of the file
+			// create a TrackingEntry based on the line if it satisfies:
+			// - it happens after the time the bundle was received at this node
+			// - it it at least the tracking_interval since the last one we added an entry for
+			Timestamp last_entry_time = 0;
+			int num_entries_added = 0;
+			float lat, lon;
+			int epoch_timestamp;
 			while (!fin.eof()) {
 				// read an entire line into memory
 				char buf[MAX_CHARS_PER_LINE];
@@ -107,11 +122,9 @@ namespace dtn
 				std::string tsString;
 				std::string latString;
 				std::string lonString;
-				float lat, lon;
-				int ts;
 
 				if (0 < std::getline(  lineString , tsString , ';' )) {
-					ts = atoi(tsString.c_str());
+					epoch_timestamp = atoi(tsString.c_str());
 				} else { return; }
 
 				if (0 < std::getline(  lineString , latString , ';' )) {
@@ -129,14 +142,44 @@ namespace dtn
 				//append(ts,lat,lon);
 				//cout << "TrackingBlock::append(int time, float lat, float lon)" << endl;
 
+				Timestamp ts = epoch_timestamp;
+				ts -= dtn::utils::Clock::TIMEVAL_CONVERSION;
+
+				// bail out if for some reason this file goes into the future
+				if (ts > cur_time) {
+					break;
+				}
+
+				if ((ts >= rxTime) && ((ts-last_entry_time)>=tracking_interval)) {
+					last_entry_time = ts;
+					TrackingEntry entry(lat,lon);
+					if (getFlag(TrackingBlock::TRACK_TIMESTAMP)) {
+						entry.timestamp = epoch_timestamp;
+						// convert from epoch time to dtn time
+						entry.timestamp -= dtn::utils::Clock::TIMEVAL_CONVERSION;
+					} else {
+						entry.timestamp = 0;
+					}
+					l.push_back(entry);
+					//cout << "\tUSING file entry: (" << ts.get() << " , " << lat << " , " << lon << ")" << endl;
+					//cout << "l.size()=" << l.size() << endl;
+				} else {
+					//cout << "\tDISCARDING file entry: (" << ts.get() << " , " << lat << " , " << lon << ")" << endl;
+				}
+			}
+
+			// if we didn't add any entries just add the final entry in the file
+			// this is for cases where the bundle is forwarded right away
+			if (num_entries_added==0) {
 				TrackingEntry entry(lat,lon);
 				if (getFlag(TrackingBlock::TRACK_TIMESTAMP)) {
-					entry.timestamp = ts;
+					entry.timestamp = epoch_timestamp;
+					// convert from epoch time to dtn time
+					entry.timestamp -= dtn::utils::Clock::TIMEVAL_CONVERSION;
 				} else {
 					entry.timestamp = 0;
 				}
 				l.push_back(entry);
-				//cout << "l.size()=" << l.size() << endl;
 			}
 		}
 
