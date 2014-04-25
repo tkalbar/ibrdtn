@@ -326,6 +326,17 @@ namespace dtn
 						}
 					}
 
+					// do not forward bundles already known by the destination
+					// throws BloomfilterNotAvailableException if no filter is available or it is expired
+					try {
+						if (_entry.has(meta, true))
+						{
+							return false;
+						}
+					} catch (const dtn::routing::NeighborDatabase::BloomfilterNotAvailableException&) {
+						throw dtn::storage::BundleSelectorException();
+					}
+
 					// block is a GeoRoutingBlock
 					if (meta.hasgeoroute)
 					{
@@ -338,16 +349,6 @@ namespace dtn
 						}
 					}
 
-					// do not forward bundles already known by the destination
-					// throws BloomfilterNotAvailableException if no filter is available or it is expired
-					try {
-						if (_entry.has(meta, true))
-						{
-							return false;
-						}
-					} catch (const dtn::routing::NeighborDatabase::BloomfilterNotAvailableException&) {
-						throw dtn::storage::BundleSelectorException();
-					}
 
 					// if entry's (i.e., the potential destination) location does not match,
 
