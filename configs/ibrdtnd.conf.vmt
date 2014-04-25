@@ -122,7 +122,8 @@ logfile = /var/log/ibrdtn/ibrdtn.log
 # You can specify an multicast address to listen to for discovery announcements.
 # If no address is specified the multicast equivalent of broadcast is used.
 #
-discovery_address = ff02::142 224.0.0.142
+#discovery_address = ff02::142 224.0.0.142
+discovery_address = 224.0.0.142
 
 # Specify the timeout. If no further discovery announcement is received
 # for x seconds, the daemon assume that the node has went away.
@@ -152,7 +153,7 @@ discovery_address = ff02::142 224.0.0.142
 #
 # a list (seperated by spaces) of names for convergence layer instances.
 #
-#net_interfaces = lan0
+net_interfaces = lan0
 
 #
 # Try to connect to other nodes each x seconds.
@@ -170,9 +171,9 @@ discovery_address = ff02::142 224.0.0.142
 #
 # configuration for a convergence layer named lan0
 #
-#net_lan0_type = tcp					# we want to use TCP as protocol
-#net_lan0_interface = eth0			# listen on interface eth0 
-#net_lan0_port = 4556				# with port 4556 (default)
+net_lan0_type = tcp					# we want to use TCP as protocol
+net_lan0_interface = eth1			# listen on interface eth0 
+net_lan0_port = 4556				# with port 4556 (default)
 
 #
 # configuration for a convergence layer named lan1
@@ -220,7 +221,8 @@ discovery_address = ff02::142 224.0.0.142
 # own summary vector to neighbors. Prophet forwards based on the probability
 # to encounter other nodes (see RFC 6693).
 #
-routing = breadcrumb
+#routing = breadcrumb
+routing = default
 
 #
 # forward bundles to other nodes (yes/no)
@@ -388,7 +390,7 @@ routing = breadcrumb
 # Enable the DHT, if it was compiled
 # Default is no
 #
-dht_enabled = yes
+dht_enabled = no
 
 #
 # Set the udp port, the DHT should working on
