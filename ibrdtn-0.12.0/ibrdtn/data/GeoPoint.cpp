@@ -24,8 +24,8 @@ namespace dtn
 		GeoPoint::GeoPoint(float lat, float lon)
 		 : _scale_factor(1048576)
 		{
-			_latitude = (int)lat*_scale_factor;
-			_longitude = (int)lon*_scale_factor;
+			_latitude = (int)(lat*_scale_factor);
+			_longitude = (int)(lon*_scale_factor);
 		}
 
 		GeoPoint::~GeoPoint()
@@ -34,8 +34,8 @@ namespace dtn
 
 		void GeoPoint::set(float lat, float lon)
 		{
-			_latitude = (int)lat*_scale_factor;
-			_longitude = (int)lon*_scale_factor;
+			_latitude = (int)(lat*_scale_factor);
+			_longitude = (int)(lon*_scale_factor);
 		}
 
 		Length GeoPoint::getLength() const
@@ -67,5 +67,13 @@ namespace dtn
 			stream >> obj._longitude;
 			return stream;
 		}
+
+		const std::string GeoPoint::toString() const
+		{
+			std::stringstream ss;
+			ss << "(" << getLatitude() << " , " << getLongitude() << ")";
+			return ss.str();
+		}
+
 	}
 }

@@ -29,6 +29,8 @@ namespace dtn
 
 			Length getLength() const;
 
+			const std::string toString() const;
+
 		private:
 			friend std::ostream &operator<<(std::ostream &stream, const dtn::data::GeoPoint &obj);
 			friend std::istream &operator>>(std::istream &stream, dtn::data::GeoPoint &obj);

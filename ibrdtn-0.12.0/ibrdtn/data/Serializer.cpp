@@ -663,6 +663,7 @@ namespace dtn
 
 			// check for the right version
 			_stream.get(version);
+			cout << "DefaultDeserializer::operator >>:  read version=" << (int)version << endl;
 			if (version != dtn::data::BUNDLE_VERSION) throw dtn::InvalidProtocolException("Bundle version differ from ours.");
 
 			// PROCFLAGS
