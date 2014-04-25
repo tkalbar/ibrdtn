@@ -161,6 +161,7 @@ namespace dtn
 						entry.timestamp = 0;
 					}
 					l.push_back(entry);
+					num_entries_added++;
 					//cout << "\tUSING file entry: (" << ts.get() << " , " << lat << " , " << lon << ")" << endl;
 					//cout << "l.size()=" << l.size() << endl;
 				} else {
