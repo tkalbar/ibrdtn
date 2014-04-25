@@ -275,14 +275,20 @@ namespace dtn
 				bool checkMargin(const dtn::data::GeoRoutingBlock::GeoRoutingEntry &bundle_location) const
 				{
 					float margin = bundle_location.getMargin();
+
 					if ((abs(_peerloc._geopoint.getLatitude() - bundle_location.geopoint.getLatitude()) < margin)
 							&& (abs(_peerloc._geopoint.getLongitude() - bundle_location.geopoint.getLongitude()) < margin)) {
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Peer location: (" << _peerloc._geopoint.getLatitude() << "," << _peerloc._geopoint.getLongitude() << ")"<< IBRCOMMON_LOGGER_ENDL;
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Bundle location: (" << bundle_location.geopoint.getLatitude() << "," << bundle_location.geopoint.getLongitude() << ")"<< IBRCOMMON_LOGGER_ENDL;
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Margin: " << margin << IBRCOMMON_LOGGER_ENDL;
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Peer is in appropriate range of location" << IBRCOMMON_LOGGER_ENDL;
 						return true;
 					} else {
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Peer NOT in range" << IBRCOMMON_LOGGER_ENDL;
 						return false;
 					}
 					// TODO: add functionality, currently broken because float cannot be compared to number
-					return true;
+					//return true;
 				}
 
 				virtual bool shouldAdd(const dtn::data::MetaBundle &meta) const throw (dtn::storage::BundleSelectorException)
