@@ -272,14 +272,15 @@ namespace dtn
 
 				virtual dtn::data::Size limit() const throw () { return _entry.getFreeTransferSlots(); };
 
-				bool checkMargin(const dtn::routing::GeoLocation &peer_location, const dtn::data::GeoRoutingBlock::GeoRoutingEntry &bundle_location) const
+				bool checkMargin(const dtn::data::GeoRoutingBlock::GeoRoutingEntry &bundle_location) const
 				{
-					/*if ((abs(peer_location._latitude - bundle_location.geopoint.getLatitude()) < bundle_location.margin)
-							&& (abs(peer_location._longitude - bundle_location.geopoint.getLongitude()) < bundle_location.margin)) {
+					float margin = bundle_location.getMargin();
+					if ((abs(_peerloc._geopoint.getLatitude() - bundle_location.geopoint.getLatitude()) < margin)
+							&& (abs(_peerloc._geopoint.getLongitude() - bundle_location.geopoint.getLongitude()) < margin)) {
 						return true;
 					} else {
 						return false;
-					}*/
+					}
 					// TODO: add functionality, currently broken because float cannot be compared to number
 					return true;
 				}
@@ -342,7 +343,7 @@ namespace dtn
 					{
 						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "MetaBundle has georoute" << IBRCOMMON_LOGGER_ENDL;
 						// determine if location of peer is close enough to where bundle wants to go
-						if (checkMargin(_peerloc, meta.nextgeohop)) {
+						if (checkMargin(meta.nextgeohop)) {
 							return true;
 						} else {
 							return false;

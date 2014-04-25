@@ -90,7 +90,7 @@ namespace dtn
 				float _scale_factor;
 
 			public:
-				float getMargin() { return margin.get(); }
+				float getMargin() const { return margin.get(); }
 				void setMargin(float f) { margin = (int)(1024*1024*f); }
 
 
