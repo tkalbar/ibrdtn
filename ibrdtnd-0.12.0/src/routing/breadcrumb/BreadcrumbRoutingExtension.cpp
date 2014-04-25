@@ -471,7 +471,8 @@ namespace dtn
 
 		void BreadcrumbRoutingExtension::updateMyLocation() {
 			std::string filename = "/usr/local/etc/vmt_gps_coord.txt";
-			std::ifstream ifs("filename");
+			std::ifstream ifs;
+			ifs.open("/usr/local/etc/vmt_gps_coord.txt");
 			if (!ifs.is_open()) {
 				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Could not open vmt_gps_coord file" << IBRCOMMON_LOGGER_ENDL;
 				return;
