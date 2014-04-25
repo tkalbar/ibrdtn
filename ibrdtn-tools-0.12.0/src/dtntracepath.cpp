@@ -22,7 +22,8 @@
 #include "config.h"
 #include <ibrdtn/data/StatusReportBlock.h>
 #include <ibrdtn/data/TrackingBlock.h>
-#include "ibrdtn/api/Client.h"
+#include <ibrdtn/api/Client.h>
+#include <ibrdtn/utils/Clock.h>
 #include <ibrcommon/net/socket.h>
 #include <ibrcommon/net/socketstream.h>
 #include "ibrcommon/thread/Mutex.h"
@@ -44,7 +45,17 @@ public:
 
 		if (tracking) {
 			cout << "about to allocate TrackingBlock..." << endl;
-			push_back<dtn::data::TrackingBlock>();
+			dtn::data::TrackingBlock &tb = push_back<dtn::data::TrackingBlock>();
+			cout << "about to set TRACK_GEO flag..." << endl;
+			tb.setFlag(dtn::data::TrackingBlock::TRACK_GEO, true);
+			tb.setFlag(dtn::data::TrackingBlock::TRACK_TIMESTAMP, true);
+			// put on an initial entry
+			dtn::data::EID eid("dtn://dtntracepath");
+			tb.append(eid);
+			//tb.append(451683226,99.9,88.8);
+			//tb.append(451683227,77.7,66.6);
+			//tb.append(451683228,55.5,44.4);
+			//tb.append(eid);
 		}
 	}
 
@@ -180,7 +191,7 @@ class Tracer : public dtn::api::Client
 						if (entry.entry_type == dtn::data::TrackingBlock::TrackingEntry::HOPDATA) {
 							::printf("       # %s\t%d\n", entry.endpoint.getString().c_str(),entry.timestamp.get());
 						} else if (entry.entry_type == dtn::data::TrackingBlock::TrackingEntry::GEODATA) {
-							::printf("       # (%f , %f)\t%d\n", entry.endpoint.getString().c_str(),entry.timestamp.get());
+							::printf("       # (%f , %f)\t%d\n", entry.geopoint.getLatitude(), entry.geopoint.getLongitude(),entry.timestamp.get());
 						}
 					}
 
@@ -280,7 +291,7 @@ int main(int argc, char *argv[])
 	bool tracking = false;
 	bool group = false;
 
-	size_t timeout = 10;
+	size_t timeout = 1000;
 	int opt = 0;
 
 	dtn::api::Client::COMMUNICATION_MODE mode = dtn::api::Client::MODE_BIDIRECTIONAL;

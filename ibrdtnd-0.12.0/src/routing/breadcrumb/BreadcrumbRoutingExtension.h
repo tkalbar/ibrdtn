@@ -18,6 +18,7 @@
 #include <ibrdtn/data/SDNV.h>
 #include <ibrdtn/data/BundleString.h>
 #include <ibrdtn/data/ExtensionBlock.h>
+#include <ibrdtn/data/GeoRoutingBlock.h>
 
 #include <ibrcommon/thread/Queue.h>
 #include <ibrcommon/thread/Thread.h>
@@ -37,6 +38,14 @@ namespace dtn
 
 			GeoLocation _location;
 
+			ibrcommon::Mutex _next_exchange_mutex; ///< Mutex for the _next_exchange_timestamp.
+			dtn::data::Timestamp _next_exchange_timeout; ///< Interval in seconds how often Handshakes should be executed on longer connections.
+			dtn::data::Timestamp _next_exchange_timestamp; ///< Unix timestamp, when the next handshake is due.
+
+			ibrcommon::Mutex _next_loc_update_mutex;
+			dtn::data::Timestamp _next_loc_update_interval;
+			dtn::data::Timestamp _next_loc_update_timestamp;
+
 			BreadcrumbRoutingExtension();
 			virtual ~BreadcrumbRoutingExtension();
 
@@ -44,7 +53,7 @@ namespace dtn
 
 			virtual void eventBundleQueued(const dtn::data::EID &peer, const dtn::data::MetaBundle &meta) throw ();
 
-			void raiseEvent(const dtn::core::Event *evt) throw ();
+			virtual void raiseEvent(const dtn::core::Event *evt) throw ();
 			void componentUp() throw ();
 			void componentDown() throw ();
 
@@ -57,7 +66,7 @@ namespace dtn
 
 			virtual void processHandshake(const dtn::data::EID&, NodeHandshake&);
 
-
+			void updateMyLocation();
 
 		protected:
 			void run() throw ();
@@ -80,6 +89,24 @@ namespace dtn
 				virtual std::string toString();
 
 				const dtn::data::EID eid;
+			};
+
+			class NextExchangeTask : public Task
+			{
+			public:
+				NextExchangeTask();
+				virtual ~NextExchangeTask();
+
+				virtual std::string toString();
+			};
+
+			class UpdateMyLocationTask : public Task
+			{
+			public:
+				UpdateMyLocationTask();
+				virtual ~UpdateMyLocationTask();
+
+				virtual std::string toString();
 			};
 
 			/**

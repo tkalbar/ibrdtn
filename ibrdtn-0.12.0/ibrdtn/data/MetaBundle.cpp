@@ -26,11 +26,15 @@
 #include "ibrdtn/utils/Clock.h"
 #include "ibrdtn/data/ScopeControlHopLimitBlock.h"
 #include "ibrdtn/data/SchedulingBlock.h"
+#include "ibrdtn/data/GeoRoutingBlock.h"
+#include <ibrcommon/Logger.h>
 
 namespace dtn
 {
 	namespace data
 	{
+		const std::string MetaBundle::TAG = "BreadcrumbRoutingExtension";
+
 		MetaBundle MetaBundle::create(const dtn::data::BundleID &id)
 		{
 			return MetaBundle(id);
@@ -43,13 +47,13 @@ namespace dtn
 
 		MetaBundle::MetaBundle()
 		 : BundleID(), lifetime(0), destination(), reportto(),
-		   custodian(), appdatalength(0), procflags(0), expiretime(0), hopcount(Number::max()), net_priority(0)
+		   custodian(), appdatalength(0), procflags(0), expiretime(0), hopcount(Number::max()), net_priority(0), hasgeoroute(false)
 		{
 		}
 
 		MetaBundle::MetaBundle(const dtn::data::BundleID &id)
 		 : BundleID(id), lifetime(0), destination(), reportto(),
-		   custodian(), appdatalength(0), procflags(0), expiretime(0), hopcount(Number::max()), net_priority(0)
+		   custodian(), appdatalength(0), procflags(0), expiretime(0), hopcount(Number::max()), net_priority(0), hasgeoroute(false)
 		{
 			// apply fragment bit
 			setFragment(id.isFragment());
@@ -57,7 +61,7 @@ namespace dtn
 
 		MetaBundle::MetaBundle(const dtn::data::Bundle &b)
 		 : BundleID(b), lifetime(b.lifetime), destination(b.destination), reportto(b.reportto),
-		   custodian(b.custodian), appdatalength(b.appdatalength), procflags(b.procflags), expiretime(0), hopcount(Number::max()), net_priority(0)
+		   custodian(b.custodian), appdatalength(b.appdatalength), procflags(b.procflags), expiretime(0), hopcount(Number::max()), net_priority(0), hasgeoroute(false)
 		{
 			expiretime = dtn::utils::Clock::getExpireTime(b);
 
@@ -76,6 +80,16 @@ namespace dtn
 				const dtn::data::SchedulingBlock &sblock = b.find<dtn::data::SchedulingBlock>();
 				net_priority = sblock.getPriority();
 			} catch (const dtn::data::Bundle::NoSuchBlockFoundException&) { };
+
+			try {
+				const dtn::data::GeoRoutingBlock &grblock = b.find<dtn::data::GeoRoutingBlock>();
+				IBRCOMMON_LOGGER_TAG(MetaBundle::TAG, info) << "Adding nextgeohop to meta bundle" << IBRCOMMON_LOGGER_ENDL;
+				hasgeoroute = true;
+				std::list<GeoRoutingBlock::GeoRoutingEntry> entriesList = grblock.getRoute();
+				nextgeohop = entriesList.back();
+				entriesList.pop_back();
+			} catch (const dtn::data::Bundle::NoSuchBlockFoundException&) { };
+
 		}
 
 		MetaBundle::~MetaBundle()

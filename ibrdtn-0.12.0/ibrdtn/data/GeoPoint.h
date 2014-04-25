@@ -19,8 +19,8 @@ namespace dtn
 			GeoPoint(float lat, float lon = 0);
 			virtual ~GeoPoint();
 
-			float getLongitude();
-			float getLatitude();
+			float getLongitude() const;
+			float getLatitude() const;
 
 			/**
 			 * set the GeoPoint coords
@@ -28,6 +28,8 @@ namespace dtn
 			void set(float lat, float lon);
 
 			Length getLength() const;
+
+			const std::string toString() const;
 
 		private:
 			friend std::ostream &operator<<(std::ostream &stream, const dtn::data::GeoPoint &obj);
