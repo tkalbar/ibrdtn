@@ -230,10 +230,9 @@ int main(int argc, char *argv[])
                 for(dtn::data::TrackingBlock::tracking_list::const_iterator i = tb.getTrack().begin();i!=tb.getTrack().end();i++) {
                     if (i->entry_type == TrackingBlock::TrackingEntry::HOPDATA) {
                         dtn::data::BundleString endpoint(i->endpoint.getString());
-                        std::cout << endpoint << endl;
-                    }
-                    if (i->entry_type == TrackingBlock::TrackingEntry::GEODATA) {
-                        std::cout << i->geopoint.getLatitude() << " " << i->geopoint.getLongitude() << endl;
+                        std::cout << "\t(HOPDATA , " << i->timestamp.get() << " , " << endpoint.c_str() << ")" << endl;
+                    } else if (i->entry_type == TrackingBlock::TrackingEntry::GEODATA) {
+                        std::cout << "\t(GEODATA , " << i->timestamp.get() << " , " << i->geopoint.toString() << ")" << endl;
                     }
                  
                 }
