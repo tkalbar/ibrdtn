@@ -127,6 +127,8 @@ AS_IF([test "x$enable_android" = "xyes"], [
 	LOCAL_CHECK_IBRDTN
 	AC_SUBST(ibrdtn_CFLAGS)
 	AC_SUBST(ibrdtn_LIBS)
+	CPPFLAGS="$CPPFLAGS $ibrdtn_CFLAGS"
+	LDFLAGS="$LDFLAGS $ibrdrn_LDFLAGS"
 
 	# Checks for header files.
 	AC_CHECK_HEADERS([syslog.h pwd.h sys/inotify.h])
@@ -399,6 +401,7 @@ AC_CONFIG_FILES([Makefile \
 	src/routing/epidemic/Makefile \
 	src/routing/flooding/Makefile \
 	src/routing/prophet/Makefile \
+	src/routing/breadcrumb/Makefile \
 	src/security/Makefile \
 	src/api/Makefile \
 	etc/Makefile \
