@@ -1,8 +1,13 @@
-% SIG-ALTERNATE.CLS - VERSION 2.3
-% "COMPATIBLE" WITH THE "ACM_PROC_ARTICLE-SP.CLS" V3.1SP
-% Gerald Murray June 7th. 2007
+% SIG-ALTERNATE.CLS - VERSION 2.5
+% "COMPATIBLE" WITH THE "ACM_PROC_ARTICLE-SP.CLS" V3.2SP
+% Gerald Murray - May 23rd 2012
 %
 % ---- Start of 'updates'  ----
+% Changed $10 fee to $15 -- May 2012  --  Gerry
+% Changed $5 fee to $10 --  April 2009 -- Gerry
+% April 22nd. 2009 - Fixed 'Natbib' incompatibility problem - Gerry
+% April 22nd. 2009 - Fixed 'Babel' incompatibility problem - Gerry
+% April 22nd. 2009 - Inserted various bug-fixes and improvements - Gerry
 %
 % To produce Type 1 fonts in the document plus allow for 'normal LaTeX accenting' in the critical areas;
 % title, author block, section-heads, confname, etc. etc. 
@@ -37,9 +42,9 @@
 %
 % ---- End of 'updates' ----
 %
-\def\fileversion{v2.3}          % for ACM's tracking purposes
-\def\filedate{June 7, 2007}    % Gerry Murray's tracking data
-\def\docdate {Thursday 7th. June 2007} % Gerry Murray (with deltas to doc}
+\def\fileversion{v2.5}          % for ACM's tracking purposes
+\def\filedate{May 23, 2012}    % Gerry Murray's tracking data
+\def\docdate {Wednesday 23rd. May 2012} % Gerry Murray (with deltas to doc}
 \usepackage{epsfig}
 \usepackage{amssymb}
 \usepackage{amsmath}
@@ -108,7 +113,7 @@
 %%% You may turn this hackery off via the -e option:
 %%%     dvips -e 0 foo.dvi >foo.ps
 %%%
-\typeout{Document Class 'sig-alternate' <7th. June '07>.  Modified by G.K.M. Tobin/Gerry Murray}
+\typeout{Document Class 'sig-alternate' <23rd. May '12>.  Modified by G.K.M. Tobin/Gerry Murray}
 \typeout{Based in part upon document Style `acmconf' <22 May 89>. Hacked 4/91 by}
 \typeout{shivers@cs.cmu.edu, 4/93 by theobald@cs.mcgill.ca}
 \typeout{Excerpts were taken from (Journal Style) 'esub2acm.cls'.}
@@ -198,11 +203,14 @@
 \@endparpenalty   -\@lowpenalty % After a list or paragraph environment.
 \@itempenalty     -\@lowpenalty % Between list items.
 
-\@namedef{ds@10pt}{\@latexerr{The `10pt' option is not allowed in the `acmconf'
+%\@namedef{ds@10pt}{\@latexerr{The `10pt' option is not allowed in the `acmconf'
+\@namedef{ds@10pt}{\ClassError{The `10pt' option is not allowed in the `acmconf'	% January 2008
   document style.}\@eha}
-\@namedef{ds@11pt}{\@latexerr{The `11pt' option is not allowed in the `acmconf'
+%\@namedef{ds@11pt}{\@latexerr{The `11pt' option is not allowed in the `acmconf'
+\@namedef{ds@11pt}{\ClassError{The `11pt' option is not allowed in the `acmconf'	% January 2008
   document style.}\@eha}
-\@namedef{ds@12pt}{\@latexerr{The `12pt' option is not allowed in the `acmconf'
+%\@namedef{ds@12pt}{\@latexerr{The `12pt' option is not allowed in the `acmconf'
+\@namedef{ds@12pt}{\ClassError{The `12pt' option is not allowed in the `acmconf'	% January 2008
   document style.}\@eha}
 
 \@options
@@ -448,8 +456,12 @@
 \def\@dotsep{4.5}
 \setcounter{tocdepth}{3}
 
-\def\tableofcontents{\@latexerr{\tableofcontents: Tables of contents are not
-  allowed in the `acmconf' document style.}\@eha}
+%\def\tableofcontents{\@latexerr{\tableofcontents: Tables of contents are not
+%  allowed in the `acmconf' document style.}\@eha}
+
+\def\tableofcontents{\ClassError{%
+    \string\tableofcontents\space is not allowed in the `acmconf' document	% January 2008
+    style}\@eha}
 
 \def\l@part#1#2{\addpenalty{\@secpenalty}
    \addvspace{2.25em plus 1pt}  % space above part line
@@ -482,14 +494,23 @@
 \def\l@paragraph{\@dottedtocline{4}{7.0em}{4.1em}}
 \def\l@subparagraph{\@dottedtocline{5}{10em}{5em}}
 
-\def\listoffigures{\@latexerr{\listoffigures: Lists of figures are not
-  allowed in the `acmconf' document style.}\@eha}
+%\def\listoffigures{\@latexerr{\listoffigures: Lists of figures are not
+%  allowed in the `acmconf' document style.}\@eha}
+
+\def\listoffigures{\ClassError{%
+    \string\listoffigures\space is not allowed in the `acmconf' document	% January 2008
+    style}\@eha}
 
 \def\l@figure{\@dottedtocline{1}{1.5em}{2.3em}}
 
-\def\listoftables{\@latexerr{\listoftables: Lists of tables are not
-  allowed in the `acmconf' document style.}\@eha}
-\let\l@table\l@figure
+%\def\listoftables{\@latexerr{\listoftables: Lists of tables are not
+%  allowed in the `acmconf' document style.}\@eha}
+%\let\l@table\l@figure
+
+\def\listoftables{\ClassError{%
+    \string\listoftables\space is not allowed in the `acmconf' document		% January 2008
+    style}\@eha}
+ \let\l@table\l@figure
 
 \def\footnoterule{\kern-3\p@
   \hrule width .5\columnwidth   % (was .4) updated Gerry March 20 2007
@@ -545,7 +566,8 @@
 \def\ext@figure{lof}
 \def\fnum@figure{Figure \thefigure}
 \def\figure{\@float{figure}}
-\let\endfigure\end@float
+%\let\endfigure\end@float
+\def\endfigure{\end@float} 		% Gerry January 2008
 \@namedef{figure*}{\@dblfloat{figure}}
 \@namedef{endfigure*}{\end@dblfloat}
 
@@ -556,7 +578,8 @@
 \def\ext@table{lot}
 \def\fnum@table{Table \thetable}
 \def\table{\@float{table}}
-\let\endtable\end@float
+%\let\endtable\end@float
+\def\endtable{\end@float}		% Gerry January 2008
 \@namedef{table*}{\@dblfloat{table}}
 \@namedef{endtable*}{\end@dblfloat}
 
@@ -587,7 +610,7 @@
 
 \if@ll
   \NeedsTeXFormat{LaTeX2e}
-  \ProvidesClass{sig-alternate} [2007/06/07 - V2.3 - based on acmproc.cls V1.3 <Nov. 30 '99>]
+  \ProvidesClass{sig-alternate} [2012/05/23 - V2.5 - based on acmproc.cls V1.3 <Nov. 30 '99>]
   \RequirePackage{latexsym}% QUERY: are these two really needed?
   \let\dooptions\ProcessOptions
 \else
@@ -834,8 +857,12 @@
 \def\conferenceinfo#1#2{\global\conf={#1}\global\confinfo{#2}}
 
 
-\def\marginpar{\@latexerr{The \marginpar command is not allowed in the
-  `acmconf' document style.}\@eha}
+%\def\marginpar{\@latexerr{The \marginpar command is not allowed in the
+%  `acmconf' document style.}\@eha}
+
+\def\marginpar{\ClassError{%
+    \string\marginpar\space is not allowed in the `acmconf' document		% January 2008
+    style}\@eha}
 
 \mark{{}{}}     % Initializes TeX's marks
 
@@ -938,7 +965,8 @@
         \hskip 10\p@
         \hskip \labelsep
         {\it #2%
-         \savebox\@tempboxa{#3}%
+%         \savebox\@tempboxa{#3}%
+         \saveb@x\@tempboxa{#3}%		% January 2008
          \ifdim \wd\@tempboxa>\z@
             \ \box\@tempboxa
          \fi.%
@@ -1179,17 +1207,23 @@
     \fi
     \@ifstar{\@citeNB\@@cite}{\@normalcite\@@cite}%
 }
-\def\cite{\start@cite23}
-\def\citeNP{\cite*}
-\def\citeA{\start@cite10}
+%\def\cite{\start@cite23}
+\DeclareRobustCommand\cite{\start@cite23}		% January 2008
+\def\citeNP{\cite*}					% No Parentheses e.g. 5
+%\def\citeA{\start@cite10}
+\DeclareRobustCommand\citeA{\start@cite10}		% January 2008
 \def\citeANP{\citeA*}
-\def\shortcite{\start@cite23}
+%\def\shortcite{\start@cite23}				
+\DeclareRobustCommand\shortcite{\start@cite23}		% January 2008
 \def\shortciteNP{\shortcite*}
-\def\shortciteA{\start@cite20}
+%\def\shortciteA{\start@cite20}
+\DeclareRobustCommand\shortciteA{\start@cite20}		% January 2008
 \def\shortciteANP{\shortciteA*}
-\def\citeyear{\start@cite30}
+%\def\citeyear{\start@cite30}
+\DeclareRobustCommand\citeyear{\start@cite30}		% January 2008
 \def\citeyearNP{\citeyear*}
-\def\citeN{%
+%\def\citeN{%
+\DeclareRobustCommand\citeN{%				% January 2008
     \@citeRB
     \def\citeauthoryear##1##2##3{##1\ [##3%
         \def\reserved@a{##1}%
@@ -1206,7 +1240,8 @@
     }%
     \@ifstar\@citeyear\@citeyear
 }
-\def\shortciteN{%
+%\def\shortciteN{%
+\DeclareRobustCommand\shortciteN{%			% January 2008
     \@citeRB
     \def\citeauthoryear##1##2##3{##2\ [##3%
         \def\reserved@a{##2}%
@@ -1223,20 +1258,26 @@
     }%
     \@ifstar\@citeyear\@citeyear  % GM July 2000
 }
+
 \def\@citenormal{%
-    \@ifnextchar [{\@tempswatrue\@citex;}
-                  {\@tempswafalse\@citex,[]}% % GM July 2000
+    \@ifnextchar [{\@tempswatrue\@citex;}%
+% original                 {\@tempswafalse\@citex,[]}% was ; Gerry 2/24/00
+{\@tempswafalse\@citex[]}%  	% GERRY FIX FOR BABEL 3/20/2009
 }
+
 \def\@citeyear{%
     \@ifnextchar [{\@tempswatrue\@citex,}%
-                  {\@tempswafalse\@citex,[]}%
+% original                  {\@tempswafalse\@citex,[]}%
+{\@tempswafalse\@citex[]}%	%  GERRY FIX FOR BABEL 3/20/2009
 }
+
 \def\@citex#1[#2]#3{%
     \let\@citea\@empty
     \@cite{%
         \@for\@citeb:=#3\do{%
             \@citea
-            \def\@citea{#1 }%
+% original            \def\@citea{#1 }%
+            \def\@citea{#1, }% 	% GERRY FIX FOR BABEL 3/20/2009 -- SO THAT YOU GET [1, 2] IN THE BODY TEXT
             \edef\@citeb{\expandafter\@iden\@citeb}%
             \if@filesw
                 \immediate\write\@auxout{\string\citation{\@citeb}}%
@@ -1251,7 +1292,12 @@
         }%
     }{#2}%
 }
-\let\@biblabel\@gobble
+%\let\@biblabel\@gobble   % Dec. 2008 - Gerry
+% ----
+\def\@biblabelnum#1{[#1]} % Gerry's solution #1 - for Natbib -- April 2009
+\let\@biblabel=\@biblabelnum  % Gerry's solution #1 - for Natbib -- April 2009
+\def\newblock{\relax} % Gerry Dec. 2008
+% ---
 \newdimen\bibindent
 \setcounter{enumi}{1}
 \bibindent=0em
@@ -1287,7 +1333,8 @@
 
 \newcount\colcntr
 \global\colcntr=0
-\newbox\savebox
+%\newbox\savebox
+\newbox\saveb@x				% January 2008
 
 \gdef \@makecol {%
 \global\advance\colcntr by 1
@@ -1376,14 +1423,14 @@
 \newtoks\acmcopyr
 \newtoks\boilerplate
 \global\acmcopyr={X-XXXXX-XX-X/XX/XX}  % Default - 5/11/2001 *** Gerry
-\global\copyrtyr={200X}                % Default - 3/3/2003 *** Gerry
+\global\copyrtyr={20XX}                % Default - 3/3/2003 *** Gerry
 \def\CopyrightYear#1{\global\copyrtyr{#1}}
 \def\crdata#1{\global\acmcopyr{#1}}
 \def\permission#1{\global\boilerplate{#1}}
 %
 \global\boilerplate={Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page.  To copy otherwise, to republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee.}
 \newtoks\copyrightetc
-\global\copyrightetc{Copyright \the\copyrtyr\ ACM \the\acmcopyr}
+\global\copyrightetc{Copyright \the\copyrtyr\ ACM \the\acmcopyr\ ...\$15.00} % Gerry changed to 15 May 2012
 \toappear{\the\boilerplate\par
 {\confname{\the\conf}} \the\confinfo\par \the\copyrightetc.}
 %\DeclareFixedFont{\altcrnotice}{OT1}{tmr}{m}{n}{8}  % << patch needed for accenting e.g. Montreal - Gerry, May 2007
@@ -1599,5 +1646,4 @@
 
 \endinput
 %
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
