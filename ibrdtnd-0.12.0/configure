@@ -11961,7 +11961,7 @@ AM_BACKSLASH='\'
 
 
 
-$as_echo "#define BUILD_NUMBER \"6ba8f6b\"" >>confdefs.h
+$as_echo "#define BUILD_NUMBER \"c49b3c8\"" >>confdefs.h
 
 
 
@@ -17140,6 +17140,8 @@ fi
 
 
 
+	CPPFLAGS="$CPPFLAGS $ibrdtn_CFLAGS"
+	LDFLAGS="$LDFLAGS $ibrdrn_LDFLAGS"
 
 	# Checks for header files.
 	for ac_header in syslog.h pwd.h sys/inotify.h
@@ -19851,6 +19853,7 @@ do
     "src/routing/epidemic/Makefile") CONFIG_FILES="$CONFIG_FILES src/routing/epidemic/Makefile" ;;
     "src/routing/flooding/Makefile") CONFIG_FILES="$CONFIG_FILES src/routing/flooding/Makefile" ;;
     "src/routing/prophet/Makefile") CONFIG_FILES="$CONFIG_FILES src/routing/prophet/Makefile" ;;
+    "src/routing/breadcrumb/Makefile") CONFIG_FILES="$CONFIG_FILES src/routing/breadcrumb/Makefile" ;;
     "src/security/Makefile") CONFIG_FILES="$CONFIG_FILES src/security/Makefile" ;;
     "src/api/Makefile") CONFIG_FILES="$CONFIG_FILES src/api/Makefile" ;;
     "etc/Makefile") CONFIG_FILES="$CONFIG_FILES etc/Makefile" ;;

@@ -27,6 +27,10 @@
 #include <ibrcommon/thread/MutexLock.h>
 #include <ibrcommon/thread/SignalHandler.h>
 #include <ibrcommon/Logger.h>
+#include <ibrdtn/data/GeoRoutingBlock.h>
+#include <ibrdtn/data/TrackingBlock.h>
+#include <ibrdtn/data/BundleString.h>
+
 
 #include <sys/types.h>
 #include <iostream>
@@ -203,6 +207,37 @@ int main(int argc, char *argv[])
 
 			// get the reference to the blob
 			ibrcommon::BLOB::Reference ref = b.find<dtn::data::PayloadBlock>().getBLOB();
+
+            try {
+                dtn::data::GeoRoutingBlock gb = b.find<dtn::data::GeoRoutingBlock>();
+                std::cout << "Received geo routing block:"<< endl;
+                for(dtn::data::GeoRoutingBlock::tracking_list::const_iterator i = gb.getRoute().begin();i!=gb.getRoute().end();i++) {
+
+                    if (i->getFlag(GeoRoutingBlock::GeoRoutingEntry::EID_REQUIRED)) {
+                        dtn::data::BundleString endpoint(i->eid.getString());
+                        std::cout << endpoint << endl;
+                    }
+                    if (i->getFlag(GeoRoutingBlock::GeoRoutingEntry::GEO_REQUIRED)) {
+                        std::cout << i->geopoint.getLatitude() << " " << i->geopoint.getLongitude() << endl;
+                    }
+                                                
+                }
+            } catch(const dtn::data::Bundle::NoSuchBlockFoundException &) {
+            }
+            try {
+                dtn::data::TrackingBlock tb = b.find<dtn::data::TrackingBlock>();
+                std::cout << "Received tracking block:" << endl;
+                for(dtn::data::TrackingBlock::tracking_list::const_iterator i = tb.getTrack().begin();i!=tb.getTrack().end();i++) {
+                    if (i->entry_type == TrackingBlock::TrackingEntry::HOPDATA) {
+                        dtn::data::BundleString endpoint(i->endpoint.getString());
+                        std::cout << "\t(HOPDATA , " << i->timestamp.get() << " , " << endpoint.c_str() << ")" << endl;
+                    } else if (i->entry_type == TrackingBlock::TrackingEntry::GEODATA) {
+                        std::cout << "\t(GEODATA , " << i->timestamp.get() << " , " << i->geopoint.toString() << ")" << endl;
+                    }
+                 
+                }
+            } catch(const dtn::data::Bundle::NoSuchBlockFoundException&) {
+            }
 
 			// write the data to output
 			if (_stdout)

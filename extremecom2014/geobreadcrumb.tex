@@ -1,0 +1,127 @@
+\documentclass{sig-alternate}
+%\documentclass{sig-alternate-10pt}
+ 
+\usepackage{verbatim}
+\usepackage{graphics}
+\usepackage{color}
+\usepackage{url}
+\usepackage{subfigure}
+\usepackage{mdwlist}
+\usepackage{floatflt}
+
+\begin{document}
+
+\conferenceinfo{ExtremeCom}{2014}
+\CopyrightYear
+\crdata
+
+\input{title}
+\begin{abstract}
+\begin{sloppypar}
+Since the dawn of time, man has wanted to know where the heck his bundles went, and to send them back on a specific geo-coded route.  Our new BreadCrumb Router and its associated extension block processors satisfiy this cosmic desire of human existence.  
+\end{sloppypar}
+\end{abstract}
+
+\category{C.2.1}{Network Architecture and Design}{Store and forward networks}
+%\terms{Design, Experimentation, Performance}
+\keywords{Delay-Tolerant Networks, Bundle Protocol, Geographic routing}
+
+% -----------------------------------------------
+%
+%   Introduction
+%
+% -----------------------------------------------
+\section{Introduction}
+Since the dawn of time, man has wanted to know where the heck his bundles went, and to send them back on a specific geo-coded route.  Our new BreadCrumb Router and its associated extension block processors satisfiy this cosmic desire of human existence.  
+
+The {\bf traceroute} tool is a staple of traditional IP networks.  It allows a user or administrator to discover the sequence of IP routers their packets pass through between a specific source and destination.  Traceroute works by taking advantage of existing IGMP hop-count and reporting requirements.  Bundle Protocol as defined in RFC5050 has no inherent facility that can achieve this.  Furthermore, because the route a bundle takes may not be stable (one bundle may pass through one sequence of nodes, and a bundle sent a minute later may take another route) it is more salient in a DTN to comprehensively track the entire route of a single bundle, rather than send a series of bundles to probe the network.  Therefore bundle tracking functionality must be built fully as an extension to BP.  Additionally, since in many use cases the geographic mobility of the nodes in a DTN plays an integral part in the routing and delivery of a bundle, tracking the geographic route a bundle follows can be at least as interesting, and possibly {\it more} salient than the logical hops the bundle passes through.
+
+Besides being an illuminating diagnostic tool to understand the behavior of a DTN, tracking the geographic route of a bundle can capture important meta-information related to the contents of a bundle.  The simplest example of this is simply geo-tagging the location where a bundle originated.  A more involved example is tinkerpopping the datums of an oil slick with trajectories with a graph database as described in \cite{jonas-paper} and to be elaborated on here and in the following sections by Jonas and Christine.  Datums: it's the plural of ``datum'' when you're talking about geodetic information, dammit!
+
+Converse to simply geotracking a bundle, we build a prototype router for source geo-routing of a bundle.  In traditional IP networks, extensions to support source routing are defined for both IPv4 and IPv6, but are rarely used and often not supported or blocked.  Some reasons source routing could be used are to probe the structure of a newtork, or to specify that packets should avoid sections hops in a networks that are known to be problematic because of congestion, reliability, or security concerns.  Implementing this type of {\it logical} hop-based source routing in DTN is certainly feasible, but in a dynamic mobile network is is difficult to imagine that a source will know exactly which intermediate nodes will be available to ferry its bundles.  Considering the importance of the geographic path in DTN routing, we propose geographic source routing.  In this system a sender can specify both logical (intermediate nodes) and geographic waypoints a bundle must pass through on its way to the destination.
+
+Geographic routing has been proposed and used in many DTN scenarios \cite{paper1,paper2,paper3,paper4,paper5,paper6}.  In most cases greedy geographic routing is used locally to move a bundle closer to a destination.  In other cases large-scale logical hops over an infrastructre network are used to get a bundle to general geographic area of interest, and then other types of routing take precedence to get the bundle to its final destination.  Source geo-routing is different in that it allows a sender to pre-specify solutions to problems that can arise from greedy geographic routing.  Somce of these issues and goals are:
+\begin{itemize}
+  \item avoiding dead-ends in the network. I.e. local minimal in the greedy geographic routing heuristic.
+  \item avoiding geographic areas where unreliability or conjections is anticipated.  For example if a shortest geographic route goes past a baseball stadium, but a game is scheduled for that day, a source may request that a bundle be routed around the expected traffic jam.
+  \item ensuring that network coded bundles take sufficiently diverse routes.  Since network coded information can be viewed as a shared secret problem, ensuring that not all of the encodings are ever in the same geographic are could be a security measure in a DTN.
+\end{itemize}
+
+\subsection {Prior Work}
+
+
+% -----------------------------------------------
+%
+%   Use Cases
+%
+% -----------------------------------------------
+\section{Use Cases}
+
+
+% -----------------------------------------------
+%
+%   Architecture and Implementation
+%
+% -----------------------------------------------
+\section{Architecture and Implementation}
+
+
+% -----------------------------------------------
+%   Geo-Tracking Block
+% -----------------------------------------------
+\subsection{Geo-tracking Block}
+
+% -----------------------------------------------
+%   Geo-Routing Block
+% -----------------------------------------------
+\subsection{Geo-routing Block}
+
+% -----------------------------------------------
+%   The Breadcrumb Router
+% -----------------------------------------------
+\subsection{The Breadcrumb Router}
+
+
+% -----------------------------------------------
+%
+%   Experiments
+%
+% -----------------------------------------------
+\section{Experiments}
+
+\subsection{Mobility Scenario}
+
+
+
+% -----------------------------------------------
+%
+%   Conclusion
+%
+% -----------------------------------------------
+\section{Conclusion}
+
+
+
+
+% Once the sections and outline are solidified, breaking the paper up into separate files will be useful.  For now I'll put the sections inline.
+%
+%\input{introduction}
+%\input{background}
+%\input{routing}
+%\input{evaluationPharos}
+%\input{evaluationNYC}
+%\input{evaluationVMT}
+%\input{evaluationBrief}
+%\input{conclusion}
+%\input{related}
+% removed in favor of combining related work with "Background" section
+%\section*{Acknowledgments}
+%This work was funded in part by the US Dept. of Defense. The views expressed are those of the authors and may not necessarily reflect the views of the sponsoring agencies.\\
+
+\bibliographystyle{abbrv}
+%\begin{scriptsize}
+\bibliography{geobreadcrumb}
+%\end{scriptsize}
+
+\end{document}
+
