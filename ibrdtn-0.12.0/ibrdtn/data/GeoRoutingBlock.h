@@ -102,8 +102,8 @@ namespace dtn
 			const tracking_list& getRoute() const;
 
 			void append(const dtn::data::EID &eid);
-			void append(float lat, float lon, int margin);
-			void append(const dtn::data::EID &eid, float lat, float lon, int margin);
+			void append(float lat, float lon, float margin);
+			void append(const dtn::data::EID &eid, float lat, float lon, float margin);
 
 		private:
 			tracking_list _entries;

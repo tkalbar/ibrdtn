@@ -143,7 +143,7 @@ namespace dtn
 			_entries.push_back(entry);
 		}
 
-		void GeoRoutingBlock::append(float lat, float lon, int margin)
+		void GeoRoutingBlock::append(float lat, float lon, float margin)
 		{
 			GeoRoutingEntry entry;
 
@@ -153,7 +153,7 @@ namespace dtn
 			_entries.push_back(entry);
 		}
 
-		void GeoRoutingBlock::append(const dtn::data::EID &eid, float lat, float lon, int margin)
+		void GeoRoutingBlock::append(const dtn::data::EID &eid, float lat, float lon, float margin)
 		{
 			GeoRoutingEntry entry;
 
