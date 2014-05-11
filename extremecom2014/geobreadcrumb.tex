@@ -38,13 +38,13 @@ The {\bf traceroute} tool is a staple of traditional IP networks.  It allows a u
 
 Besides being an illuminating diagnostic tool to understand the behavior of a DTN, tracking the geographic route of a bundle can capture important meta-information related to the contents of a bundle.  The simplest example of this is simply geo-tagging the location where a bundle originated.  A more involved example is tinkerpopping the datums of an oil slick with trajectories with a graph database as described in \cite{jonas-paper} and to be elaborated on here and in the following sections by Jonas and Christine.  Datums: it's the plural of ``datum'' when you're talking about geodetic information, dammit!
 
-Converse to simply geotracking a bundle, we build a prototype router for source geo-routing of a bundle.  In traditional IP networks, extensions to support source routing are defined for both IPv4 and IPv6, but are rarely used and often not supported or blocked.  Some reasons source routing could be used are to probe the structure of a newtork, or to specify that packets should avoid sections hops in a networks that are known to be problematic because of congestion, reliability, or security concerns.  Implementing this type of {\it logical} hop-based source routing in DTN is certainly feasible, but in a dynamic mobile network is is difficult to imagine that a source will know exactly which intermediate nodes will be available to ferry its bundles.  Considering the importance of the geographic path in DTN routing, we propose geographic source routing.  In this system a sender can specify both logical (intermediate nodes) and geographic waypoints a bundle must pass through on its way to the destination.
+Converse to simply geotracking a bundle, we build a prototype router for source geo-routing of a bundle.  In traditional IP networks, extensions to support source routing are defined for both IPv4 and IPv6, but are rarely used and often not supported or blocked.  On the other hand source routing is an integral part of some MANET routing protocols \cite{some-DSR-paper}.  Some reasons source routing could be used are to probe the structure of a newtork, or to specify that packets should avoid sections of a network that are known to be problematic because of congestion, reliability, or security concerns.  Implementing this type of {\it logical} hop-based source routing in DTN is certainly feasible, but in a dynamic mobile network is is difficult to imagine that a source will know exactly which intermediate nodes will be available to ferry its bundles.  Considering the importance of the geographic path in DTN routing, we propose geographic source routing.  In this system a sender can specify both logical (intermediate nodes) and geographic waypoints a bundle must pass through on its way to the destination.
 
-Geographic routing has been proposed and used in many DTN scenarios \cite{paper1,paper2,paper3,paper4,paper5,paper6}.  In most cases greedy geographic routing is used locally to move a bundle closer to a destination.  In other cases large-scale logical hops over an infrastructre network are used to get a bundle to general geographic area of interest, and then other types of routing take precedence to get the bundle to its final destination.  Source geo-routing is different in that it allows a sender to pre-specify solutions to problems that can arise from greedy geographic routing.  Somce of these issues and goals are:
+Geographic routing has been proposed and used in many DTN scenarios \cite{paper1,paper2,paper3,paper4,paper5,paper6}.  In most cases greedy geographic routing is used locally to move a bundle closer to a destination.  In other cases large-scale logical hops over an infrastructre network are used to get a bundle to a general geographic area of interest, and then other types of routing take precedence to get the bundle to its final destination.  Source geo-routing is different in that it allows a sender to pre-specify solutions to problems that can arise from greedy geographic routing.  Some of these issues and goals are:
 \begin{itemize}
-  \item avoiding dead-ends in the network. I.e. local minimal in the greedy geographic routing heuristic.
-  \item avoiding geographic areas where unreliability or conjections is anticipated.  For example if a shortest geographic route goes past a baseball stadium, but a game is scheduled for that day, a source may request that a bundle be routed around the expected traffic jam.
-  \item ensuring that network coded bundles take sufficiently diverse routes.  Since network coded information can be viewed as a shared secret problem, ensuring that not all of the encodings are ever in the same geographic are could be a security measure in a DTN.
+  \item avoiding known dead-ends in the network. I.e. local minima in the greedy geographic routing heuristic.
+  \item avoiding geographic areas where unreliability or congestion is anticipated.  For example if a shortest geographic route goes past a baseball stadium, but a game is scheduled for that day, a source may request that a bundle be routed around the expected traffic jam.
+  \item ensuring that network coded bundles take sufficiently diverse routes.  Since network coded information can be viewed as a shared secret problem, ensuring that not all of the encodings are ever in the same geographic area could be a security measure in a DTN.
 \end{itemize}
 
 \subsection {Prior Work}
@@ -57,6 +57,44 @@ Geographic routing has been proposed and used in many DTN scenarios \cite{paper1
 % -----------------------------------------------
 \section{Use Cases}
 
+There are many potential use cases for the GeoTracking and GeoRouting extensions.  For the purposes of testing and demonstration we focus on one in this paper.
+
+% -----------------------------------------------
+%   The Maze!
+% -----------------------------------------------
+\subsection{The Maze!}
+
+The primary use case we investigate in this paper is designed to plausibly and concisely demonstrate the power and functionality of geotracking and source geo-routing in a DTN.
+
+In our scenario a prisoner is held in a maze, and the maze is patrolled by guards who can act as intermediate DTN nodes.  The prisoner sends a bundle, with a GeoTracking block attached, to a rescuer outside the maze.  Initially, when no GeoRouting block is attached, the bundle is routed by the Epidemic routing module.  The GeoTracking block is maintained along the entire route.  Necessarily, then, the first bundle to reach the destination contains enough information to reconstruct the most efficient route through the maze.  The rescuer can remove any backtracked paths the bundle took, and send a bundle with a GeoRouting block attached to the prisoner.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=.9\columnwidth]{figures/maze.pdf}
+\end{center}
+\caption{The maze!}
+\label{fig:maze}
+\end{figure}
+
+% -----------------------------------------------
+%   The Oil Spill!
+% -----------------------------------------------
+\subsection{The Oil Spill!}
+
+
+% -----------------------------------------------
+%   The Volcano!
+% -----------------------------------------------
+\subsection{The Volcano!}
+
+
+% -----------------------------------------------
+%   The Sharknado!
+% -----------------------------------------------
+\subsection{The Sharknado!}
+
+
+
 
 % -----------------------------------------------
 %
@@ -65,14 +103,38 @@ Geographic routing has been proposed and used in many DTN scenarios \cite{paper1
 % -----------------------------------------------
 \section{Architecture and Implementation}
 
+Here we will describe the design, implementation, and architectural considerations of the GeoTracking and GeoRouting blocks, and the Breadcrumb Router.  All three of these componets involve tying together GPS information that is usually available in a platform-dependent way and is constantly changing, into the BPA.  This is espacially challenging to implement in the IBR-DTN architecture, since all bundle information is held in persistent storage and must be access through bundle filters, and the design ethos dictates that we not create any RAM-based data structures that would grow with the number of bundles held.
+
 
 % -----------------------------------------------
-%   Geo-Tracking Block
+%   GeoTracking Block
 % -----------------------------------------------
 \subsection{Geo-tracking Block}
 
+The GeoTracking Block consists of a small header containing parameters for maintaining the block and the number of tracking entries, followed by a series of TrackingEntry fields.  Each TrackingEntry consists of an entry type, and a block of entry data.  The contents of the entry depend on the entry type.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=.9\columnwidth]{figures/tracking-block.pdf}
+\end{center}
+\caption{Format of the GeoTracking Block}
+\label{fig:tracking-block}
+\end{figure}
+
+The format of the block is depicted in figure~\ref{fig:tracking-block}.  The block header fields apply to every block in a bundle and the format is specified by RFC5050.  In IBR-DTN the block processor only deals with the contents of the block itself, and the BPA strips off the block header.  There are three mandatory fields in the GeoTracking block:
+\begin{description}
+  \item[Flags] These flags tell intermediate BPAs what information to append to the block.  There are three flags defined: {\bf TRACK\_HOPS} (0x01), {\bf TRACK\_GEO} (0x02), and {\bf TRACK\_TIMESTAMP} (0x04).
+  \item[Interval] This tells intermediat BPAs the interval at which to append a GEODATA TrackingEntry to the entry list.  The interval is specified in seconds.
+  \item[Entry Count] This is the number of TrackingEntry in the block.
+\end{description}
+
+Maintaining and updating the GeoTracking is a dilemma.  We would like for the block stored in the BPA to always be up to date, but it is not feasible to update it in real time for several reasons.  First, the may be many bundles held at the BPA with GeoTracking blocks, and with tracking specified at different intervals.  Updating them all in real time would require quite a few timers, and (in the case of IBR-DTN) reloading/storing each of those bundles from disk each time a new entry is to be attached.  We concluded that it is best to maintain a global GPS log and to only update the GeoTracking block when a bundle is serialized for sending.  The maintainence of this global GPS log then becomes an issue.  In order to completely satisfy the tracking interval requirements of each bundle with a GeoTracking block we would need it to record the node's location at an interval of the GCD of all the tracking intervals.  In our prototype we choose a fixed global interval appropriate to the experiment and bundles can request a {\it less frequent} update.  Finally there is the question of where the GPS log should be maintained.  It could concievably be maintained in the BPA itself, however access to GPS information is a very platform-specific process, whereas a good BPA should be portable.  Also it would require an extra timer or thread in the BPA for a fairly specialized feature.  Our solution is to have a host-specific agent that logs GPS data to a file at an interval chosen by the host.  Each time a GeoTracking block is to be serialized the BPA scans this file for the desired entries and creates the necessary TrackingEntry fields for the Tracking Block.
+
+This method of maintaining GPS data still has some drawbacks, especially in IBRDTN.  First, it requires opening and reading a (potentially long) log file each time a Geotracking block is serialized.  Second, in IBRDTN, because there is no function to "finalize" the contents of a block prior to serializing, the GPS log must be parsed twice.  Once when the block processor calculates the block's length, and again when the actual serialization takes place.  In IBRDTN both the {\bf getLength()} and {\bf serialize()} functions are {\bf const}, so it is not possible to modify any fields of the GeoTracking block itself to cache the state of the block when {\bf getLength()} is called.  This techniclaly creates a race condition between these two calls, where the GPS log may get longer between when {\bf getLength()} and {\bf serialize()} are called.  Resolving these issues completely may require some modifications to the serialization process of IBR-DTN and is reserved for future work (for Johannes).
+
+
 % -----------------------------------------------
-%   Geo-Routing Block
+%   GeoRouting Block
 % -----------------------------------------------
 \subsection{Geo-routing Block}
 
