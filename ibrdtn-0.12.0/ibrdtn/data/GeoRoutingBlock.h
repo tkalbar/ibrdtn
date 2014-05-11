@@ -98,6 +98,7 @@ namespace dtn
 
 			typedef std::list<GeoRoutingEntry> tracking_list;
 
+			tracking_list& getRoute();
 			const tracking_list& getRoute() const;
 
 			void append(const dtn::data::EID &eid);

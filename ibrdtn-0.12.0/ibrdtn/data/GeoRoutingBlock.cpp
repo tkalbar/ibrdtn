@@ -118,10 +118,16 @@ namespace dtn
 			return serialize(stream, length);
 		}
 
+		GeoRoutingBlock::tracking_list& GeoRoutingBlock::getRoute()
+		{
+			return _entries;
+		}
+
 		const GeoRoutingBlock::tracking_list& GeoRoutingBlock::getRoute() const
 		{
 			return _entries;
 		}
+
 
 		GeoRoutingBlock::GeoRoutingEntry::GeoRoutingEntry()
 		: _scale_factor(1048576)
