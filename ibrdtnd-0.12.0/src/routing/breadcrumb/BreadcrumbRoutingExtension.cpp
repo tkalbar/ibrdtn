@@ -139,6 +139,23 @@ namespace dtn
 		{
 			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventBundleQueued()" << IBRCOMMON_LOGGER_ENDL;
 
+			if (meta.hasgeoroute) {
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventBundleQueued(): has geo route" << IBRCOMMON_LOGGER_ENDL;
+				if (peer != dtn::core::BundleCore::local) {
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventBundleQueued(): not local," << peer.getHost() << IBRCOMMON_LOGGER_ENDL;
+					dtn::data::Bundle bundle = dtn::core::BundleCore::getInstance().getStorage().get(meta);
+					dtn::data::GeoRoutingBlock &grblock = bundle.find<dtn::data::GeoRoutingBlock>();
+					if (grblock.getRoute().empty()) {
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventBundleQueued(): The geo route block should not be empty!" << IBRCOMMON_LOGGER_ENDL;
+					} else {
+						grblock.getRoute().pop_back();
+						dtn::core::BundleCore::getInstance().getStorage().remove(meta);
+						dtn::core::BundleCore::getInstance().getStorage().store(bundle);
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventBundleQueued(): Popped off the last entry upon receive" << IBRCOMMON_LOGGER_ENDL;
+					}
+				}
+			}
+
 			// new bundles trigger a recheck for all neighbors
 			const std::set<dtn::core::Node> nl = dtn::core::BundleCore::getInstance().getConnectionManager().getNeighbors();
 
@@ -219,10 +236,10 @@ namespace dtn
 				return;
 			} catch (const std::bad_cast&) { };
 
-			try {
+			/*try {
 				const BundleReceivedEvent &bundleEvent = dynamic_cast<const BundleReceivedEvent&>(*evt);
 				const dtn::data::MetaBundle m = dtn::data::MetaBundle::create(bundleEvent.bundle);
-				dtn::data::Bundle bundle = dtn::core::BundleCore::getInstance().getStorage().get(m);
+				dtn::data::Bundle bundle = bundleEvent.bundle;
 				if (m.hasgeoroute) {
 					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Event: received geo route bundle" << IBRCOMMON_LOGGER_ENDL;
 					dtn::data::GeoRoutingBlock &grblock = bundle.find<dtn::data::GeoRoutingBlock>();
@@ -235,7 +252,7 @@ namespace dtn
 					dtn::core::BundleCore::getInstance().getStorage().store(bundle);
 					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Event: Popped off the last entry upon receive" << IBRCOMMON_LOGGER_ENDL;
 				}
-			} catch (const std::bad_cast&) { };
+			} catch (const std::bad_cast&) { };*/
 		}
 
 		void BreadcrumbRoutingExtension::componentUp() throw ()
@@ -244,7 +261,7 @@ namespace dtn
 
 			dtn::core::EventDispatcher<dtn::routing::NodeHandshakeEvent>::add(this);
 			dtn::core::EventDispatcher<dtn::core::TimeEvent>::add(this);
-			dtn::core::EventDispatcher<dtn::net::BundleReceivedEvent>::add(this);
+			//dtn::core::EventDispatcher<dtn::net::BundleReceivedEvent>::add(this);
 
 			// reset the task queue
 			_taskqueue.reset();
@@ -264,7 +281,7 @@ namespace dtn
 			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "componentDown()" << IBRCOMMON_LOGGER_ENDL;
 			dtn::core::EventDispatcher<dtn::routing::NodeHandshakeEvent>::remove(this);
 			dtn::core::EventDispatcher<dtn::core::TimeEvent>::remove(this);
-			dtn::core::EventDispatcher<dtn::net::BundleReceivedEvent>::remove(this);
+			//dtn::core::EventDispatcher<dtn::net::BundleReceivedEvent>::remove(this);
 
 			try {
 				// stop the thread
