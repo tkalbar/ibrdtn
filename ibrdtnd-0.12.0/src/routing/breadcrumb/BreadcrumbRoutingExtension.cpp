@@ -220,7 +220,7 @@ namespace dtn
 			} catch (const std::bad_cast&) { };
 
 			try {
-				const BundleReceivedEvent &bundleEvent = dynamic_cast<const NodeHandshakeEvent&>(*evt);
+				const BundleReceivedEvent &bundleEvent = dynamic_cast<const BundleReceivedEvent&>(*evt);
 				const dtn::data::MetaBundle m = dtn::data::MetaBundle::create(bundleEvent.bundle);
 
 				if (m.hasgeoroute) {
