@@ -141,8 +141,10 @@ namespace dtn
 
 			if (meta.hasgeoroute) {
 				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventBundleQueued(): has geo route" << IBRCOMMON_LOGGER_ENDL;
-				if (peer != dtn::core::BundleCore::local) {
+				if (peer.getNode() != dtn::core::BundleCore::local) {
 					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventBundleQueued(): not local," << peer.getHost() << IBRCOMMON_LOGGER_ENDL;
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Peer: " << peer.getHost() << IBRCOMMON_LOGGER_ENDL;
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Local: " << dtn::core::BundleCore::local.getHost() << IBRCOMMON_LOGGER_ENDL;
 					dtn::data::Bundle bundle = dtn::core::BundleCore::getInstance().getStorage().get(meta);
 					dtn::data::GeoRoutingBlock &grblock = bundle.find<dtn::data::GeoRoutingBlock>();
 					if (grblock.getRoute().empty()) {
@@ -407,7 +409,6 @@ namespace dtn
 						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "UpdateFilter: Destination reached" << IBRCOMMON_LOGGER_ENDL;
 						return false;
 					}
-
 					if (meta.hasgeoroute) {
 						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "UpdateFilter: MetaBundle has georoute" << IBRCOMMON_LOGGER_ENDL;
 
@@ -477,9 +478,7 @@ namespace dtn
 								const BundleFilter filter(entry, neighbors, gl);
 
 								// query some unknown bundle from the storage
-								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Clearing list" << IBRCOMMON_LOGGER_ENDL;
 								list.clear();
-								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Running filter" << IBRCOMMON_LOGGER_ENDL;
 								(**this).getSeeker().get(filter, list);
 								if (list.empty()) {
 									IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "List is empty!" << IBRCOMMON_LOGGER_ENDL;
