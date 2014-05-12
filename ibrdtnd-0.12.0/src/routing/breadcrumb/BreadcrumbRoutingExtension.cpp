@@ -17,6 +17,7 @@
 #include "core/BundleCore.h"
 #include "core/EventDispatcher.h"
 #include "core/BundleEvent.h"
+#include "net/BundleReceivedEvent.h"
 
 #include "core/TimeEvent.h"
 
@@ -217,6 +218,24 @@ namespace dtn
 				}
 				return;
 			} catch (const std::bad_cast&) { };
+
+			try {
+				const BundleReceivedEvent &bundleEvent = dynamic_cast<const NodeHandshakeEvent&>(*evt);
+				const dtn::data::MetaBundle m = dtn::data::MetaBundle::create(bundleEvent.bundle);
+
+				if (m.hasgeoroute) {
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Event: received geo route bundle" << IBRCOMMON_LOGGER_ENDL;
+					dtn::data::GeoRoutingBlock &grblock = bundleEvent.bundle.find<dtn::data::GeoRoutingBlock>();
+					if (grblock.getRoute().empty()) {
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Event: The geo route block should not be empty!" << IBRCOMMON_LOGGER_ENDL;
+						return;
+					}
+					grblock.getRoute().pop_back();
+					dtn::core::BundleCore::getInstance().getStorage().remove(m);
+					dtn::core::BundleCore::getInstance().getStorage().store(bundleEvent.bundle);
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Event: Popped off the last entry upon receive" << IBRCOMMON_LOGGER_ENDL;
+				}
+			} catch (const std::bad_cast&) { };
 		}
 
 		void BreadcrumbRoutingExtension::componentUp() throw ()
@@ -225,6 +244,7 @@ namespace dtn
 
 			dtn::core::EventDispatcher<dtn::routing::NodeHandshakeEvent>::add(this);
 			dtn::core::EventDispatcher<dtn::core::TimeEvent>::add(this);
+			dtn::core::EventDispatcher<dtn::net::BundleReceivedEvent>::add(this);
 
 			// reset the task queue
 			_taskqueue.reset();
@@ -244,6 +264,7 @@ namespace dtn
 			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "componentDown()" << IBRCOMMON_LOGGER_ENDL;
 			dtn::core::EventDispatcher<dtn::routing::NodeHandshakeEvent>::remove(this);
 			dtn::core::EventDispatcher<dtn::core::TimeEvent>::remove(this);
+			dtn::core::EventDispatcher<dtn::net::BundleReceivedEvent>::remove(this);
 
 			try {
 				// stop the thread
@@ -461,7 +482,7 @@ namespace dtn
 							{
 								try {
 									IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Transfer bundle" << IBRCOMMON_LOGGER_ENDL;
-									if ((*iter).hasgeoroute) {
+									/*if ((*iter).hasgeoroute) {
 										dtn::data::Bundle bundle = dtn::core::BundleCore::getInstance().getStorage().get(*iter);
 										IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updating bundle at transfer point" << IBRCOMMON_LOGGER_ENDL;
 										try {
@@ -480,7 +501,7 @@ namespace dtn
 										} catch (const dtn::data::Bundle::NoSuchBlockFoundException&) {
 											IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Transfer: No georouting block, but flag is set. Should not be here!" << IBRCOMMON_LOGGER_ENDL;
 										}
-									}
+									}*/
 									// transfer the bundle to the neighbor
 									transferTo(task.eid, *iter);
 								} catch (const NeighborDatabase::AlreadyInTransitException&) { };
