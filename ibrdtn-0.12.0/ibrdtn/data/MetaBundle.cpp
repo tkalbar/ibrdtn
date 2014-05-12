@@ -47,13 +47,13 @@ namespace dtn
 
 		MetaBundle::MetaBundle()
 		 : BundleID(), lifetime(0), destination(), reportto(),
-		   custodian(), appdatalength(0), procflags(0), expiretime(0), hopcount(Number::max()), net_priority(0), hasgeoroute(false)
+		   custodian(), appdatalength(0), procflags(0), expiretime(0), hopcount(Number::max()), net_priority(0), hasgeoroute(false), reacheddest(false)
 		{
 		}
 
 		MetaBundle::MetaBundle(const dtn::data::BundleID &id)
 		 : BundleID(id), lifetime(0), destination(), reportto(),
-		   custodian(), appdatalength(0), procflags(0), expiretime(0), hopcount(Number::max()), net_priority(0), hasgeoroute(false)
+		   custodian(), appdatalength(0), procflags(0), expiretime(0), hopcount(Number::max()), net_priority(0), hasgeoroute(false), reacheddest(false)
 		{
 			// apply fragment bit
 			setFragment(id.isFragment());
@@ -61,7 +61,7 @@ namespace dtn
 
 		MetaBundle::MetaBundle(const dtn::data::Bundle &b)
 		 : BundleID(b), lifetime(b.lifetime), destination(b.destination), reportto(b.reportto),
-		   custodian(b.custodian), appdatalength(b.appdatalength), procflags(b.procflags), expiretime(0), hopcount(Number::max()), net_priority(0), hasgeoroute(false)
+		   custodian(b.custodian), appdatalength(b.appdatalength), procflags(b.procflags), expiretime(0), hopcount(Number::max()), net_priority(0), hasgeoroute(false), reacheddest(false)
 		{
 			expiretime = dtn::utils::Clock::getExpireTime(b);
 
@@ -86,10 +86,10 @@ namespace dtn
 				IBRCOMMON_LOGGER_TAG(MetaBundle::TAG, info) << "Setting hasgeoroute flag at meta bundle" << IBRCOMMON_LOGGER_ENDL;
 				if (!grblock.getRoute().empty()) {
 					nextgeohop = grblock.getRoute().back();
-					hasgeoroute = true;
 				} else {
-					hasgeoroute = false;
+					reacheddest = true;
 				}
+				hasgeoroute = true;
 				//nextgeohop = grblock.getRoute().back();
 				//entriesList.pop_back();
 			} catch (const dtn::data::Bundle::NoSuchBlockFoundException&) { };

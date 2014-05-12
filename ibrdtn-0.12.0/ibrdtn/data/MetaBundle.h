@@ -71,6 +71,7 @@ namespace dtn
 
 			dtn::data::GeoRoutingBlock::GeoRoutingEntry nextgeohop;
 			bool hasgeoroute;
+			bool reacheddest;
 
 			bool isFragment() const;
 			void setFragment(bool val);

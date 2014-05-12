@@ -325,6 +325,11 @@ namespace dtn
 						throw dtn::storage::BundleSelectorException();
 					}
 
+					if (meta.reacheddest) {
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Destination reached" << IBRCOMMON_LOGGER_ENDL;
+						return false;
+					}
+
 					// block is a GeoRoutingBlock
 					if (meta.hasgeoroute)
 					{
@@ -360,8 +365,14 @@ namespace dtn
 
 				virtual bool shouldAdd(const dtn::data::MetaBundle &meta) const throw (dtn::storage::BundleSelectorException) {
 
+					if (meta.reacheddest) {
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "UpdateFilter: Destination reached" << IBRCOMMON_LOGGER_ENDL;
+						return false;
+					}
+
 					if (meta.hasgeoroute) {
 						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "UpdateFilter: MetaBundle has georoute" << IBRCOMMON_LOGGER_ENDL;
+
 						// check if the new location is the next hop to see if it's worth going through the bundle
 						if (checkMargin(_myloc, meta.nextgeohop)) {
 							IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "UpdateFilter: Location match found, adding to list" << IBRCOMMON_LOGGER_ENDL;
