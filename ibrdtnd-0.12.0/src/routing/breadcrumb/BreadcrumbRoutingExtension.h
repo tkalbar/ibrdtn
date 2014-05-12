@@ -66,6 +66,8 @@ namespace dtn
 
 			virtual void processHandshake(const dtn::data::EID&, NodeHandshake&);
 
+			static bool checkMargin(const GeoLocation&, const dtn::data::GeoRoutingBlock::GeoRoutingEntry&);
+
 			void updateMyLocation();
 
 		protected:

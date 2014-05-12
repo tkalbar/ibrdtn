@@ -272,24 +272,6 @@ namespace dtn
 
 				virtual dtn::data::Size limit() const throw () { return _entry.getFreeTransferSlots(); };
 
-				bool checkMargin(const dtn::data::GeoRoutingBlock::GeoRoutingEntry &bundle_location) const
-				{
-					float margin = bundle_location.getMargin();
-
-					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Peer location: (" << _peerloc._geopoint.getLatitude() << "," << _peerloc._geopoint.getLongitude() << ")"<< IBRCOMMON_LOGGER_ENDL;
-					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Bundle location: (" << bundle_location.geopoint.getLatitude() << "," << bundle_location.geopoint.getLongitude() << ")"<< IBRCOMMON_LOGGER_ENDL;
-					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Margin: " << margin << IBRCOMMON_LOGGER_ENDL;
-
-					if ((abs(_peerloc._geopoint.getLatitude() - bundle_location.geopoint.getLatitude()) < margin)
-							&& (abs(_peerloc._geopoint.getLongitude() - bundle_location.geopoint.getLongitude()) < margin)) {
-						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Peer is in appropriate range of location" << IBRCOMMON_LOGGER_ENDL;
-						return true;
-					} else {
-						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Peer NOT in range" << IBRCOMMON_LOGGER_ENDL;
-						return false;
-					}
-				}
-
 				virtual bool shouldAdd(const dtn::data::MetaBundle &meta) const throw (dtn::storage::BundleSelectorException)
 				{
 
@@ -348,25 +330,11 @@ namespace dtn
 					{
 						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "MetaBundle has georoute" << IBRCOMMON_LOGGER_ENDL;
 
-						// retrieve the next hop
-						if (checkMargin(meta.nextgeohop)) {
-							dtn::data::Bundle bundle = dtn::core::BundleCore::getInstance().getStorage().get(meta);
-							try {
-								dtn::data::GeoRoutingBlock &grblock = bundle.find<dtn::data::GeoRoutingBlock>();
-								// check if there are entries left
-								if (grblock.getRoute().empty()) {
-									IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "No more georoute entries for this bundle, but there should be!" << IBRCOMMON_LOGGER_ENDL;
-									return false;
-								}
-								grblock.getRoute().pop_back();
-								dtn::core::BundleCore::getInstance().getStorage().remove(meta);
-								dtn::core::BundleCore::getInstance().getStorage().store(bundle);
-								return true;
-							} catch (const dtn::data::Bundle::NoSuchBlockFoundException&) {
-								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "No georouting block, but flag is set. Should not be here!" << IBRCOMMON_LOGGER_ENDL;
-								return false;
-							}
+						if (checkMargin(_peerloc, meta.nextgeohop)) {
+							IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Adding bundle with geo route to send list" << IBRCOMMON_LOGGER_ENDL;
+							return true;
 						} else {
+							IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Not adding bundle with geo route to send list" << IBRCOMMON_LOGGER_ENDL;
 							return false;
 						}
 					}
@@ -379,7 +347,7 @@ namespace dtn
 			private:
 				const NeighborDatabase::NeighborEntry &_entry;
 				const std::set<dtn::core::Node> &_neighbors;
-				const GeoLocation &_peerloc;
+				const dtn::routing::GeoLocation &_peerloc;
 			};
 
 			class UpdateBundleFilter : public dtn::storage::BundleSelector {
@@ -390,72 +358,20 @@ namespace dtn
 
 				virtual dtn::data::Size limit() const throw () { return dtn::core::BundleCore::getInstance().getStorage().size(); };
 
-				bool checkMargin(const dtn::data::GeoRoutingBlock::GeoRoutingEntry &bundle_location) const
-				{
-					float margin = bundle_location.getMargin();
-
-					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Current location: (" << _myloc._geopoint.getLatitude() << "," << _myloc._geopoint.getLongitude() << ")"<< IBRCOMMON_LOGGER_ENDL;
-					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Bundle location: (" << bundle_location.geopoint.getLatitude() << "," << bundle_location.geopoint.getLongitude() << ")"<< IBRCOMMON_LOGGER_ENDL;
-					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Margin: " << margin << IBRCOMMON_LOGGER_ENDL;
-
-					if ((abs(_myloc._geopoint.getLatitude() - bundle_location.geopoint.getLatitude()) < margin)
-							&& (abs(_myloc._geopoint.getLongitude() - bundle_location.geopoint.getLongitude()) < margin)) {
-						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "New location is in appropriate range of entry" << IBRCOMMON_LOGGER_ENDL;
-
-						return true;
-					} else {
-						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Peer NOT in range" << IBRCOMMON_LOGGER_ENDL;
-						return false;
-					}
-				}
-
 				virtual bool shouldAdd(const dtn::data::MetaBundle &meta) const throw (dtn::storage::BundleSelectorException) {
 
 					if (meta.hasgeoroute) {
-						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "MetaBundle has georoute" << IBRCOMMON_LOGGER_ENDL;
+						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "UpdateFilter: MetaBundle has georoute" << IBRCOMMON_LOGGER_ENDL;
 						// check if the new location is the next hop to see if it's worth going through the bundle
-						if (checkMargin(meta.nextgeohop)) {
-							IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Location match found, going through bundle entries" << IBRCOMMON_LOGGER_ENDL;
-							// retrieve the next hop
-							dtn::data::Bundle bundle = dtn::core::BundleCore::getInstance().getStorage().get(meta);
-							try {
-								dtn::data::GeoRoutingBlock &grblock = bundle.find<dtn::data::GeoRoutingBlock>();
-								// prune all entries that are satisfied by the update in location
-								bool donePruningEntries = false;
-								bool changeMade = false;
-								while (!donePruningEntries) {
-									// check if there are entries left
-									if (grblock.getRoute().empty()) {
-										IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "No more georoute entries for this bundle" << IBRCOMMON_LOGGER_ENDL;
-										donePruningEntries = true;
-									}
-									// look at the last entry
-									dtn::data::GeoRoutingBlock::GeoRoutingEntry nextgeohop = grblock.getRoute().back();
-									// check entry against current location
-									if (checkMargin(nextgeohop)) {
-										IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Found a matching entry" << IBRCOMMON_LOGGER_ENDL;
-										grblock.getRoute().pop_back();
-										changeMade = true;
-									} else {
-										donePruningEntries = true;
-									}
-								}
-								if (changeMade) {
-									dtn::core::BundleCore::getInstance().getStorage().remove(meta);
-									dtn::core::BundleCore::getInstance().getStorage().store(bundle);
-									return true;
-								} else {
-									return false;
-								}
-							} catch (const dtn::data::Bundle::NoSuchBlockFoundException&) {
-								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "No georouting block, but flag is set. Should not be here!" << IBRCOMMON_LOGGER_ENDL;
-								return false;
-							}
+						if (checkMargin(_myloc, meta.nextgeohop)) {
+							IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "UpdateFilter: Location match found, adding to list" << IBRCOMMON_LOGGER_ENDL;
+							return true;
+						} else {
+							IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "UpdateFilter: No location match found" << IBRCOMMON_LOGGER_ENDL;
+							return false;
 						}
 					}
-
 					return false;
-
 				}
 			private:
 				const GeoLocation &_myloc;
@@ -512,8 +428,13 @@ namespace dtn
 								const BundleFilter filter(entry, neighbors, gl);
 
 								// query some unknown bundle from the storage
+								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Clearing list" << IBRCOMMON_LOGGER_ENDL;
 								list.clear();
+								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Running filter" << IBRCOMMON_LOGGER_ENDL;
 								(**this).getSeeker().get(filter, list);
+								if (list.empty()) {
+									IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "List is empty!" << IBRCOMMON_LOGGER_ENDL;
+								}
 							} catch (const NeighborDatabase::DatasetNotAvailableException&) {
 								// if there is no GeoLocation for this peer do handshake with them
 								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "No GeoLocation available from " << task.eid.getString() << ", triggering doHandshake()" << IBRCOMMON_LOGGER_ENDL;
@@ -528,6 +449,27 @@ namespace dtn
 							for (std::list<dtn::data::MetaBundle>::const_iterator iter = list.begin(); iter != list.end(); ++iter)
 							{
 								try {
+									IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Transfer bundle" << IBRCOMMON_LOGGER_ENDL;
+									if ((*iter).hasgeoroute) {
+										dtn::data::Bundle bundle = dtn::core::BundleCore::getInstance().getStorage().get(*iter);
+										IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updating bundle at transfer point" << IBRCOMMON_LOGGER_ENDL;
+										try {
+											dtn::data::GeoRoutingBlock &grblock = bundle.find<dtn::data::GeoRoutingBlock>();
+											// check if there are entries left
+											if (grblock.getRoute().empty()) {
+												IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Transfer: No more georoute entries for this bundle, but there should be!" << IBRCOMMON_LOGGER_ENDL;
+												continue;
+											}
+											IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Transfer: Popping last entry prior to transfer" << IBRCOMMON_LOGGER_ENDL;
+											grblock.getRoute().pop_back();
+											IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Transfer: Removing outdated bundle and replacing it in storage" << IBRCOMMON_LOGGER_ENDL;
+											dtn::core::BundleCore::getInstance().getStorage().remove(*iter);
+											dtn::core::BundleCore::getInstance().getStorage().store(bundle);
+											IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Transfer: Successfully updated bundle" << IBRCOMMON_LOGGER_ENDL;
+										} catch (const dtn::data::Bundle::NoSuchBlockFoundException&) {
+											IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Transfer: No georouting block, but flag is set. Should not be here!" << IBRCOMMON_LOGGER_ENDL;
+										}
+									}
 									// transfer the bundle to the neighbor
 									transferTo(task.eid, *iter);
 								} catch (const NeighborDatabase::AlreadyInTransitException&) { };
@@ -558,8 +500,45 @@ namespace dtn
 							updateMyLocation();
 							const UpdateBundleFilter updateFilter(_location);
 							list.clear();
-							(**this).getSeeker().get(updateFilter, list); // use the filter to perform all the updates
+							(**this).getSeeker().get(updateFilter, list); // use the filter to acquire all bundles that need updates
+							for (std::list<dtn::data::MetaBundle>::const_iterator iter = list.begin(); iter != list.end(); ++iter) {
+								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Update bundle based on location" << IBRCOMMON_LOGGER_ENDL;
+								if ((*iter).hasgeoroute) {
+									dtn::data::Bundle bundle = dtn::core::BundleCore::getInstance().getStorage().get(*iter);
+									IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updating bundle during location update" << IBRCOMMON_LOGGER_ENDL;
+									try {
+										dtn::data::GeoRoutingBlock &grblock = bundle.find<dtn::data::GeoRoutingBlock>();
 
+										bool donePruningEntries = false;
+										// NOTE: in this case the first lookup is redundant since the bundle would not be in this list if it did not need at least 1 pop
+										while (!donePruningEntries) {
+											// look at the last entry
+											dtn::data::GeoRoutingBlock::GeoRoutingEntry nextgeohop = grblock.getRoute().back();
+											if (checkMargin(_location,nextgeohop)) {
+												IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Update: Popping entry" << IBRCOMMON_LOGGER_ENDL;
+												grblock.getRoute().pop_back();
+											} else {
+												IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Update: Done popping entries" << IBRCOMMON_LOGGER_ENDL;
+												donePruningEntries = true;
+											}
+
+											if (grblock.getRoute().empty()) {
+												IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Update: No more entries, done popping" << IBRCOMMON_LOGGER_ENDL;
+												donePruningEntries = true;
+											} else {
+												dtn::data::GeoRoutingBlock::GeoRoutingEntry nextgeohop = grblock.getRoute().back();
+												IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Update: Iterating to nextgeohop" << IBRCOMMON_LOGGER_ENDL;
+											}
+										}
+										IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Update: Removing outdated bundle and replacing it in storage" << IBRCOMMON_LOGGER_ENDL;
+										dtn::core::BundleCore::getInstance().getStorage().remove(*iter);
+										dtn::core::BundleCore::getInstance().getStorage().store(bundle);
+
+									} catch (const dtn::data::Bundle::NoSuchBlockFoundException&) {
+										IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Update: No georouting block, but flag is set. Should not be here!" << IBRCOMMON_LOGGER_ENDL;
+									}
+								}
+							}
 						} catch (const std::bad_cast&) { }
 
 					} catch (const ibrcommon::Exception &ex) {
@@ -571,6 +550,25 @@ namespace dtn
 				}
 
 				yield();
+			}
+		}
+
+		bool BreadcrumbRoutingExtension::checkMargin(const dtn::routing::GeoLocation &base_location, const dtn::data::GeoRoutingBlock::GeoRoutingEntry &bundle_location)
+		{
+			float margin = bundle_location.getMargin();
+
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Current location: (" << base_location._geopoint.getLatitude() << "," << base_location._geopoint.getLongitude() << ")"<< IBRCOMMON_LOGGER_ENDL;
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Bundle location: (" << bundle_location.geopoint.getLatitude() << "," << bundle_location.geopoint.getLongitude() << ")"<< IBRCOMMON_LOGGER_ENDL;
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Margin: " << margin << IBRCOMMON_LOGGER_ENDL;
+
+			if ((abs(base_location._geopoint.getLatitude() - bundle_location.geopoint.getLatitude()) < margin)
+					&& (abs(base_location._geopoint.getLongitude() - bundle_location.geopoint.getLongitude()) < margin)) {
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "New location is in appropriate range of entry" << IBRCOMMON_LOGGER_ENDL;
+
+				return true;
+			} else {
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Peer NOT in range" << IBRCOMMON_LOGGER_ENDL;
+				return false;
 			}
 		}
 
