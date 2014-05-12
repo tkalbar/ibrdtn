@@ -222,17 +222,17 @@ namespace dtn
 			try {
 				const BundleReceivedEvent &bundleEvent = dynamic_cast<const BundleReceivedEvent&>(*evt);
 				const dtn::data::MetaBundle m = dtn::data::MetaBundle::create(bundleEvent.bundle);
-
+				dtn::data::Bundle bundle = dtn::core::BundleCore::getInstance().getStorage().get(m);
 				if (m.hasgeoroute) {
 					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Event: received geo route bundle" << IBRCOMMON_LOGGER_ENDL;
-					dtn::data::GeoRoutingBlock &grblock = bundleEvent.bundle.find<dtn::data::GeoRoutingBlock>();
+					dtn::data::GeoRoutingBlock &grblock = bundle.find<dtn::data::GeoRoutingBlock>();
 					if (grblock.getRoute().empty()) {
 						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Event: The geo route block should not be empty!" << IBRCOMMON_LOGGER_ENDL;
 						return;
 					}
 					grblock.getRoute().pop_back();
 					dtn::core::BundleCore::getInstance().getStorage().remove(m);
-					dtn::core::BundleCore::getInstance().getStorage().store(bundleEvent.bundle);
+					dtn::core::BundleCore::getInstance().getStorage().store(bundle);
 					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Event: Popped off the last entry upon receive" << IBRCOMMON_LOGGER_ENDL;
 				}
 			} catch (const std::bad_cast&) { };
