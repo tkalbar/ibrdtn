@@ -1,7 +1,11 @@
 outfileID = fopen('Maze_traces_5000.txt', 'w');
 
+
+
+%Total running time
 time = 5000;
 
+%Starting and ending (x,y) coordinates
 start_x = [0; 6600; 1800; 1800; 1800; ... 
     1800; 1800; 4200; 1800; 6600; ...
     4200; 11400; 6600; 6600; 6600; ...
@@ -42,6 +46,8 @@ nodes = length(start_x);
 
 %end_y = [0; 7];
 
+
+%Generate speed vector. Each node can have its own speed
 speed = 20*ones(nodes, 1);
 
 
@@ -108,6 +114,8 @@ for t = 2:time
 end
 
 
+%%%%%%%%%%%
+%Output file Generation
 
 fprintf(outfileID, 'Settings === Total time = %d, Number of Nodes = %d, Speed = %d\n', [time, nodes, speed(1)]);
 fprintf(outfileID, 'Time\t Node\t Pos_X\t Pos_Y\n');
@@ -118,19 +126,26 @@ for t = 1:time
     end
 end
 fclose(outfileID);
-
-figure(1);
-set(gcf,'Renderer','OpenGL'); 
-h = plot(final_output_x(:,1)', final_output_y(:,1)','o', 'MarkerSize', 10, 'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'y');
-set(h,'EraseMode','normal');
-xlim([0,25200]);
-ylim([0,18000]);
-
-% Animation Loop
-for t = 2:time
-    set(h,'XData',final_output_x(:,t));
-    set(h,'YData',final_output_y(:,t));
-    drawnow;
-end
+%%%%%%%%%%%%%%%
 
 
+
+%%%%%%%%%%%%%%
+%Create visualization
+%Comment out if only interested in file generation
+
+% figure(1);
+% set(gcf,'Renderer','OpenGL'); 
+% h = plot(final_output_x(:,1)', final_output_y(:,1)','o', 'MarkerSize', 10, 'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'y');
+% set(h,'EraseMode','normal');
+% xlim([0,25200]);
+% ylim([0,18000]);
+% 
+% % Animation Loop
+% for t = 2:time
+%     set(h,'XData',final_output_x(:,t));
+%     set(h,'YData',final_output_y(:,t));
+%     drawnow;
+% end
+
+%%%%%%%%%%%%%%%%
