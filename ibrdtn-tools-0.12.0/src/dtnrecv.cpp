@@ -212,14 +212,21 @@ int main(int argc, char *argv[])
                 dtn::data::GeoRoutingBlock gb = b.find<dtn::data::GeoRoutingBlock>();
                 std::cout << "Received geo routing block:"<< endl;
                 for(dtn::data::GeoRoutingBlock::tracking_list::const_iterator i = gb.getRoute().begin();i!=gb.getRoute().end();i++) {
+                    if(i->getFlag(GeoRoutingBlock::GeoRoutingEntry::REQUIRED)) {
+                        std::cout << "required ";
+                    }
+                    if(i->getFlag(GeoRoutingBlock::GeoRoutingEntry::ORDERED)) {
+                        std::cout << "ordered ";
+                    }
 
                     if (i->getFlag(GeoRoutingBlock::GeoRoutingEntry::EID_REQUIRED)) {
                         dtn::data::BundleString endpoint(i->eid.getString());
-                        std::cout << endpoint << endl;
+                        std::cout << endpoint << " ";
                     }
                     if (i->getFlag(GeoRoutingBlock::GeoRoutingEntry::GEO_REQUIRED)) {
-                        std::cout << i->geopoint.getLatitude() << " " << i->geopoint.getLongitude() << endl;
+                        std::cout << i->geopoint.getLatitude() << " " << i->geopoint.getLongitude();
                     }
+                    std::cout << std::endl;
                                                 
                 }
             } catch(const dtn::data::Bundle::NoSuchBlockFoundException &) {
@@ -227,6 +234,16 @@ int main(int argc, char *argv[])
             try {
                 dtn::data::TrackingBlock tb = b.find<dtn::data::TrackingBlock>();
                 std::cout << "Received tracking block:" << endl;
+                if(tb.getFlag(TrackingBlock::TRACK_HOPS)) {
+                    std::cout << "Track hops" << std::endl;
+                }
+                if(tb.getFlag(TrackingBlock::TRACK_GEO)) {
+                    std::cout << "Track geographic info" << std::endl;
+                }
+                if(tb.getFlag(TrackingBlock::TRACK_TIMESTAMP)) {
+                    std::cout << "Track timestamps" << std::endl;
+                }
+                std::cout << "Track entries at interval " << tb.tracking_interval << std::endl;
                 for(dtn::data::TrackingBlock::tracking_list::const_iterator i = tb.getTrack().begin();i!=tb.getTrack().end();i++) {
                     if (i->entry_type == TrackingBlock::TrackingEntry::HOPDATA) {
                         dtn::data::BundleString endpoint(i->endpoint.getString());

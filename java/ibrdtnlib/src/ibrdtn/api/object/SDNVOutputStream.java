@@ -40,6 +40,10 @@ public class SDNVOutputStream extends OutputStream {
 		return _queue.remove();
 	}
 
+	public boolean hasNextSDNV(){
+		return !(_queue.isEmpty());
+	}
+	
 	@Override
 	public void write(int b) throws IOException {
 		if(_failed)
@@ -50,8 +54,19 @@ public class SDNVOutputStream extends OutputStream {
 		if(((byte) b & (byte) 0x80) == 0) {
 			//last byte, create SDNV
 			try {
-				_queue.add(new SDNV(_currentSDNV.array()));
+				//don't send the trailing 0s because it messes up the SDNV length
+				byte[] toPut = new byte[_currentIndex];
+				for(int i = 0; i<_currentIndex; i++){
+					toPut[i] = _currentSDNV.get(i);
+				}
+				//_queue.add(new SDNV(_currentSDNV.array()));
+				_queue.add(new SDNV(toPut));
 				_currentSDNV.clear();
+				//YIKES! Clear isn't working!
+				for(int i = 0; i< _currentIndex; i++){
+					_currentSDNV.put(i, (byte)0);
+				}
+
 				_currentIndex = 0;
 			} catch (NumberFormatException ex) {
 				_failed = true;
