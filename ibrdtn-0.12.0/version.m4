@@ -1,0 +1,5 @@
+m4_define([PKG_FULL_VERSION], [0.12.0])
+m4_define([PKG_LIB_VERSION], [1:0:0])
+m4_define([PKG_MAJOR_VERSION], [0])
+m4_define([PKG_MINOR_VERSION], [12])
+m4_define([PKG_MICRO_VERSION], [0])

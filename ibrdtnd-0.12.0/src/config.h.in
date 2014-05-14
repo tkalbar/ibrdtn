@@ -1,0 +1,162 @@
+/* src/config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* Compiling for Android! */
+#undef ANDROID
+
+/* build number based on the version control system */
+#undef BUILD_NUMBER
+
+/* Define to 1 if you have the <arpa/inet.h> header file. */
+#undef HAVE_ARPA_INET_H
+
+/* "daemon library has daemon_reset_sigs() and daemon_unblock_sigs()
+   functions" */
+#undef HAVE_DAEMON_RESET_SIGS
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to 1 if you have the <fcntl.h> header file. */
+#undef HAVE_FCNTL_H
+
+/* Define to 1 if you have the `gethostname' function. */
+#undef HAVE_GETHOSTNAME
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* "curl library is available" */
+#undef HAVE_LIBCURL
+
+/* "daemon library is available" */
+#undef HAVE_LIBDAEMON
+
+/* Define to 1 if you have the `m' library (-lm). */
+#undef HAVE_LIBM
+
+/* Define to 1 if you have the `rt' library (-lrt). */
+#undef HAVE_LIBRT
+
+/* Define to 1 if you have the <limits.h> header file. */
+#undef HAVE_LIMITS_H
+
+/* "enable lowpan support" */
+#undef HAVE_LOWPAN_SUPPORT
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the <netinet/in.h> header file. */
+#undef HAVE_NETINET_IN_H
+
+/* Define to 1 if you have the <pwd.h> header file. */
+#undef HAVE_PWD_H
+
+/* Define to 1 if you have the <regex.h> header file. */
+#undef HAVE_REGEX_H
+
+/* Define to 1 if you have the `socket' function. */
+#undef HAVE_SOCKET
+
+/* "sqlite library is available" */
+#undef HAVE_SQLITE
+
+/* Define to 1 if stdbool.h conforms to C99. */
+#undef HAVE_STDBOOL_H
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <syslog.h> header file. */
+#undef HAVE_SYSLOG_H
+
+/* Define to 1 if you have the <sys/inotify.h> header file. */
+#undef HAVE_SYS_INOTIFY_H
+
+/* Define to 1 if you have the <sys/socket.h> header file. */
+#undef HAVE_SYS_SOCKET_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* "Email Convergence Layer is available" */
+#undef HAVE_VMIME
+
+/* Define to 1 if you have the <vmime/utility/smartPtrInt.hpp> header file. */
+#undef HAVE_VMIME_UTILITY_SMARTPTRINT_HPP
+
+/* Define to 1 if the system has the type `_Bool'. */
+#undef HAVE__BOOL
+
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#undef LT_OBJDIR
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Version number of package */
+#undef VERSION
+
+/* Compiling for Win32! */
+#undef WIN32
+
+/* Minimum platform is Windows 7 */
+#undef WINVER
+
+/* "bundle security support enabled" */
+#undef WITH_BUNDLE_SECURITY
+
+/* "bundle compression support enabled" */
+#undef WITH_COMPRESSION
+
+/* "dht nameservice support enabled" */
+#undef WITH_DHT_NAMESERVICE
+
+/* "tls support enabled" */
+#undef WITH_TLS
+
+/* "wifi-p2p support enabled" */
+#undef WITH_WIFIP2P
+
+/* Minimum platform is Windows 7 */
+#undef _WIN32_WINNT
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#undef size_t
