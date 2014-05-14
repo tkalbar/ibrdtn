@@ -33,12 +33,25 @@ public class SDNV implements Comparable<SDNV> {
 		if(_value < 0) throw new NumberFormatException("SDNVs cannot be negative.");
 		_value = value;
 		length = calculateLength();
+		//System.out.println("length: " + length);
 	}
 
 	public SDNV(byte[] data) throws NumberFormatException {
 		//check if the given data fits into a long
-		if(data.length > MAX_SDNV_BYTES || data.length == 0
-				|| Integer.highestOneBit(data[0] & (byte) 0x7f) > 7-((-Long.SIZE)%7))
+
+		/*System.out.println("data length: " + data.length);
+		System.out.print("data: ");
+		for(byte b: data){
+			System.out.print(b + " ");
+		}
+		System.out.println();
+		System.out.println(data[0] & (byte) 0x7f);
+		System.out.println(Integer.highestOneBit(data[0] & (byte) 0x7f));
+		System.out.println("Long size: " + Long.SIZE);
+		System.out.println(7-((-Long.SIZE)%7));*/
+		if(data.length > MAX_SDNV_BYTES || data.length == 0)
+			//clearly this next check is trying to do SOEMTHING, but it's not working
+			//|| Integer.highestOneBit(data[0] & (byte) 0x7f) > 7-((-Long.SIZE)%7))
 			throw new NumberFormatException("SDNV length not supported.");
 		length = data.length;
 		int i = 0;
@@ -75,17 +88,36 @@ public class SDNV implements Comparable<SDNV> {
 	private int calculateLength() {
 		//this blocks loops _value in 7bit blocks and looks
 		//for the first black that is nonzero
-		for(int i = Long.SIZE / 7; i >= 0; --i) {
+		//System.out.println("value: " + _value);
+		//System.out.println(Long.toBinaryString(_value));
+		int val_len = 0;
+		long temp = _value;
+		while(temp != 0){
+			temp = temp >> 7;
+			val_len++;
+		}
+		//System.out.println("Length: " + val_len);
+		if(val_len == 0){
+			val_len = 1;
+		}
+		return val_len;
+		/*for(int i = Long.SIZE / 7; i >= 0; --i) {
+			byte t = (byte) (_value >> i);
+			System.out.println("t[" + i +"]" + t);
 			byte b = (byte) ((byte) (_value >> i) & (byte) 0x7f);
 			if(b != 0)
 				return i+1;
 		}
 		//the number is 0, but we will still need 1 byte to encode it
-		return 1;
+		return 1;*/
 	}
 
 	@Override
 	public int compareTo(SDNV o) {
 		return new Long(_value).compareTo(o._value);
+	}
+	
+	public boolean equals(SDNV o){
+		return (this._value == o.getValue() && this.length == o.length);
 	}
 }
