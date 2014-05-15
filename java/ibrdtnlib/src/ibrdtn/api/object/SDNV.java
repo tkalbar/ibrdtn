@@ -20,6 +20,8 @@
  */
 package ibrdtn.api.object;
 
+import java.util.BitSet;
+
 public class SDNV implements Comparable<SDNV> {
 
 	//SIZE-1 since only positive numbers are allowed, rounded up to a multiple of 7
@@ -37,18 +39,7 @@ public class SDNV implements Comparable<SDNV> {
 	}
 
 	public SDNV(byte[] data) throws NumberFormatException {
-		//check if the given data fits into a long
-
-		/*System.out.println("data length: " + data.length);
-		System.out.print("data: ");
-		for(byte b: data){
-			System.out.print(b + " ");
-		}
-		System.out.println();
-		System.out.println(data[0] & (byte) 0x7f);
-		System.out.println(Integer.highestOneBit(data[0] & (byte) 0x7f));
-		System.out.println("Long size: " + Long.SIZE);
-		System.out.println(7-((-Long.SIZE)%7));*/
+		
 		if(data.length > MAX_SDNV_BYTES || data.length == 0)
 			//clearly this next check is trying to do SOEMTHING, but it's not working
 			//|| Integer.highestOneBit(data[0] & (byte) 0x7f) > 7-((-Long.SIZE)%7))
@@ -71,8 +62,26 @@ public class SDNV implements Comparable<SDNV> {
 	}
 
 	public byte[] getBytes() {
-		byte[] ret = new byte[length];
 
+		
+		
+		
+		byte[] ret = new byte[length];
+		long temp = _value;
+		int counter = length-1;
+		
+		while(temp != 0){
+			ret[counter] = (byte)((byte)temp & (byte) 0x7f);			
+			temp = temp >> 7;
+			counter--;
+		}
+		//set the high bit of the most significant byte to 1
+		if(length >1){
+			ret[0] = (byte)((byte) ret[0] | (byte) 0x80);
+		}
+		return ret;
+		
+/*
 		//this blocks loops _value in 7bit blocks and creates the SDNV bytes
 		for(int i = 1; i < length; ++i) {
 			//set the most significant bit for all 7bit blocks except the last
@@ -82,7 +91,7 @@ public class SDNV implements Comparable<SDNV> {
 		//(this is the i=0 case)
 		ret[length-1] = (byte) ((byte) _value & (byte) 0x7f);
 
-		return ret;
+		return ret;*/
 	}
 
 	private int calculateLength() {
