@@ -75,9 +75,9 @@ public class SDNV implements Comparable<SDNV> {
 			temp = temp >> 7;
 			counter--;
 		}
-		//set the high bit of the most significant byte to 1
-		if(length >1){
-			ret[0] = (byte)((byte) ret[0] | (byte) 0x80);
+		//set the high bit of the all but the least significant byte to 1
+		for(int i = 0; i<length-1; i++){
+			ret[i] = (byte)((byte) ret[0] | (byte) 0x80);
 		}
 		return ret;
 		
