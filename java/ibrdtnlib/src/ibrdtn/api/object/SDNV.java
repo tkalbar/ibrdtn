@@ -20,7 +20,7 @@
  */
 package ibrdtn.api.object;
 
-import java.util.BitSet;
+import java.nio.ByteBuffer;
 
 public class SDNV implements Comparable<SDNV> {
 
@@ -62,22 +62,20 @@ public class SDNV implements Comparable<SDNV> {
 	}
 
 	public byte[] getBytes() {
-
-		
-		
+ 
 		
 		byte[] ret = new byte[length];
 		long temp = _value;
 		int counter = length-1;
-		
+
 		while(temp != 0){
-			ret[counter] = (byte)((byte)temp & (byte) 0x7f);			
+			ret[counter] = (byte)((byte)temp & (byte) 0x7f);
 			temp = temp >> 7;
 			counter--;
 		}
 		//set the high bit of the all but the least significant byte to 1
 		for(int i = 0; i<length-1; i++){
-			ret[i] = (byte)((byte) ret[0] | (byte) 0x80);
+			ret[i] = (byte)((byte) ret[i] | (byte) 0x80);
 		}
 		return ret;
 		
