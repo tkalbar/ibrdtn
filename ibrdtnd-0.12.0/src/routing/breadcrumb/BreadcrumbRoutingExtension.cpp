@@ -629,46 +629,54 @@ namespace dtn
 				return;
 			}
 			ifs.seekg(-1,ios_base::end);
+
 			char cur = '\0';
-			while( cur==EOF || cur=='\0' || cur=='\n') {
+			while( cur==EOF || cur=='\0' || cur=='\n' ) {
 				if ((int)ifs.tellg() <= 1) {
-					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "File has no location entries" << IBRCOMMON_LOGGER_ENDL;
-					std::cout << "File has no location entries" << std::endl;
+					//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "File has no location entries" << IBRCOMMON_LOGGER_ENDL;
 					return;
 				}
 				ifs.get(cur);
-				//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Cur: " << cur << IBRCOMMON_LOGGER_ENDL;
 				ifs.seekg(-2,ios_base::cur);
 			}
+
 			int end = (int)ifs.tellg()+1;
+			ifs.seekg(0,ios_base::beg);
 
 			while( cur!='\n' ) {
-				if ((int)ifs.tellg() <= 1) {
+				if ((int)ifs.tellg() <= 0) {
 					ifs.seekg(0,ios_base::beg);
 					break;
 				}
 				ifs.get(cur);
-				//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Pos: " << (int)ifs.tellg() << IBRCOMMON_LOGGER_ENDL;
-				//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Cur: " << cur << IBRCOMMON_LOGGER_ENDL;
+				//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Pos2: " << (int)ifs.tellg() << IBRCOMMON_LOGGER_ENDL;
+				//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Cur2: " << cur << IBRCOMMON_LOGGER_ENDL;
 				ifs.seekg(-2,ios_base::cur);
 			}
+
 			int start = ifs.tellg();
-			char *entry = new char[end-start];
-			ifs.seekg(1,ios_base::cur);
+			char *entry = new char[end-start+1];
+			if (cur==EOF || cur=='\0' || cur=='\n') {
+				ifs.seekg(1,ios_base::cur);
+			}
 
 			ifs.read(entry,end-start); // read last line from file
+			entry[end-start] = 0x00;
 			std::string s(entry);
 			delete [] entry;
 			ifs.close();
 
+			//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "full string to start: "+s << IBRCOMMON_LOGGER_ENDL;
 			s = s.substr(0,s.size()-1); // strip off EOF char from string
 			size_t pos = 0;
 			std::string latitude;
 			std::string longitude;
+			std::string tstamp;
 			std::string delim = ";";
 
 			// prune timestamp
 			pos = s.find(delim);
+			tstamp = s.substr(0,pos);
 			s.erase(0,pos+delim.length());
 
 			// get latitude
@@ -679,6 +687,7 @@ namespace dtn
 			s.erase(0,pos+delim.length());
 			longitude = s;
 
+			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "GPS timestamp: "+tstamp << IBRCOMMON_LOGGER_ENDL;
 			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updated latitude: "+latitude << IBRCOMMON_LOGGER_ENDL;
 			IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Updated longitude: "+longitude << IBRCOMMON_LOGGER_ENDL;
 
