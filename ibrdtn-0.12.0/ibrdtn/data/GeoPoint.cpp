@@ -51,18 +51,18 @@ namespace dtn
 
 		float GeoPoint::getLongitude() const
 		{
-			float lon = _longitude.get();
+			float lon = _longitude.get()/_scale_factor;
 			// represent longitude between -180 to 180 degrees
-			if (lon > 180.0) lon -= 360.0;
-			return lon/_scale_factor;
+			if (lon > 180.0) lon -= 360.0;;
+			return lon;
 		}
 
 		float GeoPoint::getLatitude() const
 		{
-			float lat = _latitude.get();
+			float lat = _latitude.get()/_scale_factor;
 			// represent longitude between -90 to 90 degrees
-			if (lat > 180.0) lat -= 360.0;
-			return lat/_scale_factor;
+			if (lat > 90.0) lat -= 360.0;
+			return lat;
 		}
 
 		std::ostream& operator<<(std::ostream &stream, const dtn::data::GeoPoint &obj)
