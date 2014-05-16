@@ -194,29 +194,37 @@ namespace dtn
 
 		std::ostream& operator<<(std::ostream &stream, const GeoRoutingBlock::GeoRoutingEntry &entry)
 		{
+			cout << "serializing GeoRoutingEntry" << endl;
 			stream << entry.flags;
 			stream << entry.margin;
+			cout << "\t margin = " << entry.margin.get() << endl;
 			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::EID_REQUIRED)) {
 				dtn::data::BundleString endpoint(entry.eid.getString());
 				stream << endpoint;
+				cout << "\t EID_REQUIRED\t" << entry.eid.getString() << endl;
 			}
 			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::GEO_REQUIRED)) {
 				stream << entry.geopoint;
+				cout << "\t GEO_REQUIRED\t" << entry.geopoint.toString() << endl;
 			}
 			return stream;
 		}
 
 		std::istream& operator>>(std::istream &stream, GeoRoutingBlock::GeoRoutingEntry &entry)
 		{
+			cout << "de-serializing GeoRoutingEntry" << endl;
 			stream >> entry.flags;
 			stream >> entry.margin;
+			cout << "\t margin = " << entry.margin.get() << endl;
 			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::EID_REQUIRED)) {
 				dtn::data::BundleString ee;
 				stream >> ee;
 				entry.eid = ee;
+				cout << "\t EID_REQUIRED\t" << entry.eid.getString() << endl;
 			}
 			if (entry.getFlag(GeoRoutingBlock::GeoRoutingEntry::GEO_REQUIRED)) {
 				stream >> entry.geopoint;
+				cout << "\t GEO_REQUIRED\t" << entry.geopoint.toString() << endl;
 			}
 			return stream;
 		}
