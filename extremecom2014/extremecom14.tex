@@ -1,0 +1,107 @@
+\documentclass{sig-alternate}
+%\documentclass{sig-alternate-10pt}
+ 
+\usepackage{verbatim}
+\usepackage{graphics}
+\usepackage{color}
+\usepackage{url}
+\usepackage{subfigure}
+\usepackage{mdwlist}
+\usepackage{floatflt}
+
+\begin{document}
+
+\conferenceinfo{ExtremeCom}{2014}
+\CopyrightYear
+\crdata
+
+\input{title}
+\input{abstract}
+
+\category{C.2.1}{Network Architecture and Design}{Store and forward networks}
+%\terms{Design, Experimentation, Performance}
+\keywords{Delay-Tolerant Networks, Bundle Protocol, Geographic routing}
+
+\input{introduction}
+
+
+\subsection {Prior Work}
+
+
+% -----------------------------------------------
+%
+%   Use Cases
+%
+% -----------------------------------------------
+\input{usecases.tex}
+
+
+
+% -----------------------------------------------
+%
+%   Architecture and Implementation
+%
+% -----------------------------------------------
+\section{Architecture and Implementation}
+
+Here we will describe the design, implementation, and architectural considerations of the GeoTracking and GeoRouting blocks, and the Breadcrumb Router.  All three of these componets involve tying together GPS information that is usually available in a platform-dependent way and is constantly changing, into the BPA.  This is espacially challenging to implement in the IBR-DTN architecture, since all bundle information is held in persistent storage and must be access through bundle filters, and the design ethos dictates that we not create any RAM-based data structures that would grow with the number of bundles held.
+
+% -----------------------------------------------
+%   GeoTracking Block
+% -----------------------------------------------
+\input{geotracking.tex}
+
+
+% -----------------------------------------------
+%   GeoRouting Block
+% -----------------------------------------------
+\input{georouting.tex}
+
+
+% -----------------------------------------------
+%   The Breadcrumb Router
+% -----------------------------------------------
+\input{router.tex}
+
+
+% -----------------------------------------------
+%
+%   Experiments
+%
+% -----------------------------------------------
+\input{experiments}
+
+
+
+% -----------------------------------------------
+%
+%   Conclusion
+%
+% -----------------------------------------------
+\section{Conclusion}
+
+
+
+
+% Once the sections and outline are solidified, breaking the paper up into separate files will be useful.  For now I'll put the sections inline.
+%
+%\input{introduction}
+%\input{background}
+%\input{routing}
+%\input{evaluationPharos}
+%\input{evaluationNYC}
+%\input{evaluationVMT}
+%\input{evaluationBrief}
+%\input{conclusion}
+%\input{related}
+% removed in favor of combining related work with "Background" section
+%\section*{Acknowledgments}
+%This work was funded in part by the US Dept. of Defense. The views expressed are those of the authors and may not necessarily reflect the views of the sponsoring agencies.\\
+
+\bibliographystyle{abbrv}
+%\begin{scriptsize}
+\bibliography{geobreadcrumb}
+%\end{scriptsize}
+
+\end{document}
+
