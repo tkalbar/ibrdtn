@@ -173,16 +173,20 @@ namespace dtn
 
 			if (meta.hasgeoroute) {
 				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventBundleQueued(): has geo route" << IBRCOMMON_LOGGER_ENDL;
-				if (peer.getNode() != dtn::core::BundleCore::local) {
-					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventBundleQueued(): not local," << peer.getHost() << IBRCOMMON_LOGGER_ENDL;
+				//if (peer.getNode() != dtn::core::BundleCore::local) {
+					//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventBundleQueued(): not local," << peer.getHost() << IBRCOMMON_LOGGER_ENDL;
 					//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Peer: " << peer.getHost() << IBRCOMMON_LOGGER_ENDL;
 					//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Local: " << dtn::core::BundleCore::local.getHost() << IBRCOMMON_LOGGER_ENDL;
 
-					const UpdateBundleFilter updateFilter(_location);
-					dtn::storage::BundleResultList updateList;
-					updateList.clear();
-					(**this).getSeeker().get(updateFilter, updateList); // use the filter to acquire all bundles that need updates
-					updateBundleList(_location, updateList);
+					try {
+						const UpdateBundleFilter updateFilter(_location);
+						dtn::storage::BundleResultList updateList;
+						updateList.clear();
+						(**this).getSeeker().get(updateFilter, updateList); // use the filter to acquire all bundles that need updates
+						updateBundleList(_location, updateList);
+					} catch (const dtn::storage::NoBundleFoundException &ex) {
+						IBRCOMMON_LOGGER_DEBUG_TAG(TAG, 10) << "NoBundleFound from filter" << IBRCOMMON_LOGGER_ENDL;
+					}
 					/*dtn::data::Bundle bundle = dtn::core::BundleCore::getInstance().getStorage().get(meta);
 					dtn::data::GeoRoutingBlock &grblock = bundle.find<dtn::data::GeoRoutingBlock>();
 					if (grblock.getRoute().empty()) {
@@ -193,7 +197,7 @@ namespace dtn
 						dtn::core::BundleCore::getInstance().getStorage().store(bundle);
 						IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventBundleQueued(): Popped off the last entry upon receive" << IBRCOMMON_LOGGER_ENDL;
 					}*/
-				}
+				//}
 			}
 
 			// new bundles trigger a recheck for all neighbors
@@ -602,6 +606,8 @@ namespace dtn
 							updateList.clear();
 							(**this).getSeeker().get(updateFilter, updateList); // use the filter to acquire all bundles that need updates
 							updateBundleList(_location, updateList);
+						} catch (const dtn::storage::NoBundleFoundException &ex) {
+							IBRCOMMON_LOGGER_DEBUG_TAG(TAG, 10) << "NoBundleFound from filter" << IBRCOMMON_LOGGER_ENDL;
 						} catch (const std::bad_cast&) { }
 
 					} catch (const ibrcommon::Exception &ex) {
