@@ -182,7 +182,7 @@ namespace dtn
 					dtn::storage::BundleResultList updateList;
 					updateList.clear();
 					(**this).getSeeker().get(updateFilter, updateList); // use the filter to acquire all bundles that need updates
-					updateBundleList(updateList);
+					updateBundleList(_location, updateList);
 					/*dtn::data::Bundle bundle = dtn::core::BundleCore::getInstance().getStorage().get(meta);
 					dtn::data::GeoRoutingBlock &grblock = bundle.find<dtn::data::GeoRoutingBlock>();
 					if (grblock.getRoute().empty()) {
@@ -601,7 +601,7 @@ namespace dtn
 							dtn::storage::BundleResultList updateList;
 							updateList.clear();
 							(**this).getSeeker().get(updateFilter, updateList); // use the filter to acquire all bundles that need updates
-							updateBundleList(updateList);
+							updateBundleList(_location, updateList);
 						} catch (const std::bad_cast&) { }
 
 					} catch (const ibrcommon::Exception &ex) {
@@ -616,7 +616,7 @@ namespace dtn
 			}
 		}
 
-		void BreadcrumbRoutingExtension::updateBundleList(dtn::storage::BundleResultList bundleList) {
+		void BreadcrumbRoutingExtension::updateBundleList(GeoLocation myloc, dtn::storage::BundleResultList bundleList) {
 			for (std::list<dtn::data::MetaBundle>::const_iterator iter = bundleList.begin(); iter != bundleList.end(); ++iter) {
 				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Update bundle based on location" << IBRCOMMON_LOGGER_ENDL;
 				if ((*iter).hasgeoroute) {
@@ -630,7 +630,7 @@ namespace dtn
 						while (!donePruningEntries) {
 							// look at the last entry
 							dtn::data::GeoRoutingBlock::GeoRoutingEntry nextgeohop = grblock.getRoute().back();
-							if (checkMargin(_location,nextgeohop)) {
+							if (checkMargin(myloc,nextgeohop)) {
 								IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "Update: Popping entry" << IBRCOMMON_LOGGER_ENDL;
 								grblock.getRoute().pop_back();
 							} else {

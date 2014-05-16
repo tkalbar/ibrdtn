@@ -318,10 +318,10 @@ int main(int argc, char *argv[])
 						// put the GeoRouting block on
 						// for now everything is hard-coded
 						dtn::data::GeoRoutingBlock &grb = b.push_back<dtn::data::GeoRoutingBlock>();
-						grb.append(41.92, -73.21, .01);
-						//grb.append(24.3648, 62.2814, 0.8);
-						//grb.append(28.54, 1.38, 0.8);
-						//grb.append(12.2436, 5.3214, 0.8);
+						//grb.append(41.92, -73.21, .01);
+						grb.append(24.3648, 62.2814, 0.8);
+						grb.append(28.54, 1.38, 0.8);
+						grb.append(12.2436, 5.3214, 0.8);
 
 						// send the bundle
 						client << b;

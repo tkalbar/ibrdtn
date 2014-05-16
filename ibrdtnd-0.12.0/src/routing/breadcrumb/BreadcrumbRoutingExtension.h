@@ -20,8 +20,11 @@
 #include <ibrdtn/data/ExtensionBlock.h>
 #include <ibrdtn/data/GeoRoutingBlock.h>
 
+#include <ibrdtn/data/MetaBundle.h>
 #include <ibrcommon/thread/Queue.h>
 #include <ibrcommon/thread/Thread.h>
+
+#include "storage/BundleResult.h"
 
 #include <list>
 #include <queue>
@@ -66,7 +69,7 @@ namespace dtn
 
 			virtual void processHandshake(const dtn::data::EID&, NodeHandshake&);
 
-			static void updateBundleList(dtn::storage::BundleResultList bundleList);
+			static void updateBundleList(GeoLocation myloc, dtn::storage::BundleResultList bundleList);
 
 			static bool checkMargin(const GeoLocation&, const dtn::data::GeoRoutingBlock::GeoRoutingEntry&);
 
