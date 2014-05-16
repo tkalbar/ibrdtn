@@ -55,10 +55,10 @@ namespace dtn
 			public:
 				enum FLAGS
 				{
-					REQUIRED        = 1 << 1,
-					ORDERED         = 1 << 2,
-					GEO_REQUIRED    = 1 << 3,
-					EID_REQUIRED    = 1 << 4
+					REQUIRED        = 1 << 0,
+					ORDERED         = 1 << 1,
+					GEO_REQUIRED    = 1 << 2,
+					EID_REQUIRED    = 1 << 3
 				};
 				Bitset<FLAGS> flags;
 
