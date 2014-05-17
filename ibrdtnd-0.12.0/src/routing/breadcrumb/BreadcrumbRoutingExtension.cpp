@@ -128,6 +128,16 @@ namespace dtn
 			request.addRequest(BloomFilterSummaryVector::identifier);
 		}
 
+		void BreadcrumbRoutingExtension::eventTransferCompleted(const dtn::data::EID &peer, const dtn::data::MetaBundle &meta) throw ()
+		{
+			//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventTransferCompleted()" << IBRCOMMON_LOGGER_ENDL;
+			if (dtn::core::BundleCore::getInstance().getStorage().contains(meta)) {
+				dtn::core::BundleCore::getInstance().getStorage().remove(meta);
+				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventTransferCompleted(): bundle removed" << IBRCOMMON_LOGGER_ENDL;
+			}
+
+		}
+
 		void BreadcrumbRoutingExtension::eventDataChanged(const dtn::data::EID &peer) throw ()
 		{
 			// transfer the next bundle to this destination
