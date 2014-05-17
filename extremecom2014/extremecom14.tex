@@ -41,9 +41,24 @@
 %   Architecture and Implementation
 %
 % -----------------------------------------------
-\section{Architecture and Implementation}
+%\section{Architecture and Implementation}
 
-Here we will describe the design, implementation, and architectural considerations of the GeoTracking and GeoRouting blocks, and the Breadcrumb Router.  All three of these componets involve tying together GPS information that is usually available in a platform-dependent way and is constantly changing, into the BPA.  This is espacially challenging to implement in the IBR-DTN architecture, since all bundle information is held in persistent storage and must be access through bundle filters, and the design ethos dictates that we not create any RAM-based data structures that would grow with the number of bundles held.
+\section{The Geo- Extension Blocks}
+In the following sections, we describe the design, implementation, and
+architectural considerations of the {\em GeoTracking} and {\em
+  GeoRouting} blocks, and the {\sc breadcrumb} router that takes
+advantage of them. All three of these components involve tying
+together dynamic GPS information that is usually available in a
+platform-dependent way and integrating this information into the
+Bundle Protocol Agent (BPA). While most of these descriptions are in
+reference to the Bundle Protocol in general, we have implemented our
+extensions on the IBR-DTN implementation of the bundle
+protocol~\cite{IBR-DTN-WASA}. For this reason, some of the discussion
+is specific to this implementation choice, for example because IBR-DTN
+holds all bundle information in persistent storage, requiring access
+to bundle information through bundle filters. Matching the IBR-DTN
+design ethos dictates that we not create any RAM-based data structrues
+that would grow with the number of bundles held.
 
 % -----------------------------------------------
 %   GeoTracking Block
@@ -60,6 +75,7 @@ Here we will describe the design, implementation, and architectural consideratio
 % -----------------------------------------------
 %   The Breadcrumb Router
 % -----------------------------------------------
+\section{The {\sc breadcrumb} Router}
 \input{router.tex}
 
 

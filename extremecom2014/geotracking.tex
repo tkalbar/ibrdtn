@@ -2,9 +2,7 @@
 %   GeoTracking Block
 % -----------------------------------------------
 \subsection{Geo-tracking Block}
-
-The GeoTracking Block consists of a small header containing parameters for maintaining the block and the number of tracking entries, followed by a series of TrackingEntry fields.  Each TrackingEntry consists of an entry type, and a block of entry data.  The contents of the entry depend on the entry type.
-
+We enabled per-bundle tracking by defining the {\em GeoTracking} extension block, which, when attached to any bundle, collects both the logical hops that the bundle traverses and the bundle's trajectory through physical space. The {\em GeoTracking} block is a series of tracking entries (each one either recording a logical hop or a physical location) prefaced by a small header containing parameters for maintaining the block and counting the number of its entries.
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/tracking-block.pdf}
@@ -13,12 +11,14 @@ The GeoTracking Block consists of a small header containing parameters for maint
 \label{fig:tracking-block}
 \end{figure}
 
-The format of the block is depicted in figure~\ref{fig:tracking-block}.  The block header fields apply to every block in a bundle and the format is specified by RFC5050.  In IBR-DTN the block processor only deals with the contents of the block itself, and the BPA strips off the block header.  There are three mandatory fields in the GeoTracking block:
-\begin{description}
-  \item[Flags] These flags tell intermediate BPAs what information to append to the block.  There are three flags defined: {\bf TRACK\_HOPS} (0x01), {\bf TRACK\_GEO} (0x02), and {\bf TRACK\_TIMESTAMP} (0x04).
-  \item[Interval] This tells intermediat BPAs the interval at which to append a GEODATA TrackingEntry to the entry list.  The interval is specified in seconds.
-  \item[Entry Count] This is the number of TrackingEntry in the block.
-\end{description}
+\begin{sloppypar}
+Figure~\ref{fig:tracking-block} depicts the {\em GeoTracking} block's format. The Block Header fields are specified by RFC5050\footnote{\url{http://tools.ietf.org/html/rfc5050}} and apply to any block in a bundle. In IBR-DTN, the block processor only deals with the contents of the block itself, and the BPA strips off the block header. Each {\em GeoTracking} block contains three mandatory fields:
+\begin{description*}
+  \item[Flags.] The flags tell intermediate BPAs what information to append to the block. The flags are: {\bf TRACK\_HOPS} (0x01), {\bf TRACK\_GEO} (0x02), and {\bf TRACK\_TIMESTAMP} (0x04).
+  \item[Interval.] The interval (in seconds) tells intermediate BPAs the frequence with which to append a new GEODATA tracking entry to the entry list.  
+  \item[Entry Count.] The entry count keeps track of the number of tracking entries contained in the block.
+\end{description*}
+\end{sloppypar}
 
 Maintaining and updating the GeoTracking block is a dilemma.  We would like for the block stored in the BPA to always be up to date, but it is not feasible to update it in real time for several reasons.  First, the may be many bundles held at the BPA with GeoTracking blocks, and with tracking specified at different intervals.  Updating them all in real time would require quite a few timers, and (in the case of IBR-DTN) reloading/storing each of those bundles from disk each time a new entry is to be attached.  We concluded that it is best to maintain a global GPS log and to only update the GeoTracking block when a bundle is serialized for sending.  The maintainence of this global GPS log then becomes an issue.  In order to completely satisfy the tracking interval requirements of each bundle with a GeoTracking block we would need it to record the node's location at an interval of the GCD of all the tracking intervals.  In our prototype we choose a fixed global interval appropriate to the experiment and bundles can request a {\it less frequent} update.  Finally there is the question of where the GPS log should be maintained.  It could concievably be maintained in the BPA itself, however access to GPS information is a very platform-specific process, whereas a good BPA should be portable.  Also it would require an extra timer or thread in the BPA for a fairly specialized feature.  Our solution is to have a host-specific agent that logs GPS data to a file at an interval chosen by the host.  Each time a GeoTracking block is to be serialized the BPA scans this file for the desired entries and creates the necessary TrackingEntry fields for the Tracking Block.
 
