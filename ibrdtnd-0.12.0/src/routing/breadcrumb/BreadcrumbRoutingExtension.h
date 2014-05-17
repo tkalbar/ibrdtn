@@ -54,6 +54,8 @@ namespace dtn
 
 			virtual void eventDataChanged(const dtn::data::EID &peer) throw ();
 
+			virtual void eventTransferCompleted(const dtn::data::EID &peer, const dtn::data::MetaBundle &meta) throw ();
+
 			virtual void eventBundleQueued(const dtn::data::EID &peer, const dtn::data::MetaBundle &meta) throw ();
 
 			virtual void raiseEvent(const dtn::core::Event *evt) throw ();
