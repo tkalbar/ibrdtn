@@ -132,8 +132,10 @@ namespace dtn
 		{
 			//IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventTransferCompleted()" << IBRCOMMON_LOGGER_ENDL;
 			if (dtn::core::BundleCore::getInstance().getStorage().contains(meta)) {
-				dtn::core::BundleCore::getInstance().getStorage().remove(meta);
-				IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventTransferCompleted(): bundle removed" << IBRCOMMON_LOGGER_ENDL;
+				if (meta.hasgeoroute) {
+					dtn::core::BundleCore::getInstance().getStorage().remove(meta);
+					IBRCOMMON_LOGGER_DEBUG_TAG(BreadcrumbRoutingExtension::TAG, 1) << "eventTransferCompleted(): bundle removed" << IBRCOMMON_LOGGER_ENDL;
+				}
 			}
 
 		}
