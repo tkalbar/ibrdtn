@@ -3,43 +3,52 @@
 %   Use Cases
 %
 % -----------------------------------------------
-\section{Use Cases}
 
-There are many potential use cases for the GeoTracking and GeoRouting extensions.  For the purposes of testing and demonstration we focus on one in this paper.
+{\bf Use Cases.} As indicated in the introduction, there are myriad
+uses for the {\em GeoTracking} and {\em GeoRouting} bundle extensions,
+as well as for the {\sc breadcrumb} router itself. In this section, we
+briefly take three examples that separate the motivations for bundle
+tracking, bundle geo-routing, and the combination of the two.
 
-% -----------------------------------------------
-%   The Maze!
-% -----------------------------------------------
-\subsection{The Maze!}
+{\it Safe Data Sharing.} Tracking bundles as they move through a DTN
+is clearly widely useful for debugging and for general spatiotemporal
+provenance. As another concrete example, a secure application may want
+to control (and then track) the movement of bundles through space to
+ensure that the bundle (and its content) never leave a pre-specified
+``safe'' zone~\cite{michel12:spatiotemporal}. By placing a {\em
+  GeoTracking} extension on each bundle, the application can compare
+the trajectory of the bundle against the safe zone to ensure the
+desired property.
 
-The primary use case we investigate in this paper is designed to plausibly and concisely demonstrate the power and functionality of geotracking and source geo-routing in a DTN.
+{\it An Oil Spill.} Consider the case of some natural disaster, e.g.,
+an oil spill, detected by one or more distributed sensors. Based on
+the location of the spill and simultaneously sensed ambient
+information (e.g., water currents, winds, etc.), the sensor can
+compute where the spill is likely to dissipate and generate
+bundles that can be explicitly routed along the trajectory or
+trajectories of dissipation. As the bundles propagate, their routing
+paths (i.e., trajectories) can be updated by devices they pass through
+based on locally sensed ambient conditions (e.g., changes in water
+currents or winds). Our {\em GeoRouting} extension to the Bundle
+protocol's block format, as well as our {\sc breadcrumb} router, which
+interprets this extension, can achieve this routing behavior.
 
-In our scenario a prisoner is held in a maze, and the maze is patrolled by guards who can act as intermediate DTN nodes.  The prisoner sends a bundle, with a GeoTracking block attached, to a rescuer outside the maze.  Initially, when no GeoRouting block is attached, the bundle is routed by the Epidemic routing module.  The GeoTracking block is maintained along the entire route.  Necessarily, then, the first bundle to reach the destination contains enough information to reconstruct the most efficient route through the maze.  The rescuer can remove any backtracked paths the bundle took, and send a bundle with a GeoRouting block attached to the prisoner.
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=.9\columnwidth]{figures/maze_diagram.pdf}
-\end{center}
-\caption{The maze!}
-\label{fig:maze}
-\end{figure}
-
-% -----------------------------------------------
-%   The Oil Spill!
-% -----------------------------------------------
-\subsection{The Oil Spill!}
-
-
-% -----------------------------------------------
-%   The Volcano!
-% -----------------------------------------------
-\subsection{The Volcano!}
+{\it A Maze.} To bring tracking and routing together in one package,
+consider a scenario in which a prisoner is held in a maze, and the
+maze is patrolled by guards who can act as intermediate DTN nodes. The
+prisoner sends a bundle with a destination of a known rescuer outside
+of the maze. This bundle tracks its trajectory, effectively logging a
+successful path out of the maze. The rescuer can then send a response
+back to the prisoner, routed along the waypoints of the turns in the
+maze. The response may contain information about the perils of the
+exit path, sensed as the prisoners original message traversed to the
+rescuer. Using our {\sc breadcrumb} router, the rescuer's return
+bundle can reach the prisoner regardless of whether the particular
+guards in the maze change, as long as there exist enough coverage of
+the maze path by {\em some} DTN nodes.
 
 
-% -----------------------------------------------
-%   The Sharknado!
-% -----------------------------------------------
-\subsection{The Sharknado!}
+
 
 
 
