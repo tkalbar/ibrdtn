@@ -4,48 +4,45 @@
 %
 % -----------------------------------------------
 
-{\bf Use Cases.} As indicated in the introduction, there are myriad
-uses for the {\em GeoTracking} and {\em GeoRouting} bundle extensions,
-as well as for the {\sc breadcrumb} router itself. In this section, we
-briefly take three examples that separate the motivations for bundle
-tracking, bundle geo-routing, and the combination of the two.
+{\bf Use Cases.} There are myriad uses for the {\em GeoTracking} and
+{\em GeoRouting} bundle extensions, as well as for the {\sc
+  breadcrumb} router itself. We briefly describe three examples that
+separate the motivations for tracking, geo-routing, and the
+combination of the two.
 
-{\it Safe Data Sharing.} Tracking bundles as they move through a DTN
-is clearly widely useful for debugging and for general spatiotemporal
-provenance. As another concrete example, a secure application may want
-to control (and then track) the movement of bundles through space to
-ensure that the bundle (and its content) never leave a pre-specified
-``safe'' zone~\cite{michel12:spatiotemporal}. By placing a {\em
-  GeoTracking} extension on each bundle, the application can compare
-the trajectory of the bundle against the safe zone to ensure the
-desired property.
+{\it Safe Data Sharing.} Tracking bundles is clearly widely useful for
+debugging and general spatiotemporal provenance. As a concrete
+example, a secure application may want to track the movement of
+bundles through space to ensure that bundles (and their content) never
+leave a pre-specified ``safe'' zone~\cite{michel12:spatiotemporal}. By
+placing a {\em GeoTracking} extension on each bundle, the application
+can compare the trajectory of the bundle against the safe zone to
+ensure the desired property.
 
-{\it An Oil Spill.} Consider the case of some natural disaster, e.g.,
-an oil spill, detected by one or more distributed sensors. Based on
-the location of the spill and simultaneously sensed ambient
-information (e.g., water currents, winds, etc.), the sensor can
-compute where the spill is likely to dissipate and generate
-bundles that can be explicitly routed along the trajectory or
-trajectories of dissipation. As the bundles propagate, their routing
-paths (i.e., trajectories) can be updated by devices they pass through
-based on locally sensed ambient conditions (e.g., changes in water
-currents or winds). Our {\em GeoRouting} extension to the Bundle
-protocol's block format, as well as our {\sc breadcrumb} router, which
-interprets this extension, can achieve this routing behavior.
+{\it An Oil Spill.} Consider an environmental disaster, e.g., an oil
+spill, detected by one or more distributed sensors. Based on the
+location of the spill and simultaneously sensed ambient information
+(e.g., water currents, winds, etc.), the sensor can compute where the
+spill is likely to dissipate and generate bundles that can be
+explicitly routed along the trajectories of dissipation. As the
+bundles propagate, their routing paths (i.e., trajectories) can be
+updated by devices they pass through based on locally sensed ambient
+conditions (e.g., changes in water currents or winds). Our {\em
+  GeoRouting} extension to the Bundle protocol's block format,
+combined with our {\sc breadcrumb} router, can achieve this behavior.
 
-{\it A Maze.} To bring tracking and routing together in one package,
-consider a scenario in which a prisoner is held in a maze, and the
-maze is patrolled by guards who can act as intermediate DTN nodes. The
-prisoner sends a bundle with a destination of a known rescuer outside
-of the maze. This bundle tracks its trajectory, effectively logging a
-successful path out of the maze. The rescuer can then send a response
-back to the prisoner, routed along the waypoints of the turns in the
-maze. The response may contain information about the perils of the
-exit path, sensed as the prisoners original message traversed to the
-rescuer. Using our {\sc breadcrumb} router, the rescuer's return
-bundle can reach the prisoner regardless of whether the particular
-guards in the maze change, as long as there exist enough coverage of
-the maze path by {\em some} DTN nodes.
+{\it A Maze.} To bring tracking and routing together, consider a
+prisoner is held in a maze, and the maze is patrolled by guards who
+can act as intermediate DTN nodes. The prisoner sends a bundle with a
+destination of a known rescuer outside of the maze. This bundle tracks
+its trajectory, logging a successful path out of the maze. The rescuer
+can send a response back to the prisoner, routed along the waypoints
+of the turns in the maze. The response may contain information about
+the perils of the exit path, sensed as the prisoner's original message
+traversed to the rescuer. Using our {\sc breadcrumb} router, the
+rescuer's return bundle can reach the prisoner regardless of whether
+the particular guards in the maze change, as long as there exists
+enough coverage of the maze path by {\em some} DTN nodes.
 
 
 
