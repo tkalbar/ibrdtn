@@ -37,6 +37,30 @@ Figure~\ref{fig:cropcircle1}, some nodes follow a circle in a clockwise directio
 
 The second crop circles mobility scenario consists of eighteen mobile nodes, arranged in six rows of three nodes each. The source in these experiments is the lower left node, and the responder is the upper right node.
 
+\begin{figure}
+%\vspace{-.2cm}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[legend pos=south east]
+
+\addplot+[only marks,color=black,mark=*,mark size=0.4pt] 
+	table[x=x,y=y] {../data/ladder/pgy.txt};
+
+
+
+%\addplot[only marks,color=red,mark=x] 
+%	table[x=x,y=y] {../data/ladder/pgy_2.txt};
+
+
+\legend{Bundle Trajectory}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\vspace{-.4cm}
+\caption{Ladder Experiment 1}\label{fig:ladder1}
+\vspace{-.35cm}
+\end{figure}
+
 
 \subsection{Maze Scenario}
 \begin{figure}
