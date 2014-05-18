@@ -63,7 +63,15 @@ is specific to this implementation choice, for example because IBR-DTN
 holds all bundle information in persistent storage, requiring access
 to bundle information through bundle filters. Matching the IBR-DTN
 design ethos dictates that we not create any RAM-based data structrues
-that would grow with the number of bundles held.
+that would grow with the number of bundles held.  We connect these new
+constructs in IBR-DTN to our existing spatiotemporal trajectories
+implementation~\cite{michel12:spatiotemporal} using the IBR-DTN java
+library. Within this Java bridge implementation, we create mirrored
+representations of the {\em GeoTracking} and {\em GeoRouting} blocks
+so that Java applications can easily process {\em GeoTracking} blocks
+and create {\em GeoRouting} blocks; in our specific case, the
+application is a spatiotemporal database that stores expressively
+space- and time-tagged data items.
 
 % -----------------------------------------------
 %   GeoTracking Block
