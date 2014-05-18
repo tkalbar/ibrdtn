@@ -46,7 +46,7 @@ down. {\color{red} The sender is at the top of the ladder and the
 \begin{center}
 \begin{tikzpicture}
 \begin{axis}[legend pos=south east]
-\addplot+[only marks,color=black,mark=*,mark size=0.4pt] 
+\addplot+[only marks,color=black,mark=*,mark size=0.2pt] 
 	table[x=x,y=y] {../data/ladder/pgy.txt};
 %\addplot[only marks,color=red,mark=x] 
 %	table[x=x,y=y] {../data/ladder/pgy_2.txt};
@@ -75,6 +75,29 @@ responder is the node in the upper right corner.
 \vspace{-.75cm}
 \caption{Simple crop circles mobility scenario}\label{fig:cropcircle1}
 \vspace{-.25cm}
+\end{figure}
+
+\begin{figure}
+%\vspace{-.2cm}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[legend pos=south east]
+\addplot+[only marks,color=blue,mark=*,mark size=0.2pt] 
+	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_to/crop1_to.txt};
+\addplot+[only marks,color=green,mark=*,mark size=0.2pt] 
+	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/crop1_from.txt};
+\addplot[color=red,mark=triangle*,mark size=1pt] 
+	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/exp1_from-hop-0.dat};
+\addplot[color=red,mark=triangle*,mark size=1pt] 
+	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/exp1_from-hop-1.dat};
+%	table[x=x,y=y] {../data/ladder/pgy_2.txt};
+\legend{Tracking bundle, Routing bundle}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\vspace{-.4cm}
+\caption{Crop Circles Experiment 1}\label{fig:exp1}
+\vspace{-.35cm}
 \end{figure}
 
 {\color{red}Here's where the plots with the crop circles go.}
