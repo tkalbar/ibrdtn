@@ -69,37 +69,78 @@ upper right corner.
 \vspace{-.2cm}
 \begin{center}
 %\includegraphics[width=\columnwidth+.5]{figures/cropcircle1.png}
-\includegraphics[width=3in]{figures/cropcircle1.png}
+\includegraphics[width=.75\columnwidth]{figures/cropcircle1.png}
 \end{center}
 \vspace{-.75cm}
 \caption{Crop circles mobility scenario}\label{fig:cropcircle1}
 \vspace{-.25cm}
 \end{figure}
 
-\begin{figure}
+%\begin{figure}
 %\vspace{-.2cm}
-\begin{center}
-\begin{tikzpicture}
-\begin{axis}[legend pos=south east]
-\addplot+[only marks,color=blue,mark=*,mark size=0.2pt] 
-	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_to/crop1_to.txt};
-\addplot+[only marks,color=green,mark=*,mark size=0.2pt] 
-	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/crop1_from.txt};
-\addplot[color=red,mark=triangle*,mark size=1pt] 
-	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/exp1_from-hop-0.dat};
-\addplot[color=red,mark=triangle*,mark size=1pt] 
-	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/exp1_from-hop-1.dat};
+%\begin{center}
+%\begin{tikzpicture}
+%\begin{axis}[legend pos=south east]
+%\addplot+[only marks,color=blue,mark=*,mark size=0.2pt] 
+%	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_to/crop1_to.txt};
+%\addplot+[only marks,color=green,mark=*,mark size=0.2pt] 
+%	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/crop1_from.txt};
+%\addplot[color=red,mark=triangle*,mark size=1pt] 
+%	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/exp1_from-hop-0.dat};
+%\addplot[color=red,mark=triangle*,mark size=1pt] 
+%	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/exp1_from-hop-1.dat};
 %	table[x=x,y=y] {../data/ladder/pgy_2.txt};
-\legend{Tracking bundle, Routing bundle}
-\end{axis}
-\end{tikzpicture}
+%\legend{Tracking bundle, Routing bundle}
+%\end{axis}
+%\end{tikzpicture}
+%\end{center}
+%\vspace{-.4cm}
+%\caption{Crop Circles Experiment 1}\label{fig:exp1}
+%\vspace{-.35cm}
+%\end{figure}
+
+Figure~\ref{fig:cropCirclesExperiment} shows the results of a single
+execution on the crop circles network shown in
+Figure~\ref{fig:cropcircle1}. Figure~\ref{fig:cropCirclesExperment}(a)
+shows the trajectory of the probe bundle sent from the sender (in the
+lower left corner) to the responder (in the upper right
+corner). Figure~\ref{fig:cropCirclesExperiment}(b) shows the
+trajectory followed by the return (geo-routed) bundle. The small
+circles indicate the waypoints specified in the {\em GeoRouting} block
+of the responder's bundle (which were computed automatically by our
+application layer from the probe's {\em GeoTracking} block). The tiny
+dots that form a series of line segments are the entries in the {\em
+  GeoTracking} block of the this same bundle. 
+
+The track of the sender's probe bundle stops as soon as the responder
+(the node in the upper right corner) receives the bundle. When the
+responder generates its {\em GeoRouting} block for the return bundle,
+it inserts its location as the first waypoint. The track of the
+responder's bundle (Figure~\ref{fig:cropCirclesExperiment}(b)) hits
+all of the waypoints specified in the {\em GeoRouting} bundle. In the
+figure, the final waypoint does not appear to quite be reached, but it
+is. In our experiments, we deserialize and log the tracking blocks
+only when a bundle arrives at a node; once the node in the top left
+corner hands the bundle to the node in the lower left corner, this
+node continues to move along the path shown in
+Figure~\ref{fig:cropcircle1}, eventually crossing that final waypoint.
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/cropCirclesExperiment2.png}\\
+\vspace{-.25cm}
+(a)
+\includegraphics[width=\columnwidth]{figures/cropCirclesExperiment.png}\\
+\vspace{-.25cm}
+(b)
 \end{center}
-\vspace{-.4cm}
-\caption{Crop Circles Experiment 1}\label{fig:exp1}
-\vspace{-.35cm}
+\vspace{-.5cm}
+\caption{Crop circles tracking and trajectories. (a) The tracked
+  trajectory of the probe bundle. (b) The tracked trajectory of the
+  geo-routed bundle.}
+\label{fig:cropCirclesExperiment}
+\vspace{-.5cm}
 \end{figure}
 
-{\color{red}Here's where the plots with the crop circles go.}
 
 {\bf The Maze.} Our final experiments mirror the motivating scenario
 of the prisoner in the maze. The maze consists of a series of
@@ -110,12 +151,31 @@ the lower left corner, while the responder (i.e., the rescuer) is the
 node in the lower right corner.
 \begin{figure}
 \begin{center}
-\includegraphics[width=.9\columnwidth]{figures/newMaze.pdf}
+\includegraphics[width=.75\columnwidth]{figures/newMaze.pdf}
 \end{center}
 \vspace{-.75cm}
 \caption{Maze mobility scenario}
 \label{fig:maze}
-\vspace{-.5cm}
+\vspace{-.25cm}
 \end{figure}
 
-{\color{red}Here's where the plots with the maze go.}
+Figure~\ref{fig:mazeExperiment} shows the results of a single
+execution on the maze shown in Figure~\ref{fig:maze}. The figure shows
+only the trajectory of the rescuer's bundle that is geo-routed back to
+the prisoner based on the tracked trajectory of the prisoner's probe
+bundle. While copies of the prisoner's probe bundle do wander down the
+maze's dead-end paths, the reply from the rescuer reflects only the
+successful path through the maze. In Figure~\ref{fig:mazeExperiment},
+The responder's bundle successfully reaches all of the {\em
+  GeoRouting} block's required waypoints without following any
+detours; the last waypoint is reached eventually, when the prisoner
+moves back along his corridor.
+\begin{figure}
+\begin{center}
+\includegraphics[width=\columnwidth]{figures/mazeExperiment.png}
+\end{center}
+\vspace{-.75cm}
+\caption{Maze routing trajectory}
+\label{fig:mazeExperiment}
+\vspace{-.5cm}
+\end{figure}
