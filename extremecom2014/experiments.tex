@@ -28,44 +28,43 @@ extension block. The {\em sender} then sends this bundle to the {\em
 a bundle with a {\em GeoRouting} tracking block. This tracking block
 specifies as waypoints a subset of the locations visited by probe. The
 geo-routed bundle is sent back to the sender using the constructed
-{\em GeoRouting} block to direct it. We evaluate this bi-directional
-communication pattern on three increasingly sophisticated mobility
-scenarios.
+{\em GeoRouting} block to direct it. We next show results for
+experiments with this bi-directional routing pattern on two different
+mobility scenarios.
 
-{\bf The Ladder.} The first scenario contains thirteen nodes. Eight of
-the nodes form two evenly spaces parallel lines; these form the sides
-of the ladder. One node sits, stationary, at the bottom of the ladder;
-another node sits, stationary, at the top of the ladder. Three nodes
-repeatedly climb from the bottom of the ladder to the top and back
-down. {\color{red} The sender is at the top of the ladder and the
-  responder at the bottom; Figure~\ref{fig:ladder1} shows the
-  trajectory of the responder's geo-routed bundle, with the target
-  location waypoints from the {\em GeoRouting} extension block
-  highlighted.}
-\begin{figure}
-\begin{center}
-\begin{tikzpicture}
-\begin{axis}[legend pos=south east]
-\addplot+[only marks,color=black,mark=*,mark size=0.2pt] 
-	table[x=x,y=y] {../data/ladder/pgy.txt};
+%{\bf The Ladder.} The first scenario contains thirteen nodes. Eight of
+%the nodes form two evenly spaces parallel lines; these form the sides
+%of the ladder. One node sits, stationary, at the bottom of the ladder;
+%another node sits, stationary, at the top of the ladder. Three nodes
+%repeatedly climb from the bottom of the ladder to the top and back
+%down. {\color{red} The sender is at the top of the ladder and the
+ % responder at the bottom; Figure~\ref{fig:ladder1} shows the
+  %trajectory of the responder's geo-routed bundle, with the target
+  %location waypoints from the {\em GeoRouting} extension block
+  %highlighted.}
+%\begin{figure}
+%\begin{center}
+%\begin{tikzpicture}
+%\begin{axis}[legend pos=south east]
+%\addplot+[only marks,color=black,mark=*,mark size=0.2pt] 
+%	table[x=x,y=y] {../data/ladder/pgy.txt};
 %\addplot[only marks,color=red,mark=x] 
 %	table[x=x,y=y] {../data/ladder/pgy_2.txt};
-\legend{Bundle Trajectory}
-\end{axis}
-\end{tikzpicture}
-\end{center}
-\vspace{-.75cm}
-\caption{Ladder Experiment 1}\label{fig:ladder1}
-\vspace{-.5cm}
-\end{figure}
+%\legend{Bundle Trajectory}
+%\end{axis}
+%\end{tikzpicture}
+%\end{center}
+%\vspace{-.75cm}
+%\caption{Ladder Experiment 1}\label{fig:ladder1}
+%\vspace{-.5cm}
+%\end{figure}
 
-{\bf Crop Circles.} In our second set of experiments, we created grids
+{\bf Crop Circles.} In our first set of experiments, we created grids
 of nodes that move continuously in circles in either a clockwise or
-counter clockwise patter. The simple crop circles scenario consists of
-six nodes arranged as shown in Figure~\ref{fig:cropcircle1}; the
-complex crop circles scenario consists of 18 nodes in six rows of
-three nodes each. The sender is the node in the lower left corner; the
-responder is the node in the upper right corner.
+counter clockwise patter. This crop circles scenario consists of six
+nodes arranged as shown in Figure~\ref{fig:cropcircle1}; the sender is
+the node in the lower left corner; the responder is the node in the
+upper right corner.
 \begin{figure}
 \vspace{-.2cm}
 \begin{center}
@@ -106,8 +105,9 @@ responder is the node in the upper right corner.
 of the prisoner in the maze. The maze consists of a series of
 connected hallways, each patrolled by a single guard who moves back
 and forth along hallway. Our maze is shown in
-Figure~\ref{fig:maze}. {\color{red}The sender (i.e., the prisoner) is ???? and the
-  responder (i.e., the rescuer) is ???.}
+Figure~\ref{fig:maze}. The sender (i.e., the prisoner) is the node in
+the lower left corner, while the responder (i.e., the rescuer) is the
+node in the lower right corner.
 \begin{figure}
 \begin{center}
 \includegraphics[width=.9\columnwidth]{figures/newMaze.pdf}
