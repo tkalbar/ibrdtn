@@ -31,5 +31,7 @@ This technically creates a race condition between these two calls, where the GPS
 %\subsubsection{GPS Coordinate Representation as SDNV} \label{gps-representation}
 Our extension blocks represent GPS coordinates in signed degrees format, where latitude ranges from $-90^{\circ}$ to $90^{\circ}$ and longitude ranges from $-180^{\circ}$ to $180^{\circ}$.  Both latitude and longitude are considered to be type {\bf float}.  However, since the self-delimiting numeric values (SDNVs)\footnote{\scriptsize\url{http://tools.ietf.org/html/draft-irtf-dtnrg-sdnv-09}} used in the bundle protocol cannot represent floating point numbers or negative values, we make two transformations to encode longitude and latitude in the{\em GeoTracking} block.  If $\theta<0$ we compute $\theta^{\prime}=\theta+360^{\circ}$.  Then we scale all coordinates up by a factor of $1048576$.  This gives us at least 20 bits of precision in both values, which is more than enough for meter-level resolution in the GPS coordinates.  When the blocks are received and deserialized, these transforms are reversed to give the original floating point values.
 
+We have implemented the described {\em GeoTracking} block both within the core IBR-DTN implementation and within the Java bridge implementation. The pair of implementations allows use of the tracking functionality in both the core C++ framework and within Java DTN applications.
+
 
 
