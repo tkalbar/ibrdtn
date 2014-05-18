@@ -1,36 +1,28 @@
 \section{Experiments}\label{sec:experiments}
-To demonstrate the use of our {\em GeoTracking} and {\em GeoRouting}
-extension blocks and the behavior of our {\sc breadcrumb} router, we
-used our implementations of them in the IBR-DTN core and with the Java
-API and performed end-to-end experiments on the VirtualMeshTest (VMT)
-channel-emulated testbed~\cite{hahn10:using, kim11:reality}.  VMT
-allows us to subject Linux-based real wireless nodes with commodity
-wireless hardware to emulated mobile environments.  The wireless
-testbed is effectively an analog channel emulator based on an array of
-programmable attenuators.  Given a desired physical arrangement of
-nodes, the system computes the expected path loss between nodes and
-programs the attenuators to achieve those path loss properties.  By
-updating the attenuations every second, VMT can emulate a mobile
-wireless environment for real wireless nodes.
+To demonstrate our {\em GeoTracking} and {\em GeoRouting} extension
+blocks and our {\sc breadcrumb} router, we used our implementations of
+them in the IBR-DTN core and with the Java API and performed
+end-to-end experiments on the VirtualMeshTest (VMT) channel-emulated
+testbed~\cite{hahn10:using, kim11:reality}.  VMT uses Linux-based real
+wireless nodes with commodity wireless hardware to emulate mobile
+environments.  The wireless testbed is effectively an analog channel
+emulator based on an array of programmable attenuators.  Given a
+desired physical arrangement of nodes, the system computes the
+expected path loss between nodes and programs the attenuators
+accordingly.  VMT updates the attenuations every second to emulate a
+mobile wireless environment.
 
-We deployed our {\sc breadcrumb} router with the new {\em GeoTracking}
-and {\em GeoRouting} extension blocks on the network of VMT nodes. In
-addition, for each of the experiments described below, we defined one
-node in the network to be a {\em sender} and another node to be a {\em
-  responder}, on which we deployed our spatiotemporal trajectory
-application. Using the Java IBR-DTN bridge API, we used this
-application to create application-level bundles, that we sent through
-our {\sc breadcrumb} router. Specifically, the {\em sender} initially
+For each of our experiments, we define one node to be a {\em
+  sender} and another to be a {\em responder}. Using the Java IBR-DTN
+bridge API, we used our application to create application-level
+bundles that we sent through our router. The {\em sender} initially
 creates a probe bundle, to which it attaches a {\em GeoTracking}
 extension block. The {\em sender} then sends this bundle to the {\em
   responder} using his EID as the target of routing. When the {\em
   responder} receives this bundle at the application level, it creates
-a bundle with a {\em GeoRouting} tracking block. This tracking block
-specifies as waypoints a subset of the locations visited by probe. The
-geo-routed bundle is sent back to the sender using the constructed
-{\em GeoRouting} block to direct it. We next show results for
-experiments with this bi-directional routing pattern on two different
-mobility scenarios.
+a bundle with a {\em GeoRouting} tracking block that specifies as
+waypoints a subset of the locations visited by probe. The geo-routed
+bundle is sent back along the waypoints.
 
 %{\bf The Ladder.} The first scenario contains thirteen nodes. Eight of
 %the nodes form two evenly spaces parallel lines; these form the sides
@@ -61,56 +53,28 @@ mobility scenarios.
 
 {\bf Crop Circles.} In our first set of experiments, we created grids
 of nodes that move continuously in circles in either a clockwise or
-counter clockwise patter. This crop circles scenario consists of six
-nodes arranged as shown in Figure~\ref{fig:cropcircle1}; the sender is
-the node in the lower left corner; the responder is the node in the
-upper right corner.
-\begin{figure}
+counter clockwise pattern. These {\em crop circles} consist of six
+nodes arranged as in Figure~\ref{fig:cropcircle1}; the sender is the
+node in the lower left; the responder is the node in the upper right.
+Figure~\ref{fig:cropCirclesExperiment} shows the results of a single
+execution on the crop circles network;
+Figure~\ref{fig:cropCirclesExperiment}(a) shows the trajectory of the
+probe bundle sent from the sender to the responder, while
+Figure~\ref{fig:cropCirclesExperiment}(b) shows the trajectory
+followed by the return (geo-routed) bundle. The small circles indicate
+the waypoints specified in the {\em GeoRouting} block of the
+responder's bundle (which were computed automatically by our
+application layer from the probe's {\em GeoTracking} block).
+\begin{figure}[!h]
 \vspace{-.2cm}
 \begin{center}
 %\includegraphics[width=\columnwidth+.5]{figures/cropcircle1.png}
-\includegraphics[width=.75\columnwidth]{figures/cropcircle1.png}
+\includegraphics[width=.65\columnwidth]{figures/cropcircle1.png}
 \end{center}
 \vspace{-.75cm}
 \caption{Crop circles mobility scenario}\label{fig:cropcircle1}
 \vspace{-.25cm}
 \end{figure}
-
-%\begin{figure}
-%\vspace{-.2cm}
-%\begin{center}
-%\begin{tikzpicture}
-%\begin{axis}[legend pos=south east]
-%\addplot+[only marks,color=blue,mark=*,mark size=0.2pt] 
-%	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_to/crop1_to.txt};
-%\addplot+[only marks,color=green,mark=*,mark size=0.2pt] 
-%	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/crop1_from.txt};
-%\addplot[color=red,mark=triangle*,mark size=1pt] 
-%	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/exp1_from-hop-0.dat};
-%\addplot[color=red,mark=triangle*,mark size=1pt] 
-%	table[x=x,y=y] {../data/cropcircles_2_3/exp1/exp1_from/exp1_from-hop-1.dat};
-%	table[x=x,y=y] {../data/ladder/pgy_2.txt};
-%\legend{Tracking bundle, Routing bundle}
-%\end{axis}
-%\end{tikzpicture}
-%\end{center}
-%\vspace{-.4cm}
-%\caption{Crop Circles Experiment 1}\label{fig:exp1}
-%\vspace{-.35cm}
-%\end{figure}
-
-Figure~\ref{fig:cropCirclesExperiment} shows the results of a single
-execution on the crop circles network shown in
-Figure~\ref{fig:cropcircle1}. Figure~\ref{fig:cropCirclesExperment}(a)
-shows the trajectory of the probe bundle sent from the sender (in the
-lower left corner) to the responder (in the upper right
-corner). Figure~\ref{fig:cropCirclesExperiment}(b) shows the
-trajectory followed by the return (geo-routed) bundle. The small
-circles indicate the waypoints specified in the {\em GeoRouting} block
-of the responder's bundle (which were computed automatically by our
-application layer from the probe's {\em GeoTracking} block). The tiny
-dots that form a series of line segments are the entries in the {\em
-  GeoTracking} block of the this same bundle. 
 
 The track of the sender's probe bundle stops as soon as the responder
 (the node in the upper right corner) receives the bundle. When the
@@ -118,13 +82,13 @@ responder generates its {\em GeoRouting} block for the return bundle,
 it inserts its location as the first waypoint. The track of the
 responder's bundle (Figure~\ref{fig:cropCirclesExperiment}(b)) hits
 all of the waypoints specified in the {\em GeoRouting} bundle. In the
-figure, the final waypoint does not appear to quite be reached, but it
-is. In our experiments, we deserialize and log the tracking blocks
+figure, the final waypoint does not appear to quite be reached. This
+is because our experiments deserialize and log the tracking blocks
 only when a bundle arrives at a node; once the node in the top left
-corner hands the bundle to the node in the lower left corner, this
-node continues to move along the path shown in
+corner hands the bundle to the node in the lower left corner, the
+latter node continues to move along the path shown in
 Figure~\ref{fig:cropcircle1}, eventually crossing that final waypoint.
-\begin{figure}
+\begin{figure}[!h]
 \begin{center}
 \includegraphics[width=.8\columnwidth]{figures/cropCirclesExperiment2.png}\\
 (a)\\
@@ -136,7 +100,7 @@ Figure~\ref{fig:cropcircle1}, eventually crossing that final waypoint.
   trajectory of the probe bundle. (b) The tracked trajectory of the
   geo-routed bundle.}
 \label{fig:cropCirclesExperiment}
-\vspace{-.5cm}
+\vspace{-.25cm}
 \end{figure}
 
 
@@ -149,7 +113,7 @@ the lower left corner, while the responder (i.e., the rescuer) is the
 node in the lower right corner.
 \begin{figure}
 \begin{center}
-\includegraphics[width=.75\columnwidth]{figures/newMaze.pdf}
+\includegraphics[width=.7\columnwidth]{figures/newMaze.pdf}
 \end{center}
 \vspace{-.75cm}
 \caption{Maze mobility scenario}
@@ -158,9 +122,9 @@ node in the lower right corner.
 \end{figure}
 
 Figure~\ref{fig:mazeExperiment} shows the results of a single
-execution on the maze shown in Figure~\ref{fig:maze}. The figure shows
-only the trajectory of the rescuer's bundle that is geo-routed back to
-the prisoner based on the tracked trajectory of the prisoner's probe
+execution on the maze in Figure~\ref{fig:maze}. The figure shows only
+the trajectory of the rescuer's bundle that is geo-routed back to the
+prisoner based on the tracked trajectory of the prisoner's probe
 bundle. While copies of the prisoner's probe bundle do wander down the
 maze's dead-end paths, the reply from the rescuer reflects only the
 successful path through the maze. In Figure~\ref{fig:mazeExperiment},
