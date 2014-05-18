@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 import glob
 import os
+import sys
 #os.chdir("/")
 
-newFile = open("pgy_tomasz.txt", 'w+')
+newFile = open(sys.argv[1], 'w+')
 newFile.write("x y\n")
 for file in glob.glob("*.dat"):
     #newFile.write("x y")
