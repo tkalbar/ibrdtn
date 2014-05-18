@@ -1,14 +1,16 @@
 % -----------------------------------------------
 %   GeoTracking Block
 % -----------------------------------------------
-\subsection{Geo-tracking Block}
+\subsection{The GeoTracking Block}
 We enabled per-bundle tracking by defining the {\em GeoTracking} extension block, which, when attached to any bundle, collects both the logical hops that the bundle traverses and the bundle's trajectory through physical space. The {\em GeoTracking} block is a series of tracking entries (each one either recording a logical hop or a physical location) prefaced by a small header containing parameters for maintaining the block and counting the number of its entries.
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/tracking-block.pdf}
 \end{center}
+\vspace{-.75cm}
 \caption{Format of the GeoTracking Block}
 \label{fig:tracking-block}
+\vspace{-.5cm}
 \end{figure}
 
 \begin{sloppypar}
