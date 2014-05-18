@@ -105,7 +105,10 @@ space- and time-tagged data items.
 % -----------------------------------------------
 \section{Conclusion}
 
-Our {\sc breadcrumb} router implements geo-source routing, which allows for delivery paths to be specified in the form of GPS locations. We also introduce {\em GeoRouting} and {\em GeoTracking} blocks that are attached to bundles in order to inform our routing decisions. Our maze experiment, in particular, shows that, by using our router, bundles can successfully follow a series of waypoints without getting lost. We use an incremental, greedy routing approach that we call breadcrumb routing. This allows bundles to continually make progress towards the next waypoint, while not veering off track. The work in this paper lays a foundation for further exploration of trajectory-based geo-source routing.
+Our {\sc breadcrumb} router implements geo-source routing, which allows for delivery paths to be specified in the form of GPS locations. We also introduce {\em GeoRouting} and {\em GeoTracking} blocks that are attached to bundles in order to inform our routing decisions. Our experiments show that our router successfully guides bundles through a series of waypoints without sending them down a wrong path. These results indicate that trajectory-based geo-source routing is promising as an area for future research. Specifically, although we have shown that bundles can be forwarded according to location, we have not yet explored how application data (such as sensor readings) could alter the trajectory that bundles take.
+
+%We use an incremental, greedy routing approach that we call breadcrumb routing. This allows bundles to continually make progress towards the next waypoint, while not veering off track. The work in this paper lays a foundation for further exploration of trajectory-based geo-source routing.
+%Our work 
 
 
 % Once the sections and outline are solidified, breaking the paper up into separate files will be useful.  For now I'll put the sections inline.
