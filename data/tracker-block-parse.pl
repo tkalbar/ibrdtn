@@ -30,7 +30,7 @@ while (my $line = <$FH>) {
     chomp($line);
     if ($line =~ /\(HOPDATA \, (\d+) , (\S+)\)/) {
 	my ($timestamp, $eid) = ($1,$2);
-	#print "read a hopdata: $1 $2\n";
+	#print "read a hopdata: ts=$timestamp eid=$eid\n";
 
 	close($OFH);
 	my $ofilename = "$outbase-geo-$geo_file_count.dat";
@@ -41,14 +41,14 @@ while (my $line = <$FH>) {
 	    $thishop = $eid;
 	    $pending_hopdata = 1;
 	} else {
-	    $lasthop = $eid;
+	    $thishop = $eid;
 	}
 	$lasttimestamp = $timestamp;
     }
 
     if ($line =~ /\(GEODATA \, (\d+) , \((\S+) , (\S+)\)\)/) {
 	my ($timestamp,$lat,$lon) = ($1,$2,$3);
-	#print "read a geodata: $1 $2 $3\n";
+	#print "read a geodata: $1 , $2 , $3\n";
 	#print $OFH "$timestamp\t$lat\t$lon\t\"$thishop\"\n";
 	print $OFH "$timestamp\t$lat\t$lon\n";
 
