@@ -51,14 +51,18 @@
 \section{The Geo- Extension Blocks and {\sc breadcrumb} Router}
 We next describe the design, implementation, and architectural
 considerations of the {\em GeoTracking} and {\em GeoRouting} blocks
-and our {\sc breadcrumb} router. All three of these components involve
-tying together dynamic GPS information made available in a
-platform-dependent. While most of these descriptions are in reference
+and our {\sc breadcrumb} router.
+%All three of these components involve
+%tying together dynamic GPS information made available in a
+%platform-dependent.
+While most of these descriptions are in reference
 to the Bundle Protocol in general, we have implemented our extensions
 on IBR-DTN~\cite{IBR-DTN-WASA}. For this reason, some of the
-discussion is specific to this implementation choice, for example
-because IBR-DTN holds all bundle information in persistent
-storage. Matching the IBR-DTN design ethos dictates that we not create
+discussion is specific to this implementation choice.
+%, for example
+%because IBR-DTN holds all bundle information in persistent
+%storage. 
+For example, matching the IBR-DTN design ethos dictates that we not create
 any RAM-based data structrues that would grow with the number of
 bundles held.  We connect these new constructs in IBR-DTN to our
 existing spatiotemporal trajectories
@@ -68,7 +72,7 @@ representations of the {\em GeoTracking} and {\em GeoRouting} blocks
 so that Java applications can easily process {\em GeoTracking} blocks
 and create {\em GeoRouting} blocks; in our specific case, the
 application is a spatiotemporal database that stores expressively
-space- and time-tagged data items.
+space and time-tagged data items.
 
 % -----------------------------------------------
 %   GeoTracking Block
