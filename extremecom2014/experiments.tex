@@ -8,17 +8,17 @@ desired physical arrangement of nodes, the system computes the
 expected path loss between nodes and dynamically programs the attenuators.
 %VMT updates the attenuations every second to emulate a mobile wireless environment.
 
-For each of our experiments, we define one node to be a {\em
-  sender} and another to be a {\em responder}. Using the Java IBR-DTN
-bridge API, we used our application to create application-level
-bundles that we sent through our router. The {\em sender} initially
-creates a probe bundle, to which it attaches a {\em GeoTracking}
-extension block. The {\em sender} then sends this bundle to the {\em
-  responder} using his EID as the target of routing. When the {\em
-  responder} receives this bundle at the application level, it creates
-a bundle with a {\em GeoRouting} tracking block that specifies as
-waypoints a subset of the locations visited by probe. The geo-routed
-bundle is sent back along the waypoints.
+For each experiment, we define one node to be a {\em sender} and
+another to be a {\em responder}. Using the Java IBR-DTN bridge API, we
+create application-level bundles that we send through our router. The
+{\em sender} initially creates a probe bundle, to which it attaches a
+{\em GeoTracking} extension block. The {\em sender} then sends this
+bundle to the {\em responder} using his EID as the target of
+routing. When the {\em responder} receives this bundle at the
+application level, it creates a bundle with a {\em GeoRouting}
+tracking block that specifies as waypoints a subset of the locations
+visited by probe. The geo-routed bundle is sent back along the
+waypoints.
 
 %{\bf The Ladder.} The first scenario contains thirteen nodes. Eight of
 %the nodes form two evenly spaces parallel lines; these form the sides
