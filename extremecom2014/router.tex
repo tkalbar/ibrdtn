@@ -4,7 +4,7 @@
 
 The {\sc breadcrumb} router performs geo-source routing using the {\em GeoRouting} extension block, the location of the node, and the location of neighboring peers. When it receives a bundle with a {\em GeoRouting} block, the router examines the entry at the top of the list, and, if the entry contains a geo entry, the router compares the entry's location against its location and the locations of neighboring peers and decides whether it or a peer is within the specified margin of the required coordinate. If the router finds a match, it pops the top entry from the list stored on the {\em GeoRouting} block. The router also forwards bundles without popping entries in the {\em GeoRouting} block if it encounters a peer that is closer to the next required waypoint. %The name of this router comes from the fact that following these entries back to a particular location is analogous to following breadcrumbs.
 
-The {\sc breadcrumb} router's functions is divided into three tasks in the IBR-DTN routing task-queue structure:
+The {\sc breadcrumb} router's functions are divided into three tasks in the IBR-DTN routing task-queue structure:
 \begin{description*}
 \item[SearchNextBundle.] Computes the next bundle to send to a peer; invoked when the router receives an event indicating a change in peer connectivity (e.g., a successful peer handshake or completed bundle transfer).
 \item[UpdateMyLocation.] Updates the router's knowledge of the node's location; queued periodically and anytime a bundle is received.

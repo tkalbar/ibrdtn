@@ -3,7 +3,7 @@
 % -----------------------------------------------
 \subsection{The GeoRouting Block}
 \begin{sloppypar}
-The {\em GeoRouting} extension block supports source-routing based on either intermediate geographic waypoints, logical hops (EIDs), or both.  A {\em GeoRouting} block is essentially a list of geo-routing entries, each one specifying an intermediate routing goal. The {\em GeoRouting} block's format is shown in Figure~\ref{fig:georouting-block}; its main part contains only two fields: the flags (which are currently unused) and an entry count that specifies how many geo-routing entries follow.  Each geo-routing entry has several fields.  The flags specify the requirements and contents of the entry. The four flags are:
+The {\em GeoRouting} extension block supports source-routing based on either intermediate geographic waypoints, logical hops (EIDs), or both.  A {\em GeoRouting} block is essentially a list of geo-routing entries, each one specifying an intermediate routing goal. The {\em GeoRouting} block's format is shown in Figure~\ref{fig:georouting-block}; its main part contains only two fields: the flags (currently unused) and an entry count that specifies how many geo-routing entries follow.  Each geo-routing entry has several fields.  The flags specify the requirements and contents of the entry. The four flags are:
 \begin{description*}
   \item[REQUIRED.] If set, then this entry {\it must} be satisfied for the bundle to be considered delivered.  Otherwise the entry is considered optional.
   \item[ORDERED.] If set, then this entry {\it must} be satisfied before any successive entries can be considered.  Otherwise an intermediate node can pop following entries off the list before this one is satisfied.
