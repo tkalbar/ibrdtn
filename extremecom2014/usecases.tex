@@ -5,8 +5,9 @@
 % -----------------------------------------------
 
 {\bf Use Cases.} There are myriad uses for our bundle extensions and
-router. We briefly describe three examples that motivate tracking,
-geo-routing, and their combination.
+router. We briefly describe three examples.
+% that motivate tracking,
+%geo-routing, and their combination.
 
 {\it Safe Data Sharing.} Tracking bundles is clearly widely useful for
 debugging and general spatiotemporal provenance. As a concrete
@@ -31,7 +32,8 @@ combined with our {\sc breadcrumb} router, can achieve this behavior.
 
 {\it A Maze.} 
 %As described previously, we provide a concrete way to bring tracking and routing together; this scenario is a specific instantiation of a much more general notion of location-based publish-subscribe in DTNs. 
-Consider a prisoner who is held in a maze, and the maze is patrolled by guards whose devices can act as intermediate DTN nodes. The prisoner sends a bundle with a destination of a known rescuer outside of the maze. This bundle tracks its trajectory, logging a successful path out of the maze. The rescuer can send a response back to the prisoner, routed along the waypoints of the turns in the maze. The response may contain information about the perils of the exit path, sensed as the prisoner's original message traversed to the rescuer. Using our {\sc breadcrumb} router, the rescuer's return bundle can reach the prisoner regardless of whether the particular guards in the maze change, as long as there exists enough coverage of the maze path by {\em some} DTN nodes.
+Consider a prisoner who is held in a maze, which is patrolled by guards whose devices can act as intermediate DTN nodes. The prisoner sends a bundle with a destination of a known rescuer outside of the maze. This bundle tracks its trajectory, logging a successful path out of the maze. The rescuer can send a response back to the prisoner, routed along the geo-waypoints in the maze. The response may contain information about the perils of the exit path, sensed as the prisoner's original message traversed to the rescuer. Using our {\sc breadcrumb} router, the rescuer's return bundle can reach the prisoner regardless of whether the particular guards in the maze change.
+%, as long as there exists enough coverage of the maze path by {\em some} DTN nodes.
 
 
 
