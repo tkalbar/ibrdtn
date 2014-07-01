@@ -1,16 +1,12 @@
 \section{Experiments}\label{sec:experiments}
-To demonstrate our {\em GeoTracking} and {\em GeoRouting} extension
-blocks and our {\sc breadcrumb} router, we used our implementations of
-them in the IBR-DTN core and with the Java API and performed
-end-to-end experiments on the VirtualMeshTest (VMT) channel-emulated
-testbed~\cite{hahn10:using}.  VMT uses Linux-based real
-wireless nodes with commodity wireless hardware to emulate mobile
-environments.  The wireless testbed is effectively an analog channel
+To demonstrate the functionality of our geo extension blocks abd {\sc breadcrumb} router, we performed
+several experiments on the VirtualMeshTest (VMT) testbed~\cite{hahn10:using}.
+%  VMT uses Linux-based real wireless nodes with commodity wireless hardware to emulate mobile environments.  
+VMT is an analog channel
 emulator based on an array of programmable attenuators.  Given a
 desired physical arrangement of nodes, the system computes the
-expected path loss between nodes and programs the attenuators
-accordingly.  VMT updates the attenuations every second to emulate a
-mobile wireless environment.
+expected path loss between nodes and dynamically programs the attenuators.
+%VMT updates the attenuations every second to emulate a mobile wireless environment.
 
 For each of our experiments, we define one node to be a {\em
   sender} and another to be a {\em responder}. Using the Java IBR-DTN

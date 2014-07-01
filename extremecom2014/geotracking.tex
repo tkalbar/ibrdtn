@@ -33,9 +33,11 @@ This approach still has some drawbacks.  First, it requires opening and reading 
 This technically creates a race condition between these two calls, where the GPS log may get longer between the two functions.  Resolving these issues completely may require some modifications to the serialization process of IBR-DTN and is reserved for future work.
 
 %\subsubsection{GPS Coordinate Representation as SDNV} \label{gps-representation}
-Our extension blocks represent GPS coordinates in signed degrees format, where latitude ranges from $-90^{\circ}$ to $90^{\circ}$ and longitude from $-180^{\circ}$ to $180^{\circ}$.  However, since the self-delimiting numeric values (SDNVs)\footnote{\scriptsize\url{http://tools.ietf.org/html/draft-irtf-dtnrg-sdnv-09}} used in the bundle protocol cannot represent floating point numbers or negative values, we make two transformations to encode the values in a {\em GeoTracking} block.  If $\theta<0$ we compute $\theta^{\prime}=\theta+360^{\circ}$.  Then we scale all coordinates up by a factor of $1048576$.  This gives us at least 20 bits of precision, which is more than enough for meter-level resolution.  When the blocks are received and deserialized, these transforms are reversed to get the floating point values.
+Our extension blocks represent GPS coordinates in signed degrees format, where latitude ranges from $-90^{\circ}$ to $90^{\circ}$ and longitude from $-180^{\circ}$ to $180^{\circ}$.  However, since the self-delimiting numeric values (SDNVs)\footnote{\scriptsize\url{http://tools.ietf.org/html/draft-irtf-dtnrg-sdnv-09}} cannot represent floating point numbers or negative values, we make two transformations to encode the values.  If $\theta<0$ we compute $\theta^{\prime}=\theta+360^{\circ}$.  Then we scale all coordinates up by a factor of $1048576$.  This gives us at least 20 bits of precision, which is more than enough for meter-level resolution.
+%When the blocks are received and deserialized, these transforms are reversed to get the floating point values.
 
-We have implemented the {\em GeoTracking} block both in the core of IBR-DTN and within the Java API to support Java-based DTN applications.
+We have implemented the {\em GeoTracking} block both in the core of IBR-DTN and within the Java API.
+% to support Java-based DTN applications.
 
 
 
